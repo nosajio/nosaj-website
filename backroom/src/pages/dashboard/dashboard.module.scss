@@ -1,0 +1,27 @@
+@use '../../styles/page.module.scss';
+
+.content {
+  grid-area: main;
+}
+
+.section_title {
+}
+
+.posts_list {
+}
+
+.post_row {
+}
+
+.post_row_title {
+}
+
+.post_row_options {
+}
+
+.post_row_option {
+}
+
+.aside {
+  grid-area: right;
+}

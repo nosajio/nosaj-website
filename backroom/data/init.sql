@@ -12,16 +12,20 @@ comment on column public.users.password is 'sha256 hash';
 alter table public.users
     owner to postgres;
 
-create table if not exists public.posts
+create table public.posts
 (
-    id          uuid default gen_random_uuid() not null primary key,
+    id          uuid    default gen_random_uuid() not null
+        primary key,
     slug        text,
     pubdate     timestamp,
-    author      uuid constraint fk_author references public.users,
+    author      uuid
+        constraint fk_author
+            references public.users,
     title       text,
     subtitle    text,
     body_html   text,
-    cover_image varchar(255)
+    cover_image varchar(255),
+    draft       boolean default true              not null
 );
 
 alter table public.posts

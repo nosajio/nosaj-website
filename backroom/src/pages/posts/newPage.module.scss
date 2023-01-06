@@ -1,0 +1,23 @@
+@use '../../styles/scale.scss' as scale;
+@use '../../styles/page.module.scss';
+
+.main_section {
+  grid-area: main;
+}
+
+.editor {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: stretch;
+  row-gap: scale.msrem(3);
+
+  .DraftEditor-root {
+    width: 100%;
+  }
+}
+
+.sidebar {
+  grid-area: right;
+}

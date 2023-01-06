@@ -1,0 +1,32 @@
+$ms-scale: 1.125 !default; // Perfect fourth (http://www.modularscale.com/?1&em&1.333&web&text)
+$ms-px: 20px !default;
+
+// Step along the modular scale.
+// Both positive and negative numbers will work.
+// Example: ms(1) ms(-10) ms(10) etc
+@function ms($exponent) {
+  $value: 1;
+  @if $exponent > 0 {
+    @for $i from 1 through $exponent {
+      $value: $value * $ms-scale;
+    }
+  } @else {
+    @for $i from 1 through ($exponent * -1) {
+      $value: $value / $ms-scale;
+    }
+  }
+  @return $value;
+}
+
+// Output a rem value based on the exponent.
+@function msrem($exponent) {
+  $val: ms($exponent);
+  @return #{$val}rem;
+}
+
+// Output a pixel value for the exponent.
+// The pixel value base can be changed by overriding the $ms-px variable.
+@function mspx($exponent, $base: $ms-px) {
+  $val: ms($exponent) * $base;
+  @return round($val);
+}

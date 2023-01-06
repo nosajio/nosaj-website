@@ -1,0 +1,13 @@
+@use './scale.scss' as scale;
+
+.public-DraftEditor-content {
+  font-size: scale.msrem(-1);
+}
+
+.public-DraftStyleDefault-block {
+  margin: scale.msrem(-1) 0;
+
+  a {
+    text-decoration: underline;
+  }
+}

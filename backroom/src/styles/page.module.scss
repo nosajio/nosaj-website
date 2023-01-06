@@ -1,0 +1,21 @@
+@use 'scale' as scale;
+
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 0 scale.msrem(5);
+}
+
+.page_with_aside {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  grid-template-areas: 'left main right';
+  column-gap: 1rem;
+  width: 100%;
+}
+
+.page_padding {
+  padding-top: scale.msrem(15);
+}
