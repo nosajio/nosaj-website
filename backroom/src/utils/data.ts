@@ -38,7 +38,7 @@ export const newPost = async (
   return [newPost.id, slug];
 };
 
-export const autosavePost = async (
+export const updatePost = async (
   id: string,
   title: string,
   subtitle: string,

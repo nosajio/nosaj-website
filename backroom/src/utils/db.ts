@@ -23,6 +23,7 @@ export const query = async <T extends QueryResultRow>(
     connect();
   }
   const res = await pool.query<T>(q, vars);
+  pool.end();
   return res.rows;
 };
 

@@ -5,6 +5,7 @@ import { useRouter } from 'next/router';
 import { useEffect, useRef, useState } from 'react';
 import { Post } from 'types/data';
 import { saveNewPost } from 'utils/api';
+import { getPost } from 'utils/data';
 import { withSessionSsr } from 'utils/sessionHelpers';
 import s from './newPage.module.scss';
 
@@ -17,7 +18,7 @@ const Editor = dynamic(
   { ssr: false },
 );
 
-export const getServerSideProps = withSessionSsr(async ({ req }) => {
+export const getServerSideProps = withSessionSsr(async ({ params, req }) => {
   const user = req.session.user;
 
   if (!user) {
@@ -29,17 +30,59 @@ export const getServerSideProps = withSessionSsr(async ({ req }) => {
     };
   }
 
+  const postId = params?.postId;
+  if (typeof postId !== 'string') {
+    return {
+      redirect: {
+        destination: '/posts/new',
+        permanent: true,
+      },
+    };
+  }
+  const post = await getPost(postId);
+
   return {
-    props: {},
+    props: {
+      post,
+    },
   };
 });
 
-const EditPostRoute = () => {
-  const [title, setTitle] = useState<string>('');
-  const [subtitle, setSubtitle] = useState<string>('');
-  const [post, setPost] = useState<string>('');
-  const router = useRouter();
-  const savingRef = useRef<boolean>(false);
+const diffPost = (saved: Partial<Post>, next: Partial<Post>): boolean => {
+  return (
+    saved.body_html !== next.body_html ||
+    saved.title !== next.title ||
+    saved.subtitle !== next.subtitle
+  );
+};
+
+const EditPostRoute = ({ post }: EditPostRouteProps) => {
+  const [title, setTitle] = useState<string>(post?.title ?? '');
+  const [subtitle, setSubtitle] = useState<string>(post?.subtitle ?? '');
+  const [postHTML, setPostHTML] = useState<string>(post?.body_html ?? '');
+  const [saveStatus, setSaveStatus] = useState<'unsaved' | 'saving' | 'saved'>(
+    'unsaved',
+  );
+  const savingRef = useRef<boolean>(false); // Use to block saving if it's already in progress
+  const lastSaveRef = useRef<Partial<Post>>(post);
+
+  const autosavePost = async () => {
+    if (savingRef.current) return;
+    savingRef.current = true;
+    if (
+      diffPost(lastSaveRef.current, { title, subtitle, body_html: postHTML })
+    ) {
+      setSaveStatus('saving');
+      lastSaveRef.current = {
+        ...post,
+        body_html: postHTML,
+        subtitle,
+        title,
+      };
+      setSaveStatus('saved');
+    }
+    savingRef.current = false;
+  };
 
   const handleChange = (
     field: 'title' | 'subtitle' | 'post',
@@ -47,7 +90,7 @@ const EditPostRoute = () => {
   ) => {
     switch (field) {
       case 'post':
-        setPost(value);
+        setPostHTML(value);
         break;
       case 'subtitle':
         setSubtitle(value);
@@ -72,11 +115,11 @@ const EditPostRoute = () => {
             <section className={clsx(s.page_padding, s.main_section)}>
               <div className={s.editor}>
                 <Editor
+                  saveStatus={saveStatus}
                   onChange={handleChange}
-                  post={post}
+                  post={postHTML}
                   title={title}
                   subtitle={subtitle}
-                  autosave={false}
                 />
               </div>
             </section>

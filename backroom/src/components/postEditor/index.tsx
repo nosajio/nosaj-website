@@ -42,45 +42,40 @@ type PostEditorProps = {
   title: string;
   subtitle: string;
   post: string;
-  autosave?: boolean;
+  saveStatus?: 'unsaved' | 'saving' | 'saved';
 };
 
 const PostEditor = ({
-  autosave = false,
   onChange,
   title,
   subtitle,
   onSetTitle,
+  saveStatus,
 }: PostEditorProps) => {
-  const [saveStatus, setSaveStatus] = useState<'unsaved' | 'saving' | 'saved'>(
-    'unsaved',
-  );
   const handleChange =
     (field: 'title' | 'subtitle' | 'post') => (value: string) => {
       onChange(field, value);
     };
 
-  // Autosave effect - debounced save after every change
-  useEffect(() => {
-    // setSaveStatus('saving');
-  }, []);
-
   const handleTitleBlur = () => {
     if (title && onSetTitle) {
+      // This event is used by the new post route to save the new post, get an
+      // id, then navigate to the edit post route
       onSetTitle(title);
     }
   };
 
-  const saveText =
-    saveStatus === 'saved'
+  const saveText = saveStatus
+    ? saveStatus === 'saved'
       ? 'Saved'
       : saveStatus === 'saving'
       ? 'Saving...'
-      : 'Unsaved changes';
+      : 'Unsaved changes'
+    : undefined;
 
   return (
     <div className={s.post_editor_root}>
-      <div className={s.autosave_status}>{saveText}</div>
+      {saveText && <div className={s.autosave_status}>{saveText}</div>}
       <div className={s.field_row}>
         <input
           type="text"
