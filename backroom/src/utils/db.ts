@@ -1,4 +1,5 @@
 import { Pool, QueryResultRow } from 'pg';
+import { ZodObject } from 'zod';
 
 export let pool: Pool;
 
@@ -23,8 +24,7 @@ export const query = async <T extends QueryResultRow>(
     connect();
   }
   const res = await pool.query<T>(q, vars);
-  pool.end();
-  return res.rows;
+  return res.rows ? stripNulls<T>(res.rows) : res.rows;
 };
 
 export const close = () => {
@@ -32,4 +32,13 @@ export const close = () => {
     return;
   }
   pool.end();
+};
+
+const stripNulls = <O>(arr: O[]): Partial<O>[] => {
+  return arr.map(obj =>
+    Object.entries(obj ?? {}).reduce(
+      (o, [k, v]) => (v === null ? o : { ...o, [k]: v }),
+      {},
+    ),
+  );
 };

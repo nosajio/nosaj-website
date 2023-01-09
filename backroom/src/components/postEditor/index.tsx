@@ -1,18 +1,39 @@
-import { EditorState, Editor } from 'draft-js';
-import { useState, useEffect } from 'react';
+import { EditorState, Editor, convertFromHTML, ContentState } from 'draft-js';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import s from './postEditor.module.scss';
 import clsx from 'clsx';
 import { stateToHTML } from 'draft-js-export-html';
 import 'draft-js/dist/Draft.css';
 
-const RichText = ({ onChange }: { onChange: (value: string) => void }) => {
-  const [editor, setEditor] = useState<EditorState>(EditorState.createEmpty());
+const RichText = ({
+  onChange,
+  value,
+}: {
+  onChange: (value: string) => void;
+  value?: string;
+}) => {
+  const blocksFromValue = value ? convertFromHTML(value) : undefined;
+  const initialState =
+    blocksFromValue &&
+    ContentState.createFromBlockArray(
+      blocksFromValue.contentBlocks,
+      blocksFromValue.entityMap,
+    );
+  const [editor, setEditor] = useState<EditorState>(
+    initialState
+      ? EditorState.createWithContent(initialState)
+      : EditorState.createEmpty(),
+  );
   const contentState = editor.getCurrentContent();
+  const contentHTML = stateToHTML(contentState);
+  const lastContentHTML = useRef<string>(contentHTML);
 
   useEffect(() => {
-    const contentHTML = stateToHTML(contentState);
-    onChange(contentHTML);
-  }, [contentState, onChange]);
+    if (lastContentHTML.current !== contentHTML) {
+      onChange(contentHTML);
+      lastContentHTML.current = contentHTML;
+    }
+  }, [contentHTML, onChange]);
 
   return (
     <>
@@ -49,13 +70,16 @@ const PostEditor = ({
   onChange,
   title,
   subtitle,
+  post,
   onSetTitle,
   saveStatus,
 }: PostEditorProps) => {
-  const handleChange =
+  const handleChange = useCallback(
     (field: 'title' | 'subtitle' | 'post') => (value: string) => {
       onChange(field, value);
-    };
+    },
+    [onChange],
+  );
 
   const handleTitleBlur = () => {
     if (title && onSetTitle) {
@@ -95,7 +119,7 @@ const PostEditor = ({
         />
       </div>
       <div className={s.field_row}>
-        <RichText onChange={handleChange('post')} />
+        <RichText onChange={handleChange('post')} value={post} />
       </div>
     </div>
   );

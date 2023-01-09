@@ -1,9 +1,9 @@
 import { z } from 'zod';
 import { withIronSessionApiRoute } from 'iron-session/next';
 import { NextApiHandler } from 'next';
-import { getPost, newPost } from 'utils/data';
+import { getPost, newPost, updatePost } from 'utils/data';
 import { ironSessionCookieConfig } from '../../../config/auth';
-import { Post, User } from '../../../types/data';
+import { Post, postObject, postObjectNullish, User } from '../../../types/data';
 import { connect } from '../../../utils/db';
 
 connect();
@@ -14,12 +14,7 @@ const saveNewPostBody = z.object({
   title: z.string(),
 });
 
-const savePostBody = z.object({
-  title: z.string(),
-  id: z.string(),
-});
-
-type SaveNewPostBody = z.infer<typeof saveNewPostBody>;
+// type SavePostBody = z.infer<typeof saveNewPostBody>;
 
 const handleSaveNewPost = async ({
   userId,
@@ -32,7 +27,7 @@ const handleSaveNewPost = async ({
 };
 
 const postsRoute: NextApiHandler<PostsRouteResponse> = async (req, res) => {
-  let response: PostsRouteResponse = {};
+  const bodyJson = JSON.parse(req.body ?? {});
   const user = req.session.user as User;
 
   if (!user) {
@@ -42,21 +37,31 @@ const postsRoute: NextApiHandler<PostsRouteResponse> = async (req, res) => {
   switch (req.method) {
     // Update a post
     case 'PUT': {
+      const body = postObject.partial().required({ id: true }).parse(bodyJson);
+      const post = await updatePost(
+        body.id,
+        body?.title,
+        body?.subtitle,
+        body?.body_html,
+      );
+      res.status(201).json(post);
+      return;
     }
 
     // Save new post
     case 'POST': {
-      const body = saveNewPostBody.parse(JSON.parse(req.body));
+      const body = saveNewPostBody.parse(bodyJson);
       const [id, slug] = await handleSaveNewPost({
         userId: user.id,
         title: body.title,
       });
-      response = {
+      const post = {
         id,
         slug,
         title: req.body.title,
       };
-      res.json(response);
+      res.json(post);
+      return;
     }
 
     default: {

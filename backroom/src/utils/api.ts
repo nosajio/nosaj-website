@@ -1,44 +1,67 @@
-import { User } from '../types/data';
+import { Post, User } from '../types/data';
+
+const apiFetch = async <R = unknown>(
+  path: string,
+  options?: {
+    method?: 'get' | 'put' | 'post' | 'delete';
+    body?: Record<string, any>;
+  },
+): Promise<R> => {
+  const method = options?.method || 'get';
+  const body = options?.body && JSON.stringify(options.body);
+  const res = await fetch(`/api/${path}`, {
+    credentials: 'include',
+    method,
+    body,
+  }).then(res => res.json());
+  return res as R;
+};
 
 export const newSession = async (email: string, password: string) => {
-  const user = await fetch('/api/auth', {
+  const user = await apiFetch<User>('auth', {
     method: 'post',
-    credentials: 'include',
-    body: JSON.stringify({
+    body: {
       email,
       password,
-    }),
-  }).then(res => res.json());
+    },
+  });
   if (!user) {
     return undefined;
   }
-  return user as User;
+  return user;
 };
 
 export const getSession = async () => {
-  const session = await fetch('/api/session', {
-    credentials: 'include',
-  }).then(res => res.json());
+  const session = await apiFetch<User>('session');
   if (!session) {
     return undefined;
   }
-  return session as User;
+  return session;
 };
 
-export const saveNewPost = async (
-  title: string,
-): Promise<{ slug: string; id: string; title: string } | undefined> => {
-  const newPost = (await fetch('/api/posts', {
-    credentials: 'include',
-    method: 'post',
-    body: JSON.stringify({
-      title,
-    }),
-  }).then(res => res.json())) as
-    | { slug: string; title: string; id: string }
-    | undefined;
+export const saveNewPost = async (title: string) => {
+  const newPost = await apiFetch<{ slug: string; title: string; id: string }>(
+    'posts',
+    {
+      method: 'post',
+      body: {
+        title,
+      },
+    },
+  );
   if (!newPost?.id) {
     return undefined;
   }
   return newPost;
+};
+
+export const updatePost = async (id: string, post: Partial<Post>) => {
+  const updatedPost = await apiFetch<Partial<Post>>('posts', {
+    method: 'put',
+    body: {
+      ...post,
+      id,
+    },
+  });
+  return updatedPost;
 };

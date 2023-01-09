@@ -83,7 +83,6 @@ const NewPostRoute = () => {
                   post={post}
                   title={title}
                   subtitle={subtitle}
-                  autosave={false}
                 />
               </div>
             </section>

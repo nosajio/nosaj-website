@@ -1,10 +1,10 @@
 import clsx from 'clsx';
+import throttle from 'lodash.throttle';
 import dynamic from 'next/dynamic';
 import Head from 'next/head';
-import { useRouter } from 'next/router';
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { Post } from 'types/data';
-import { saveNewPost } from 'utils/api';
+import { updatePost } from 'utils/api';
 import { getPost } from 'utils/data';
 import { withSessionSsr } from 'utils/sessionHelpers';
 import s from './newPage.module.scss';
@@ -56,38 +56,48 @@ const diffPost = (saved: Partial<Post>, next: Partial<Post>): boolean => {
   );
 };
 
+const throttledUpdatePost = throttle(
+  async (postId: string, post: Partial<Post>) => {
+    const updated = await updatePost(postId, post);
+    return updated;
+  },
+  5000,
+);
+
 const EditPostRoute = ({ post }: EditPostRouteProps) => {
   const [title, setTitle] = useState<string>(post?.title ?? '');
   const [subtitle, setSubtitle] = useState<string>(post?.subtitle ?? '');
   const [postHTML, setPostHTML] = useState<string>(post?.body_html ?? '');
   const [saveStatus, setSaveStatus] = useState<'unsaved' | 'saving' | 'saved'>(
-    'unsaved',
+    'saved',
   );
-  const savingRef = useRef<boolean>(false); // Use to block saving if it's already in progress
-  const lastSaveRef = useRef<Partial<Post>>(post);
+  // const savingRef = useRef<boolean>(false); // Use to block saving if it's already in progress
+  // const lastSaveRef = useRef<Partial<Post>>(post);
 
-  const autosavePost = async () => {
-    if (savingRef.current) return;
-    savingRef.current = true;
-    if (
-      diffPost(lastSaveRef.current, { title, subtitle, body_html: postHTML })
-    ) {
-      setSaveStatus('saving');
-      lastSaveRef.current = {
+  const autosavePost = useCallback(
+    async (field: 'title' | 'subtitle' | 'post', value: string) => {
+      if (!post?.id || saveStatus === 'saving') return;
+      const updateKey = field === 'post' ? 'body_html' : field;
+      const updateRec = {
         ...post,
         body_html: postHTML,
         subtitle,
         title,
+        [updateKey]: value,
       };
+      setSaveStatus('saving');
+      await throttledUpdatePost(post.id, updateRec);
       setSaveStatus('saved');
-    }
-    savingRef.current = false;
-  };
+    },
+    [post, postHTML, saveStatus, subtitle, title],
+  );
 
   const handleChange = (
     field: 'title' | 'subtitle' | 'post',
     value: string,
   ) => {
+    console.log('change %s', field);
+    setSaveStatus('unsaved');
     switch (field) {
       case 'post':
         setPostHTML(value);
@@ -98,7 +108,12 @@ const EditPostRoute = ({ post }: EditPostRouteProps) => {
       case 'title':
         setTitle(value);
         break;
+
+      default:
+        // Don't autosave unless one of the above fields were changed
+        return;
     }
+    autosavePost(field, value);
   };
 
   return (
