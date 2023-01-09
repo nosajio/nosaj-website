@@ -2,10 +2,20 @@
 
 .container {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
   width: 100%;
+  min-height: 100vh;
   padding: 0 scale.msrem(5);
+
+  &.with_aside {
+    background: linear-gradient(
+      90deg,
+      var(--background) 0%,
+      var(--background) calc(75% - (scale.msrem(5) - 1rem) / 2),
+      var(--grey-100) calc(75% - (scale.msrem(5) - 1rem) / 2)
+    );
+  }
 }
 
 .page_with_aside {

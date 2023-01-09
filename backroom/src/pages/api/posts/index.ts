@@ -37,13 +37,8 @@ const postsRoute: NextApiHandler<PostsRouteResponse> = async (req, res) => {
   switch (req.method) {
     // Update a post
     case 'PUT': {
-      const body = postObject.partial().required({ id: true }).parse(bodyJson);
-      const post = await updatePost(
-        body.id,
-        body?.title,
-        body?.subtitle,
-        body?.body_html,
-      );
+      const body = jsonPost.partial().required({ id: true }).parse(bodyJson);
+      const post = await updatePost(body.id, body);
       res.status(201).json(post);
       return;
     }

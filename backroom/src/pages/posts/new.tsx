@@ -2,10 +2,10 @@ import clsx from 'clsx';
 import dynamic from 'next/dynamic';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 import { saveNewPost } from 'utils/api';
 import { withSessionSsr } from 'utils/sessionHelpers';
-import s from './newPage.module.scss';
+import s from './postPage.module.scss';
 
 type NewPostRouteProps = {};
 
@@ -67,7 +67,7 @@ const NewPostRoute = () => {
   return (
     <>
       <Head>
-        <title></title>
+        <title>New post</title>
         <meta charSet="utf-8" />
         <meta name="description" content="" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -87,7 +87,7 @@ const NewPostRoute = () => {
               </div>
             </section>
             <aside className={clsx(s.page_padding, s.sidebar)}>
-              <button>Publish post</button>
+              {/* <button>Publish post</button> */}
             </aside>
           </div>
         </div>

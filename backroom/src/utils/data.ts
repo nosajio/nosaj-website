@@ -35,13 +35,11 @@ export const newPost = async (
 
 export const updatePost = async (
   id: string,
-  title?: string,
-  subtitle?: string,
-  body?: string,
+  { title, subtitle, body_html, slug, pubdate }: JSONPost,
 ) => {
   const [updatedPost] = await query<Post>(
-    'update posts set title=$1, subtitle=$2, body_html=$3 where id = $4 returning *',
-    [title, subtitle, body, id],
+    'update posts set title=$1, subtitle=$2, body_html=$3, slug=$4, pubdate=$5 where id = $6 returning *',
+    [title, subtitle, body_html, slug, pubdate, id],
   );
   return updatedPost;
 };
@@ -51,5 +49,11 @@ export const dbPostToJSON = (post: Post): JSONPost => ({
   body_html: post?.body_html || null,
   subtitle: post?.subtitle || null,
   cover_image: post?.cover_image || null,
-  pubdate: post?.pubdate ? post.pubdate.toUTCString() : null,
+  pubdate: post?.pubdate ? truncateDate(post.pubdate.toISOString()) : null,
 });
+
+/**
+ *  This fixes the date string so that it can be passed to a datetime-local field
+ *  (removes the :00.000Z).
+ */
+const truncateDate = (date: string) => date.replace(/(.*):.*Z/, '$1');

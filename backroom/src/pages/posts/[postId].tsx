@@ -3,11 +3,11 @@ import throttle from 'lodash.throttle';
 import dynamic from 'next/dynamic';
 import Head from 'next/head';
 import { useCallback, useState } from 'react';
-import { Post, JSONPost } from 'types/data';
+import { JSONPost } from 'types/data';
 import { updatePost } from 'utils/api';
-import { getPost } from 'utils/data';
+import { dbPostToJSON, getPost } from 'utils/data';
 import { withSessionSsr } from 'utils/sessionHelpers';
-import s from './newPage.module.scss';
+import s from './postPage.module.scss';
 
 type EditPostRouteProps = {
   post: Partial<JSONPost>;
@@ -39,12 +39,7 @@ export const getServerSideProps = withSessionSsr(async ({ params, req }) => {
       },
     };
   }
-  const postRes = await getPost(postId);
-  const post = {
-    ...postRes,
-    pubdate:
-      postRes?.pubdate instanceof Date ? postRes.pubdate.toUTCString() : null,
-  };
+  const post = dbPostToJSON(await getPost(postId));
 
   return {
     props: {
@@ -76,11 +71,18 @@ const EditPostRoute = ({ post }: EditPostRouteProps) => {
   const [saveStatus, setSaveStatus] = useState<'unsaved' | 'saving' | 'saved'>(
     'saved',
   );
+  const [pubdate, setPubdate] = useState<string | undefined>(
+    post?.pubdate || undefined,
+  );
+  const [slug, setSlug] = useState<string | undefined>(post?.slug);
   // const savingRef = useRef<boolean>(false); // Use to block saving if it's already in progress
   // const lastSaveRef = useRef<Partial<Post>>(post);
 
   const autosavePost = useCallback(
-    async (field: 'title' | 'subtitle' | 'post', value: string) => {
+    async (
+      field: 'title' | 'subtitle' | 'post' | 'pubdate' | 'slug',
+      value: string,
+    ) => {
       if (!post?.id || saveStatus === 'saving') return;
       const updateKey = field === 'post' ? 'body_html' : field;
       const updateRec = {
@@ -88,20 +90,21 @@ const EditPostRoute = ({ post }: EditPostRouteProps) => {
         body_html: postHTML,
         subtitle,
         title,
+        slug,
+        pubdate,
         [updateKey]: value,
       };
       setSaveStatus('saving');
       await throttledUpdatePost(post.id, updateRec);
       setSaveStatus('saved');
     },
-    [post, postHTML, saveStatus, subtitle, title],
+    [post, postHTML, pubdate, saveStatus, slug, subtitle, title],
   );
 
   const handleChange = (
-    field: 'title' | 'subtitle' | 'post',
+    field: 'title' | 'subtitle' | 'post' | 'slug' | 'pubdate',
     value: string,
   ) => {
-    console.log('change %s', field);
     setSaveStatus('unsaved');
     switch (field) {
       case 'post':
@@ -113,6 +116,12 @@ const EditPostRoute = ({ post }: EditPostRouteProps) => {
       case 'title':
         setTitle(value);
         break;
+      case 'slug':
+        setSlug(value);
+        break;
+      case 'pubdate':
+        setPubdate(value);
+        break;
 
       default:
         // Don't autosave unless one of the above fields were changed
@@ -121,16 +130,42 @@ const EditPostRoute = ({ post }: EditPostRouteProps) => {
     autosavePost(field, value);
   };
 
+  const publishUI = () => (
+    <>
+      <label className={s.input_field}>
+        <span className={s.field_label}>Publish Date</span>
+        <input
+          type="datetime-local"
+          value={pubdate}
+          onChange={e => handleChange('pubdate', e.target.value)}
+          className={s.field_input}
+        />
+      </label>
+      <label className={s.input_field}>
+        <span className={s.field_label}>Slug</span>
+        <input
+          value={slug}
+          onChange={e => handleChange('slug', e.target.value)}
+          type="text"
+          className={s.field_input}
+        />
+      </label>
+      <button className={s.main_button}>Publish post</button>
+    </>
+  );
+
+  const pageTitle = `Edit: ${post.title}`;
+
   return (
     <>
       <Head>
-        <title></title>
+        <title>{pageTitle}</title>
         <meta charSet="utf-8" />
         <meta name="description" content="" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
       <main>
-        <div className={s.container}>
+        <div className={clsx(s.container, s.with_aside)}>
           <div className={s.page_with_aside}>
             <section className={clsx(s.page_padding, s.main_section)}>
               <div className={s.editor}>
@@ -144,7 +179,7 @@ const EditPostRoute = ({ post }: EditPostRouteProps) => {
               </div>
             </section>
             <aside className={clsx(s.page_padding, s.sidebar)}>
-              <button>Publish post</button>
+              {post.draft && publishUI()}
             </aside>
           </div>
         </div>

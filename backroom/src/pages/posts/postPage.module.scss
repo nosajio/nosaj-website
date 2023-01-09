@@ -1,0 +1,43 @@
+@use '../../styles/scale.scss' as scale;
+@use '../../styles/page.module.scss';
+
+.main_section {
+  grid-area: main;
+}
+
+.editor {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: stretch;
+  row-gap: scale.msrem(3);
+
+  .DraftEditor-root {
+    width: 100%;
+  }
+}
+
+.sidebar {
+  grid-area: right;
+  padding-left: scale.msrem(2);
+  padding-right: scale.msrem(2);
+  display: flex;
+  flex-flow: column nowrap;
+  row-gap: scale.msrem(1);
+}
+
+.input_field {
+}
+
+.field_label {
+  display: block;
+}
+
+.field_input {
+  background: var(--background);
+  border: 1px solid var(--grey-400);
+  border-radius: 6px;
+  font-size: 1rem;
+  padding: scale.msrem(-6) scale.msrem(-1);
+}
