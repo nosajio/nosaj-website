@@ -14,18 +14,19 @@ alter table public.users
 
 create table public.posts
 (
-    id          uuid    default gen_random_uuid() not null
+    id           uuid      default gen_random_uuid() not null
         primary key,
-    slug        text,
-    pubdate     timestamp,
-    author      uuid
+    slug         text,
+    pubdate      timestamp,
+    author       uuid
         constraint fk_author
             references public.users,
-    title       text,
-    subtitle    text,
-    body_html   text,
-    cover_image varchar(255),
-    draft       boolean default true              not null
+    title        text,
+    subtitle     text,
+    body_html    text,
+    cover_image  varchar(255),
+    draft        boolean   default true              not null,
+    created_date timestamp default now()
 );
 
 alter table public.posts

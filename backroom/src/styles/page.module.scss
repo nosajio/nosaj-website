@@ -29,3 +29,9 @@
 .page_padding {
   padding-top: scale.msrem(15);
 }
+
+.content_section {
+  & + & {
+    margin-top: scale.msrem(5);
+  }
+}

@@ -10,7 +10,7 @@ import { withSessionSsr } from 'utils/sessionHelpers';
 import s from './postPage.module.scss';
 
 type EditPostRouteProps = {
-  post: Partial<JSONPost>;
+  post: JSONPost;
 };
 
 const Editor = dynamic(
@@ -64,25 +64,18 @@ const throttledUpdatePost = throttle(
   5000,
 );
 
-const EditPostRoute = ({ post }: EditPostRouteProps) => {
+const EditPostRoute = ({ post: initialPost }: EditPostRouteProps) => {
+  const [post, setPost] = useState<JSONPost>(initialPost);
   const [title, setTitle] = useState<string>(post?.title ?? '');
   const [subtitle, setSubtitle] = useState<string>(post?.subtitle ?? '');
   const [postHTML, setPostHTML] = useState<string>(post?.body_html ?? '');
   const [saveStatus, setSaveStatus] = useState<'unsaved' | 'saving' | 'saved'>(
     'saved',
   );
-  const [pubdate, setPubdate] = useState<string | undefined>(
-    post?.pubdate || undefined,
-  );
   const [slug, setSlug] = useState<string | undefined>(post?.slug);
-  // const savingRef = useRef<boolean>(false); // Use to block saving if it's already in progress
-  // const lastSaveRef = useRef<Partial<Post>>(post);
 
   const autosavePost = useCallback(
-    async (
-      field: 'title' | 'subtitle' | 'post' | 'pubdate' | 'slug',
-      value: string,
-    ) => {
+    async (field: 'title' | 'subtitle' | 'post' | 'slug', value: string) => {
       if (!post?.id || saveStatus === 'saving') return;
       const updateKey = field === 'post' ? 'body_html' : field;
       const updateRec = {
@@ -91,18 +84,18 @@ const EditPostRoute = ({ post }: EditPostRouteProps) => {
         subtitle,
         title,
         slug,
-        pubdate,
         [updateKey]: value,
       };
       setSaveStatus('saving');
-      await throttledUpdatePost(post.id, updateRec);
+      const updatedPost = await throttledUpdatePost(post.id, updateRec);
+      setPost(updatedPost ?? post);
       setSaveStatus('saved');
     },
-    [post, postHTML, pubdate, saveStatus, slug, subtitle, title],
+    [post, postHTML, saveStatus, slug, subtitle, title],
   );
 
   const handleChange = (
-    field: 'title' | 'subtitle' | 'post' | 'slug' | 'pubdate',
+    field: 'title' | 'subtitle' | 'post' | 'slug',
     value: string,
   ) => {
     setSaveStatus('unsaved');
@@ -119,9 +112,6 @@ const EditPostRoute = ({ post }: EditPostRouteProps) => {
       case 'slug':
         setSlug(value);
         break;
-      case 'pubdate':
-        setPubdate(value);
-        break;
 
       default:
         // Don't autosave unless one of the above fields were changed
@@ -130,17 +120,14 @@ const EditPostRoute = ({ post }: EditPostRouteProps) => {
     autosavePost(field, value);
   };
 
+  const handlePublish = async () => {
+    if (!post.id) return;
+    const updatedPost = await updatePost(post.id, post, true);
+    setPost(updatedPost);
+  };
+
   const publishUI = () => (
     <>
-      <label className={s.input_field}>
-        <span className={s.field_label}>Publish Date</span>
-        <input
-          type="datetime-local"
-          value={pubdate}
-          onChange={e => handleChange('pubdate', e.target.value)}
-          className={s.field_input}
-        />
-      </label>
       <label className={s.input_field}>
         <span className={s.field_label}>Slug</span>
         <input
@@ -150,7 +137,9 @@ const EditPostRoute = ({ post }: EditPostRouteProps) => {
           className={s.field_input}
         />
       </label>
-      <button className={s.main_button}>Publish post</button>
+      <button className={s.main_button} onClick={handlePublish}>
+        Publish post
+      </button>
     </>
   );
 

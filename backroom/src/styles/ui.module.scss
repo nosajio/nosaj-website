@@ -1,0 +1,11 @@
+@use './scale' as scale;
+
+.main_button {
+  background: var(--yellow-600);
+  color: var(--background);
+  border: none;
+  border-radius: scale.msrem(-3);
+  font-weight: 600;
+  padding: 1rem;
+  cursor: pointer;
+}

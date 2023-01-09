@@ -1,9 +1,15 @@
 import { z } from 'zod';
 import { withIronSessionApiRoute } from 'iron-session/next';
 import { NextApiHandler } from 'next';
-import { getPost, newPost, updatePost } from 'utils/data';
+import { getPost, newPost, publishPost, updatePost } from 'utils/data';
 import { ironSessionCookieConfig } from '../../../config/auth';
-import { Post, postObject, jsonPost, User } from '../../../types/data';
+import {
+  Post,
+  postObject,
+  jsonPost,
+  User,
+  JSONPost,
+} from '../../../types/data';
 import { connect } from '../../../utils/db';
 
 connect();
@@ -37,8 +43,15 @@ const postsRoute: NextApiHandler<PostsRouteResponse> = async (req, res) => {
   switch (req.method) {
     // Update a post
     case 'PUT': {
-      const body = jsonPost.partial().required({ id: true }).parse(bodyJson);
-      const post = await updatePost(body.id, body);
+      const { publish, ...body } = jsonPost
+        .merge(z.object({ publish: z.boolean().optional() }))
+        .parse(bodyJson);
+      let post: Post;
+      if (publish) {
+        post = await publishPost(body.id, body);
+      } else {
+        post = await updatePost(body.id, body);
+      }
       res.status(201).json(post);
       return;
     }

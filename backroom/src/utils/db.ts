@@ -1,5 +1,4 @@
 import { Pool, QueryResultRow } from 'pg';
-import { ZodObject } from 'zod';
 
 export let pool: Pool;
 

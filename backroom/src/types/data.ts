@@ -13,6 +13,7 @@ export const postObject = z.object({
   body_html: z.string(),
   draft: z.boolean(),
   slug: z.string(),
+  created_date: z.date(),
   // author: userObject,
   author: z.string(),
   cover_image: z.string().optional(),
@@ -22,6 +23,7 @@ export const postObject = z.object({
 
 export const jsonPost = postObject.merge(
   z.object({
+    created_date: z.string(),
     body_html: z.string().nullable(),
     cover_image: z.string().nullable(),
     pubdate: z.string().nullable(),

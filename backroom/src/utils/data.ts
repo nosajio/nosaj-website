@@ -1,4 +1,5 @@
 import { JSONPost, Post } from 'types/data';
+import { truncateDate } from './dates';
 import { query } from './db';
 import { getSlug } from './url';
 
@@ -7,7 +8,9 @@ import { getSlug } from './url';
  */
 export const getPosts = async (drafts: boolean = false) => {
   return await query<Post>(
-    `select * from posts ${drafts ? 'where draft = true' : ''}`,
+    `select * from posts ${
+      drafts ? 'where draft = true' : ''
+    } order by id desc`,
   );
 };
 
@@ -33,13 +36,24 @@ export const newPost = async (
   return [newPost?.id, slug];
 };
 
-export const updatePost = async (
+export const publishPost = async (
   id: string,
-  { title, subtitle, body_html, slug, pubdate }: JSONPost,
+  { title, subtitle, body_html, slug }: JSONPost,
 ) => {
   const [updatedPost] = await query<Post>(
-    'update posts set title=$1, subtitle=$2, body_html=$3, slug=$4, pubdate=$5 where id = $6 returning *',
-    [title, subtitle, body_html, slug, pubdate, id],
+    'update posts set title=$1, subtitle=$2, body_html=$3, slug=$4, draft=false, pubdate=now() where id = $5 returning *',
+    [title, subtitle, body_html, slug, id],
+  );
+  return updatedPost;
+};
+
+export const updatePost = async (
+  id: string,
+  { title, subtitle, body_html, slug }: JSONPost,
+) => {
+  const [updatedPost] = await query<Post>(
+    'update posts set title=$1, subtitle=$2, body_html=$3, slug=$4 where id = $5 returning *',
+    [title, subtitle, body_html, slug, id],
   );
   return updatedPost;
 };
@@ -50,10 +64,5 @@ export const dbPostToJSON = (post: Post): JSONPost => ({
   subtitle: post?.subtitle || null,
   cover_image: post?.cover_image || null,
   pubdate: post?.pubdate ? truncateDate(post.pubdate.toISOString()) : null,
+  created_date: post.created_date.toISOString(),
 });
-
-/**
- *  This fixes the date string so that it can be passed to a datetime-local field
- *  (removes the :00.000Z).
- */
-const truncateDate = (date: string) => date.replace(/(.*):.*Z/, '$1');

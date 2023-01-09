@@ -55,13 +55,19 @@ export const saveNewPost = async (title: string) => {
   return newPost;
 };
 
-export const updatePost = async (id: string, post: Partial<JSONPost>) => {
-  const updatedPost = await apiFetch<Partial<JSONPost>>('posts', {
+export const updatePost = async (
+  id: string,
+  post: Partial<JSONPost>,
+  publish?: boolean,
+) => {
+  const body = {
+    publish,
+    ...post,
+    id,
+  };
+  const updatedPost = await apiFetch<JSONPost>('posts', {
     method: 'put',
-    body: {
-      ...post,
-      id,
-    },
+    body,
   });
   return updatedPost;
 };

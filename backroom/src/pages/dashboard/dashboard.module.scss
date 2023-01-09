@@ -1,22 +1,41 @@
+@use '../../styles/scale.scss' as scale;
 @use '../../styles/page.module.scss';
+@use '../../styles/ui.module.scss';
 
 .content {
   grid-area: main;
 }
 
 .section_title {
+  text-transform: uppercase;
+  letter-spacing: 7px;
+  font-size: scale.msrem(-1);
+  font-weight: 600;
+  margin-bottom: 1rem;
 }
 
 .posts_list {
+  display: flex;
+  flex-flow: column nowrap;
+  row-gap: scale.msrem(-4);
 }
 
 .post_row {
+  display: flex;
+  justify-content: space-between;
+  padding: scale.msrem(-5) 1rem;
+  background: var(--background-shade);
+  border-radius: 4px;
 }
 
 .post_row_title {
+  font-size: 1rem;
+  font-weight: 500;
 }
 
 .post_row_options {
+  display: flex;
+  column-gap: 1rem;
 }
 
 .post_row_option {
