@@ -20,18 +20,15 @@ export const postObject = z.object({
   subtitle: z.string().optional(),
 });
 
-export const postObjectNullish = z.object({
-  title: z.string().nullish(),
-  id: z.string().nullish(),
-  body_html: z.string().nullish(),
-  draft: z.boolean().nullish(),
-  slug: z.string().nullish(),
-  // author: userObject.nullish(),
-  author: z.string().nullish(),
-  cover_image: z.string().nullish(),
-  pubdate: z.date().nullish(),
-  subtitle: z.string().nullish(),
-});
+export const jsonPost = postObject.merge(
+  z.object({
+    body_html: z.string().nullable(),
+    cover_image: z.string().nullable(),
+    pubdate: z.string().nullable(),
+    subtitle: z.string().nullable(),
+  }),
+);
 
 export type User = z.infer<typeof userObject>;
 export type Post = z.infer<typeof postObject>;
+export type JSONPost = z.infer<typeof jsonPost>;

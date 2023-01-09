@@ -3,7 +3,7 @@ import { withIronSessionApiRoute } from 'iron-session/next';
 import { NextApiHandler } from 'next';
 import { getPost, newPost, updatePost } from 'utils/data';
 import { ironSessionCookieConfig } from '../../../config/auth';
-import { Post, postObject, postObjectNullish, User } from '../../../types/data';
+import { Post, postObject, jsonPost, User } from '../../../types/data';
 import { connect } from '../../../utils/db';
 
 connect();

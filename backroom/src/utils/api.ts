@@ -1,4 +1,4 @@
-import { Post, User } from '../types/data';
+import { JSONPost, Post, User } from '../types/data';
 
 const apiFetch = async <R = unknown>(
   path: string,
@@ -55,8 +55,8 @@ export const saveNewPost = async (title: string) => {
   return newPost;
 };
 
-export const updatePost = async (id: string, post: Partial<Post>) => {
-  const updatedPost = await apiFetch<Partial<Post>>('posts', {
+export const updatePost = async (id: string, post: Partial<JSONPost>) => {
+  const updatedPost = await apiFetch<Partial<JSONPost>>('posts', {
     method: 'put',
     body: {
       ...post,

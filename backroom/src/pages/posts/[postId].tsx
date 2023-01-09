@@ -2,15 +2,15 @@ import clsx from 'clsx';
 import throttle from 'lodash.throttle';
 import dynamic from 'next/dynamic';
 import Head from 'next/head';
-import { useCallback, useRef, useState } from 'react';
-import { Post } from 'types/data';
+import { useCallback, useState } from 'react';
+import { Post, JSONPost } from 'types/data';
 import { updatePost } from 'utils/api';
 import { getPost } from 'utils/data';
 import { withSessionSsr } from 'utils/sessionHelpers';
 import s from './newPage.module.scss';
 
 type EditPostRouteProps = {
-  post: Partial<Post>;
+  post: Partial<JSONPost>;
 };
 
 const Editor = dynamic(
@@ -39,7 +39,12 @@ export const getServerSideProps = withSessionSsr(async ({ params, req }) => {
       },
     };
   }
-  const post = await getPost(postId);
+  const postRes = await getPost(postId);
+  const post = {
+    ...postRes,
+    pubdate:
+      postRes?.pubdate instanceof Date ? postRes.pubdate.toUTCString() : null,
+  };
 
   return {
     props: {
@@ -48,16 +53,16 @@ export const getServerSideProps = withSessionSsr(async ({ params, req }) => {
   };
 });
 
-const diffPost = (saved: Partial<Post>, next: Partial<Post>): boolean => {
-  return (
-    saved.body_html !== next.body_html ||
-    saved.title !== next.title ||
-    saved.subtitle !== next.subtitle
-  );
-};
+// const diffPost = (saved: Partial<Post>, next: Partial<Post>): boolean => {
+//   return (
+//     saved.body_html !== next.body_html ||
+//     saved.title !== next.title ||
+//     saved.subtitle !== next.subtitle
+//   );
+// };
 
 const throttledUpdatePost = throttle(
-  async (postId: string, post: Partial<Post>) => {
+  async (postId: string, post: Partial<JSONPost>) => {
     const updated = await updatePost(postId, post);
     return updated;
   },

@@ -24,7 +24,7 @@ export const query = async <T extends QueryResultRow>(
     connect();
   }
   const res = await pool.query<T>(q, vars);
-  return res.rows ? stripNulls<T>(res.rows) : res.rows;
+  return res.rows;
 };
 
 export const close = () => {
@@ -34,11 +34,11 @@ export const close = () => {
   pool.end();
 };
 
-const stripNulls = <O>(arr: O[]): Partial<O>[] => {
-  return arr.map(obj =>
-    Object.entries(obj ?? {}).reduce(
-      (o, [k, v]) => (v === null ? o : { ...o, [k]: v }),
-      {},
-    ),
-  );
-};
+// const stripNulls = <O>(arr: O[]): Partial<O>[] => {
+//   return arr.map(obj =>
+//     Object.entries(obj ?? {}).reduce(
+//       (o, [k, v]) => (v === null ? o : { ...o, [k]: v }),
+//       {},
+//     ),
+//   );
+// };

@@ -1,14 +1,12 @@
-import { Post, User } from 'types/data';
+import { JSONPost, Post } from 'types/data';
 import { query } from './db';
 import { getSlug } from './url';
-
-type DBPost = Post;
 
 /**
  * Get posts from the database
  */
 export const getPosts = async (drafts: boolean = false) => {
-  return await query<DBPost>(
+  return await query<Post>(
     `select * from posts ${drafts ? 'where draft = true' : ''}`,
   );
 };
@@ -17,10 +15,9 @@ export const getPosts = async (drafts: boolean = false) => {
  * Get a post by its id
  */
 export const getPost = async (id: string) => {
-  const [post] = await query<DBPost>(
-    'select * from posts where id=$1 limit 1',
-    [id],
-  );
+  const [post] = await query<Post>('select * from posts where id=$1 limit 1', [
+    id,
+  ]);
   return post;
 };
 
@@ -29,7 +26,7 @@ export const newPost = async (
   userId: string,
 ): Promise<[id?: string, slug?: string]> => {
   const slug = getSlug(title);
-  const [newPost] = await query<DBPost>(
+  const [newPost] = await query<Post>(
     'insert into posts (slug, author, title, draft) values ($1, $2, $3, true) returning *',
     [slug, userId, title],
   );
@@ -42,9 +39,17 @@ export const updatePost = async (
   subtitle?: string,
   body?: string,
 ) => {
-  const [updatedPost] = await query<DBPost>(
+  const [updatedPost] = await query<Post>(
     'update posts set title=$1, subtitle=$2, body_html=$3 where id = $4 returning *',
     [title, subtitle, body, id],
   );
   return updatedPost;
 };
+
+export const dbPostToJSON = (post: Post): JSONPost => ({
+  ...post,
+  body_html: post?.body_html || null,
+  subtitle: post?.subtitle || null,
+  cover_image: post?.cover_image || null,
+  pubdate: post?.pubdate ? post.pubdate.toUTCString() : null,
+});

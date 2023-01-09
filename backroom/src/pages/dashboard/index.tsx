@@ -1,13 +1,13 @@
 import Head from 'next/head';
 import Link from 'next/link';
-import { Post, User } from 'types/data';
-import { getPosts } from 'utils/data';
+import { JSONPost, Post, User } from 'types/data';
+import { dbPostToJSON, getPosts } from 'utils/data';
 import { withSessionSsr } from 'utils/sessionHelpers';
 import s from './dashboard.module.scss';
 
 type DashboardProps = {
   user: User;
-  posts: Post[];
+  posts: JSONPost[];
 };
 
 export const getServerSideProps = withSessionSsr(async ({ req }) => {
@@ -20,10 +20,7 @@ export const getServerSideProps = withSessionSsr(async ({ req }) => {
       },
     };
   }
-  const posts = (await getPosts()).map(p => ({
-    ...p,
-    pubdate: p.pubdate?.toUTCString() || null,
-  }));
+  const posts = (await getPosts()).map(dbPostToJSON);
   return {
     props: { user, posts },
   };
