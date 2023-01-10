@@ -1,4 +1,4 @@
-@use './scale' as scale;
+@use '~nosaj-io/src/styles/scale.scss' as scale;
 
 .main_button {
   background: var(--yellow-600);

@@ -11,9 +11,12 @@
   "license": "ISC",
   "devDependencies": {
     "@types/lodash.throttle": "^4.1.7",
-    "prettier": "^2.8.1"
+    "prettier": "^2.8.2"
   },
   "dependencies": {
-    "lodash.throttle": "^4.1.1"
+    "clsx": "^1.2.1",
+    "lodash.throttle": "^4.1.1",
+    "pg": "^8.8.0",
+    "sass": "^1.57.1"
   }
 }
