@@ -1,11 +1,10 @@
 import clsx from 'clsx';
+import { dbPostToJSON, getPost, JSONPost } from 'data';
 import throttle from 'lodash.throttle';
 import dynamic from 'next/dynamic';
 import Head from 'next/head';
 import { useCallback, useState } from 'react';
-import { JSONPost } from 'types/data';
 import { updatePost } from 'utils/api';
-import { dbPostToJSON, getPost } from 'utils/data';
 import { withSessionSsr } from 'utils/sessionHelpers';
 import s from './postPage.module.scss';
 

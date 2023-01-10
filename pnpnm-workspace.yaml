@@ -1,3 +1,4 @@
 packages:
-  - 'nosaj-io'
-  - 'backroom'
+  - "nosaj-io"
+  - "backroom"
+  - "data"

@@ -1,8 +1,7 @@
 import clsx from 'clsx';
+import { dbPostToJSON, getPosts, JSONPost, User } from 'data';
 import Head from 'next/head';
 import Link from 'next/link';
-import { JSONPost, Post, User } from 'types/data';
-import { dbPostToJSON, getPosts } from 'utils/data';
 import { withSessionSsr } from 'utils/sessionHelpers';
 import s from './dashboard.module.scss';
 

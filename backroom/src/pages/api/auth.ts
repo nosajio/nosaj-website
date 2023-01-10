@@ -1,9 +1,8 @@
+import { ironSessionCookieConfig } from 'config/auth';
+import { connect, User } from 'data';
 import { withIronSessionApiRoute } from 'iron-session/next';
 import { NextApiHandler } from 'next';
-import { User } from '../../types/data';
-import { ironSessionCookieConfig } from '../../config/auth';
-import { authenticate } from '../../utils/auth';
-import { connect } from '../../utils/db';
+import { authenticate } from 'utils/auth';
 
 type AuthRouteResponse = {
   success?: boolean;

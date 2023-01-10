@@ -2,9 +2,9 @@ import { withIronSessionSsr } from 'iron-session/next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { FormEventHandler, useEffect, useState } from 'react';
-import { User } from '../types/data';
-import { ironSessionCookieConfig } from '../config/auth';
-import { newSession } from '../utils/api';
+import { User } from 'data';
+import { ironSessionCookieConfig } from 'config/auth';
+import { newSession } from 'utils/api';
 
 export const getServerSideProps = withIronSessionSsr(async ({ req }) => {
   const user = req.session.user;

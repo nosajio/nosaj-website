@@ -1,16 +1,16 @@
-import { z } from 'zod';
+import {
+  connect,
+  jsonPost,
+  newPost,
+  Post,
+  publishPost,
+  updatePost,
+  User,
+} from 'data';
 import { withIronSessionApiRoute } from 'iron-session/next';
 import { NextApiHandler } from 'next';
-import { getPost, newPost, publishPost, updatePost } from 'utils/data';
+import { z } from 'zod';
 import { ironSessionCookieConfig } from '../../../config/auth';
-import {
-  Post,
-  postObject,
-  jsonPost,
-  User,
-  JSONPost,
-} from '../../../types/data';
-import { connect } from '../../../utils/db';
 
 connect();
 

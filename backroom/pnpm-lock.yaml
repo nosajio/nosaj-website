@@ -10,6 +10,7 @@ specifiers:
   '@types/react-dom': 18.0.10
   bcrypt: ^5.1.0
   clsx: ^1.2.1
+  data: workspace:^1.0.0
   draft-js: ^0.11.7
   draft-js-export-html: ^1.4.1
   eslint: 8.31.0
@@ -17,7 +18,7 @@ specifiers:
   immutable: ^3.8.2
   iron-session: ^6.3.1
   next: 13.1.1
-  nosaj-io: workspace:*
+  nosaj-io: workspace:^0.1.0
   pg: ^8.8.0
   react: 18.2.0
   react-dom: 18.2.0
@@ -32,6 +33,7 @@ dependencies:
   '@types/react-dom': 18.0.10
   bcrypt: 5.1.0
   clsx: 1.2.1
+  data: link:../data
   draft-js: 0.11.7_biqbaboplfbrettd7655fr4n2y
   draft-js-export-html: 1.4.1_qnm4pu3vwlglikbjqrpcmxoiem
   eslint: 8.31.0
@@ -2435,8 +2437,8 @@ packages:
       react-is: 16.13.1
     dev: false
 
-  /punycode/2.1.1:
-    resolution: {integrity: sha512-XRsRjdf+j5ml+y/6GKHPZbrF/8p2Yga0JPtdqTIY2Xe5ohJPD9saDJJLPvp9+NSBprVvevdXZybnj2cv8OEd0A==}
+  /punycode/2.2.0:
+    resolution: {integrity: sha512-LN6QV1IJ9ZhxWTNdktaPClrNfp8xdSAYS0Zk2ddX7XsXZAxckMHPCBcHRo0cTcEIgYPRiGEkmji3Idkh2yFtYw==}
     engines: {node: '>=6'}
     dev: false
 
@@ -2850,7 +2852,7 @@ packages:
   /uri-js/4.4.1:
     resolution: {integrity: sha512-7rKUyy33Q1yc98pQ1DAmLtwX109F7TIfWlW1Ydo8Wl1ii1SeHieeh0HHfPeL2fMXK6z0s8ecKs9frCuLJvndBg==}
     dependencies:
-      punycode: 2.1.1
+      punycode: 2.2.0
     dev: false
 
   /util-deprecate/1.0.2:

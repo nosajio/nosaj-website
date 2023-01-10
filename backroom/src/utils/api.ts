@@ -1,4 +1,4 @@
-import { JSONPost, Post, User } from '../types/data';
+import { JSONPost, User } from 'data';
 
 const apiFetch = async <R = unknown>(
   path: string,
