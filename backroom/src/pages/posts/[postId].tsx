@@ -1,5 +1,6 @@
 import clsx from 'clsx';
-import { dbPostToJSON, getPost, JSONPost } from 'data';
+import { dbPostToJSON, JSONPost } from 'data';
+import { getPost } from 'data/server';
 import throttle from 'lodash.throttle';
 import dynamic from 'next/dynamic';
 import Head from 'next/head';

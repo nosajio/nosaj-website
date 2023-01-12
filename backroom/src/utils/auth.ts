@@ -1,5 +1,5 @@
 import bcrypt from 'bcrypt';
-import { query } from 'data';
+import { query } from 'data/server';
 import { User } from '../../../data/src/types/data';
 
 export type DbUser = User & {

@@ -1,5 +1,6 @@
 import { ironSessionCookieConfig } from 'config/auth';
-import { connect, User } from 'data';
+import { User } from 'data';
+import { connect } from 'data/server';
 import { withIronSessionApiRoute } from 'iron-session/next';
 import { NextApiHandler } from 'next';
 

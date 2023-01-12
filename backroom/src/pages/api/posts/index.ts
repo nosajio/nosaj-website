@@ -1,12 +1,5 @@
-import {
-  connect,
-  jsonPost,
-  newPost,
-  Post,
-  publishPost,
-  updatePost,
-  User,
-} from 'data';
+import { jsonPost, Post, User } from 'data';
+import { connect, newPost, publishPost, updatePost } from 'data/server';
 import { withIronSessionApiRoute } from 'iron-session/next';
 import { NextApiHandler } from 'next';
 import { z } from 'zod';

@@ -1,5 +1,6 @@
 import clsx from 'clsx';
-import { dbPostToJSON, getPosts, JSONPost, User } from 'data';
+import { dbPostToJSON, JSONPost, User } from 'data';
+import { getPosts } from 'data/server';
 import Head from 'next/head';
 import Link from 'next/link';
 import { withSessionSsr } from 'utils/sessionHelpers';
