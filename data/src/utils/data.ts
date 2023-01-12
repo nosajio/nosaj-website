@@ -1,5 +1,4 @@
 import { JSONPost, Post } from "../types/data";
-import { truncateDate } from "./dates";
 import { query } from "./db";
 import { getSlug } from "./url";
 
@@ -55,12 +54,3 @@ export const updatePost = async (
   );
   return updatedPost;
 };
-
-export const dbPostToJSON = (post: Post): JSONPost => ({
-  ...post,
-  body_html: post?.body_html || null,
-  subtitle: post?.subtitle || null,
-  cover_image: post?.cover_image || null,
-  pubdate: post?.pubdate ? truncateDate(post.pubdate.toISOString()) : null,
-  created_date: post.created_date.toISOString(),
-});
