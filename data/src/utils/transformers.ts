@@ -1,5 +1,5 @@
-import { JSONPost, Post } from "../types/data";
-import { truncateDate } from "./dates";
+import { JSONPost, Post } from '../types/data';
+import { truncateDate } from './dates';
 
 export const dbPostToJSON = (post: Post): JSONPost => ({
   ...post,
@@ -12,14 +12,17 @@ export const dbPostToJSON = (post: Post): JSONPost => ({
 
 export const parsePost = (jsonPost: JSONPost): Post => {
   const pubdate = jsonPost.pubdate ? new Date(jsonPost.pubdate) : undefined;
-  const created_date = jsonPost.created_date
-    ? new Date(jsonPost.created_date)
-    : undefined;
-  const vals = Object.entries(jsonPost).map(([k, v]) => [
-    [k, v ? v : undefined],
-  ]);
+  const created_date = new Date(jsonPost.created_date);
+  const vals = Object.keys(jsonPost).reduce((o, k) => {
+    const v = jsonPost[k as keyof JSONPost];
+    return {
+      ...o,
+      [k]: !v ? undefined : v,
+    };
+  }, {} as Post);
+
   return {
-    ...Object.fromEntries(vals),
+    ...vals,
     pubdate,
     created_date,
   };

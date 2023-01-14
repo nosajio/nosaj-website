@@ -1,3 +1,5 @@
+@use "sass:math";
+
 $ms-scale: 1.125 !default; // Perfect fourth (http://www.modularscale.com/?1&em&1.333&web&text)
 $ms-px: 20px !default;
 
@@ -15,7 +17,11 @@ $ms-px: 20px !default;
       $value: $value / $ms-scale;
     }
   }
-  @return $value;
+  @return hundredths($value);
+}
+
+@function hundredths($value) {
+  @return math.round($value * 100) * 0.01;
 }
 
 // Output a rem value based on the exponent.

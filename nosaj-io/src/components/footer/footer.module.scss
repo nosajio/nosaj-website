@@ -1,0 +1,8 @@
+@use "../../styles/page.module.scss";
+@use "../../styles/scale.scss" as scale;
+
+.footer {
+  @extend .container, .container--center-content;
+
+  font-size: scale.msrem(-2);
+}

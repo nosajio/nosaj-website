@@ -1,0 +1,8 @@
+.posts_list {
+  display: flex;
+  flex-flow: column nowrap;
+  row-gap: 1rem;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}

@@ -1,0 +1,96 @@
+@use '../../styles/scale.scss' as scale;
+@use '../../styles/page.module.scss';
+
+.home {
+  &__intro {
+    &-headline {
+      font-size: scale.msrem(5);
+      max-width: calc(var(--col-width) * 8);
+      margin-bottom: 1rem;
+    }
+
+    &-text {
+      margin: 0;
+      max-width: calc(var(--col-width) * 8);
+      color: var(--grey-600);
+    }
+  }
+
+  &__connect {
+    &-links {
+      list-style-type: none;
+      display: flex;
+      column-gap: scale.msrem(4);
+      margin: 0;
+      padding: 0;
+    }
+  }
+}
+
+.section-title {
+  display: flex;
+  column-gap: scale.msrem(-5);
+  align-items: center;
+  width: 100%;
+  text-transform: uppercase;
+  letter-spacing: 0.1rem;
+  font-size: scale.msrem(-2);
+  font-weight: 600;
+  margin-bottom: scale.msrem(-1);
+
+  &--subscribe-icon::before {
+    content: '';
+    display: block;
+    width: 22px;
+    height: 11px;
+    background: url('/subscribe-icon.svg') no-repeat center / 100% 100%;
+
+    @media (prefers-color-scheme: dark) {
+      background: url('/subscribe-icon-light.svg') no-repeat center / 100% 100%;
+    }
+  }
+}
+
+.posts__year-group {
+}
+
+.posts__year-title {
+  @extend .section-title;
+  font-size: scale.msrem(-2);
+  margin-bottom: 1rem;
+
+  .posts__list + & {
+    margin-top: 1rem;
+  }
+}
+
+.posts__year-list {
+}
+
+.posts__list {
+  display: flex;
+  flex-flow: column nowrap;
+  row-gap: scale.msrem(2);
+}
+
+.post__row {
+  display: flex;
+  align-items: baseline;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  column-gap: scale.msrem(4);
+}
+
+.post__row-date {
+  width: scale.msrem(11);
+  font-size: scale.msrem(-2);
+  text-transform: uppercase;
+  color: var(--grey-500);
+}
+
+.post__row-title {
+  font-size: 1rem;
+  line-height: 1rem;
+  font-weight: 500;
+}

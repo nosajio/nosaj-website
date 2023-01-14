@@ -13,13 +13,14 @@ export const connect = () => {
   }
   pool = new Pool();
   console.log('connected to db');
+  return pool;
 };
 
 export const query = async <T extends QueryResultRow>(
   q: string,
   vars?: any[],
-) => {
-  if (!pool) {
+): Promise<T[]> => {
+  if (pool === undefined) {
     connect();
   }
   const res = await pool.query<T>(q, vars);

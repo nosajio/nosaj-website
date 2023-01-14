@@ -1,0 +1,43 @@
+@use '../../styles/scale.scss' as scale;
+@use '../../styles/page.module.scss';
+
+.header {
+  @extend .container;
+  padding-bottom: 0;
+
+  &__content {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__logo {
+    display: flex;
+    align-items: center;
+    column-gap: scale.msrem(-2);
+  }
+
+  &__logo-img {
+    width: 74px;
+    height: 74px;
+    background: url('/jason-hex-d.png') no-repeat center / contain;
+  }
+
+  &__logo-text {
+    font-size: scale.msrem(-2);
+    font-weight: 600;
+  }
+
+  &__nav {
+  }
+
+  &__nav-list {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    column-gap: 1rem;
+  }
+
+  &__nav-item {
+  }
+}
