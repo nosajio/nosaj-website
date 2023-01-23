@@ -1,5 +1,5 @@
 import { JSONPost, Post } from '../types/data';
-import { truncateDate } from './dates';
+import { dateStr, truncateDate } from './dates';
 
 export const dbPostToJSON = (post: Post): JSONPost => ({
   ...post,
@@ -10,7 +10,11 @@ export const dbPostToJSON = (post: Post): JSONPost => ({
   created_date: post.created_date.toISOString(),
 });
 
-export const parsePost = (jsonPost: JSONPost): Post => {
+export type ParsedPost = Post & {
+  pubdate_str?: string;
+};
+
+export const parsePost = (jsonPost: JSONPost): ParsedPost => {
   const pubdate = jsonPost.pubdate ? new Date(jsonPost.pubdate) : undefined;
   const created_date = new Date(jsonPost.created_date);
   const vals = Object.keys(jsonPost).reduce((o, k) => {
@@ -25,5 +29,6 @@ export const parsePost = (jsonPost: JSONPost): Post => {
     ...vals,
     pubdate,
     created_date,
+    pubdate_str: dateStr(pubdate),
   };
 };

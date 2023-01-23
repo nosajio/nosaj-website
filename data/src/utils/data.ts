@@ -23,6 +23,14 @@ export const getPost = async (id: string) => {
   return post;
 };
 
+export const getPostBySlug = async (slug: string) => {
+  const [post] = await query<Post>(
+    'select * from posts where slug=$1 limit 1',
+    [slug],
+  );
+  return post;
+};
+
 export const newPost = async (
   title: string,
   userId: string,
