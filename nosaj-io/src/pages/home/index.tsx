@@ -47,8 +47,15 @@ const homePageContent = {
   bio: [
     <>
       I&apos;m currently founder of a software shop that helps startups go from
-      zero to one. Previously I&apos;ve been employee #1 at Pave, engineering
-      lead at Frontier, and made a lot of products.
+      zero to one. Previously I was employee #1 at{' '}
+      <a href="https://pave.com" rel="noreferrer" target="_blank">
+        Pave
+      </a>
+      , engineering lead at{' '}
+      <a href="https://frontier.jobs" rel="noreferrer" target="_blank">
+        Frontier
+      </a>
+      , and built a lot of products.
     </>,
   ],
   links: [

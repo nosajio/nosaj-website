@@ -36,6 +36,7 @@
   letter-spacing: 0.1rem;
   font-size: scale.msrem(-2);
   font-weight: 600;
+  font-family: var(--headings-fonts);
   margin-bottom: scale.msrem(-1);
 
   &--subscribe-icon::before {
@@ -46,7 +47,7 @@
     background: url('/subscribe-icon.svg') no-repeat center / 100% 100%;
 
     @media (prefers-color-scheme: dark) {
-      background: url('/subscribe-icon-light.svg') no-repeat center / 100% 100%;
+      background-image: url('/subscribe-icon-light.svg');
     }
   }
 }

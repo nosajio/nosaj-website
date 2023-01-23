@@ -1,93 +1,81 @@
+// Archia
 @font-face {
-  font-family: "silka";
-  src: url("/fonts/silka-bold-webfont.eot");
-  src: url("/fonts/silka-bold-webfont.eot?#iefix") format("embedded-opentype"),
-    url("/fonts/silka-bold-webfont.woff2") format("woff2"),
-    url("/fonts/silka-bold-webfont.woff") format("woff"),
-    url("/fonts/silka-bold-webfont.ttf") format("truetype");
-  font-weight: 700;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "silka";
-  src: url("/fonts/silka-bolditalic-webfont.eot");
-  src: url("/fonts/silka-bolditalic-webfont.eot?#iefix")
-      format("embedded-opentype"),
-    url("/fonts/silka-bolditalic-webfont.woff2") format("woff2"),
-    url("/fonts/silka-bolditalic-webfont.woff") format("woff"),
-    url("/fonts/silka-bolditalic-webfont.ttf") format("truetype");
-  font-weight: 700;
-  font-style: italic;
-}
-
-@font-face {
-  font-family: "silka";
-  src: url("/fonts/silka-medium-webfont.eot");
-  src: url("/fonts/silka-medium-webfont.eot?#iefix") format("embedded-opentype"),
-    url("/fonts/silka-medium-webfont.woff2") format("woff2"),
-    url("/fonts/silka-medium-webfont.woff") format("woff"),
-    url("/fonts/silka-medium-webfont.ttf") format("truetype");
-  font-weight: 500;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "silka";
-  src: url("/fonts/silka-mediumitalic-webfont.eot");
-  src: url("/fonts/silka-mediumitalic-webfont.eot?#iefix")
-      format("embedded-opentype"),
-    url("/fonts/silka-mediumitalic-webfont.woff2") format("woff2"),
-    url("/fonts/silka-mediumitalic-webfont.woff") format("woff"),
-    url("/fonts/silka-mediumitalic-webfont.ttf") format("truetype");
-  font-weight: 500;
-  font-style: italic;
-}
-
-@font-face {
-  font-family: "silka";
-  src: url("/fonts/silka-regular-webfont.eot");
-  src: url("/fonts/silka-regular-webfont.eot?#iefix")
-      format("embedded-opentype"),
-    url("/fonts/silka-regular-webfont.woff2") format("woff2"),
-    url("/fonts/silka-regular-webfont.woff") format("woff"),
-    url("/fonts/silka-regular-webfont.ttf") format("truetype");
-  font-weight: 400;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "silka";
-  src: url("/fonts/silka-regularitalic-webfont.eot");
-  src: url("/fonts/silka-regularitalic-webfont.eot?#iefix")
-      format("embedded-opentype"),
-    url("/fonts/silka-regularitalic-webfont.woff2") format("woff2"),
-    url("/fonts/silka-regularitalic-webfont.woff") format("woff"),
-    url("/fonts/silka-regularitalic-webfont.ttf") format("truetype");
-  font-weight: 400;
-  font-style: italic;
-}
-
-@font-face {
-  font-family: "silka";
-  src: url("/fonts/silka-semibold-webfont.eot");
-  src: url("/fonts/silka-semibold-webfont.eot?#iefix")
-      format("embedded-opentype"),
-    url("/fonts/silka-semibold-webfont.woff2") format("woff2"),
-    url("/fonts/silka-semibold-webfont.woff") format("woff"),
-    url("/fonts/silka-semibold-webfont.ttf") format("truetype");
+  font-family: 'archia';
+  src: url('/fonts/archia-semibold.woff2') format('woff2'),
+    url('/fonts/archia-semibold.woff') format('woff');
   font-weight: 600;
   font-style: normal;
 }
 
 @font-face {
-  font-family: "silka";
-  src: url("/fonts/silka-semibolditalic-webfont.eot");
-  src: url("/fonts/silka-semibolditalic-webfont.eot?#iefix")
-      format("embedded-opentype"),
-    url("/fonts/silka-semibolditalic-webfont.woff2") format("woff2"),
-    url("/fonts/silka-semibolditalic-webfont.woff") format("woff"),
-    url("/fonts/silka-semibolditalic-webfont.ttf") format("truetype");
-  font-weight: 600;
+  font-family: 'archia';
+  src: url('/fonts/archia-bold.woff2') format('woff2'),
+    url('/fonts/archia-bold.woff') format('woff');
+  font-weight: 700;
+  font-style: normal;
+}
+
+// Circular
+@font-face {
+  font-family: 'circular';
+  src: url('/fonts/circularstd-light.woff2') format('woff2'),
+    url('/fonts/circularstd-light.woff') format('woff');
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'circular';
+  src: url('/fonts/circularstd-lightitalic.woff2') format('woff2'),
+    url('/fonts/circularstd-lightitalic.woff') format('woff');
+  font-weight: 300;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'circular';
+  src: url('/fonts/circularstd-book.woff2') format('woff2'),
+    url('/fonts/circularstd-book.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'circular';
+  src: url('/fonts/circularstd-bookitalic.woff2') format('woff2'),
+    url('/fonts/circularstd-bookitalic.woff') format('woff');
+  font-weight: normal;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'circular';
+  src: url('/fonts/circularstd-medium.woff2') format('woff2'),
+    url('/fonts/circularstd-medium.woff') format('woff');
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'circular';
+  src: url('/fonts/circularstd-mediumitalic.woff2') format('woff2'),
+    url('/fonts/circularstd-mediumitalic.woff') format('woff');
+  font-weight: 500;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'circular';
+  src: url('/fonts/circularstd-bold.woff2') format('woff2'),
+    url('/fonts/circularstd-bold.woff') format('woff');
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'circular';
+  src: url('/fonts/circularstd-bolditalic.woff2') format('woff2'),
+    url('/fonts/circularstd-bolditalic.woff') format('woff');
+  font-weight: 700;
   font-style: italic;
 }

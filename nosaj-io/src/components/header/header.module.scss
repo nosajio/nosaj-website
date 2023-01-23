@@ -23,6 +23,7 @@
   }
 
   &__logo-text {
+    font-family: var(--headings-fonts);
     font-size: scale.msrem(-2);
     font-weight: 600;
   }

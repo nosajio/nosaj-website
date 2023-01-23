@@ -3,7 +3,11 @@
 :root {
   --system-fonts: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI',
     Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  --silka-fonts: 'silka', var(--system-fonts);
+  --archia-fonts: 'archia', var(--system-fonts);
+  --circular-fonts: 'circular', var(--system-fonts);
+
+  --headings-fonts: var(--archia-fonts);
+  --body-fonts: var(--circular-fonts);
 
   --blue-100: rgb(2, 14, 34);
   --blue-200: rgb(4, 34, 83);
@@ -39,7 +43,9 @@
   --grey-1000: rgb(245, 247, 249);
 
   --foreground: var(--grey-200);
+  --foreground-shade: var(--grey-700);
   --background: rgb(255, 255, 255);
+  --background-shade: var(--grey-800);
   --primary: var(--yellow-500);
   --secondary: var(--blue-500);
 
@@ -68,17 +74,19 @@ html {
 }
 
 body {
-  font-family: var(--silka-fonts);
+  font-family: var(--body-fonts);
+  font-weight: normal;
   line-height: 1.42;
   max-width: 100vw;
   overflow-x: hidden;
   color: var(--foreground);
   background: var(--background);
+  text-rendering: optimizeLegibility;
 }
 
 button,
 input {
-  font-family: var(--silka-fonts);
+  font-family: var(--body-fonts);
   font-size: 1rem;
 }
 
