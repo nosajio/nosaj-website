@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { Page, Section } from 'components';
+import { Page, Section, Subscribe } from 'components';
 import { dateStr, dbPostToJSON, JSONPost, parsePost, Post } from 'data';
 import { getPosts } from 'data/server';
 import { GetServerSideProps } from 'next';
@@ -103,6 +103,9 @@ const HomePage = ({ posts }: HomePageProps) => {
           <h1 className={clsx(s.sectionTitle, s.sectionTitleSubscribeIcon)}>
             Subscribe to the blog
           </h1>
+          <div className={s.home__subscribeForm}>
+            <Subscribe />
+          </div>
         </Section>
         <Section className={s.home__blog}>
           <h1 className={s.sectionTitle}>Posts</h1>
