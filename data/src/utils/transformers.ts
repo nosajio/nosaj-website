@@ -1,4 +1,4 @@
-import { JSONPost, Post } from '../types/data';
+import { JSONPost, Post } from '../types/model';
 import { dateStr, truncateDate } from './dates';
 
 export const dbPostToJSON = (post: Post): JSONPost => ({

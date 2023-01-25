@@ -1,6 +1,6 @@
-import { JSONPost, Post, Subscriber } from '../types/data';
-import { connect, query } from './db';
-import { getSlug } from './url';
+import { query } from '../db';
+import { JSONPost, Post } from '../types/model';
+import { getSlug } from '../utils/url';
 
 /**
  * Get posts from the database
@@ -75,37 +75,4 @@ export const updatePost = async (
     [title, subtitle, body_html, slug, id],
   );
   return updatedPost;
-};
-
-/**
- * Save a new newsletter subscriber
- */
-export const newSubscriber = async (email: string) => {
-  const [subscriber] = await query<Subscriber>(
-    'insert into subscribers (email) values($1) returning *',
-    [email],
-  );
-  return subscriber;
-};
-
-/**
- * Mark a subscriber as confirmed
- */
-export const confirmSubscriber = async (token: string) => {
-  const [confirmedSubscriber] = await query<Subscriber>(
-    'update subscribers set confirmed_email=true where confirm_token=$1 returning *',
-    [token],
-  );
-  return confirmedSubscriber;
-};
-
-/**
- * Get a subscriber by their confirmation token
- */
-export const getSubscriberByToken = async (token: string) => {
-  const [subscriber] = await query<Subscriber>(
-    'select * from subscribers where confirm_token=$1',
-    [token],
-  );
-  return subscriber;
 };

@@ -1,2 +1,2 @@
-export * from "./src/utils/data";
-export * from "./src/utils/db";
+export * from './src/queries';
+export * from './src/db';
