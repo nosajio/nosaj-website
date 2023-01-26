@@ -20,8 +20,7 @@ const apiRequest = async <R = undefined>(
 export const addNewSubscriber = async (email: string) =>
   await apiRequest<SubscribeRouteResponse>('/api/subscribe', 'post', { email });
 
-export const confirmSubscriberEmail = async (email: string, token: string) =>
+export const confirmSubscriberEmail = async (token: string) =>
   await apiRequest<ConfirmRouteResponse>('/api/confirm', 'post', {
-    email,
     token,
   });

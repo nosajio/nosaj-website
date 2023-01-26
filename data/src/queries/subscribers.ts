@@ -15,10 +15,10 @@ export const newSubscriber = async (email: string) => {
 /**
  * Mark a subscriber as confirmed
  */
-export const confirmSubscriber = async (email: string, token: string) => {
+export const confirmSubscriber = async (token: string) => {
   const [confirmedSubscriber] = await query<Subscriber>(
-    'update subscribers set confirmed_email=true where email=$1 and confirm_token=$2 returning *',
-    [email, token],
+    'update subscribers set confirmed_email=true where confirm_token=$1 returning *',
+    [token],
   );
   return confirmedSubscriber;
 };

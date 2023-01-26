@@ -3,12 +3,12 @@ import { getSubscriberByEmail } from 'data/server';
 
 const ses = new SESClient({ region: 'us-east-1' });
 
-const getConfirmLink = (email: string, token: string) =>
+const getConfirmLink = (token: string) =>
   `${
     process.env.NODE_ENV === 'development'
       ? `http://localhost:3003`
       : 'https://nosaj.io'
-  }?email=${email}&token=${token}`;
+  }?token=${token}`;
 
 const noreplySenderAddress = 'Jason<noreply@email.nosaj.io>';
 const replyToAddress = 'newsletter@nosaj.io';
@@ -21,10 +21,7 @@ export const sendConfirmEmail = async (email: string) => {
   }
 
   // Generate email body
-  const confirmLink = getConfirmLink(
-    subscriber.email,
-    subscriber.confirm_token,
-  );
+  const confirmLink = getConfirmLink(subscriber.confirm_token);
   const emailHTML = `
   <p>
     Please click the link to confirm your email:

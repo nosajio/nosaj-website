@@ -5,12 +5,11 @@ import { getPosts } from 'data/server';
 import { GetServerSideProps } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { confirmSubscriberEmail } from 'utils/api';
 import s from './home.module.scss';
 
 type HomePageQuerystring = {
-  email?: string;
   token?: string;
 };
 
@@ -24,11 +23,10 @@ export const getServerSideProps: GetServerSideProps<
   HomePageQuerystring
 > = async ({ query }) => {
   let confirmEmail;
-  const { email, token } = query ?? {};
+  const { token } = query ?? {};
 
-  if (typeof email === 'string' && typeof token === 'string') {
+  if (typeof token === 'string') {
     confirmEmail = {
-      email,
       token,
     };
   }
@@ -69,16 +67,19 @@ const homePageContent = {
 };
 
 const HomePage = ({ posts, confirmEmail }: HomePageProps) => {
+  const blockApiRef = useRef<boolean>(false);
   const [emailConfirmed, setEmailConfirmed] = useState<boolean>(false);
   const parsedPosts = posts.map(parsePost);
 
   useEffect(() => {
-    if (!confirmEmail?.email || !confirmEmail?.token) {
+    if (!confirmEmail?.token || blockApiRef.current) {
       return;
     }
-    confirmSubscriberEmail(confirmEmail.email, confirmEmail.token).then(res =>
-      setEmailConfirmed(res.confirmed || false),
-    );
+    blockApiRef.current = true;
+    confirmSubscriberEmail(confirmEmail.token).then(res => {
+      blockApiRef.current = true;
+      setEmailConfirmed(res.confirmed || false);
+    });
   }, [confirmEmail]);
 
   return (

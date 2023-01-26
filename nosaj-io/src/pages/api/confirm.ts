@@ -14,9 +14,7 @@ type ConfirmRouteBody = {
 };
 
 const validateConfirmRouteBody = (body: {}): body is ConfirmRouteBody =>
-  typeof body === 'object' &&
-  typeof (body as any)?.email === 'string' &&
-  typeof (body as any)?.token === 'string';
+  typeof body === 'object' && typeof (body as any)?.token === 'string';
 
 const confirmRoute: NextApiHandler<ConfirmRouteResponse> = async (req, res) => {
   if (req.method !== 'POST') {
@@ -33,7 +31,7 @@ const confirmRoute: NextApiHandler<ConfirmRouteResponse> = async (req, res) => {
   }
 
   try {
-    const subscriber = await confirmSubscriber(bodyJson.email, bodyJson.token);
+    const subscriber = await confirmSubscriber(bodyJson.token);
     if (subscriber.confirmed_email) {
       return res.json({ confirmed: true });
     }
