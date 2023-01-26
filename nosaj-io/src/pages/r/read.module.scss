@@ -1,4 +1,5 @@
 @use '../../styles/page.module.scss';
+@use '../../styles/breakpoints.scss' as bp;
 @use '../../styles/scale.scss' as scale;
 
 .read {
@@ -15,18 +16,23 @@
       'date' auto
       'title' auto
       'subline' auto / 1fr;
-    margin-bottom: scale.msrem(7);
+    margin-bottom: scale.msrem(10);
   }
 
   &__title {
     grid-area: title;
-    font-size: scale.msrem(4);
-    font-weight: 600;
+    font-weight: 500;
+    font-size: scale.msrem(5);
+
+    @include bp.gt('medium') {
+      font-size: scale.msrem(7);
+    }
   }
 
   &__subline {
     grid-area: subline;
     margin-top: scale.msrem(-1);
+    color: var(--foreground-shade);
   }
 
   &__date {
@@ -37,6 +43,8 @@
   }
 
   &__body {
+    // font-family: var(--minion-fonts);
+
     p {
       margin: scale.msrem(3) 0;
     }

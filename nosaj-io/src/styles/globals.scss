@@ -1,13 +1,11 @@
-@use './fonts.scss';
-
 :root {
   --system-fonts: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI',
     Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  --archia-fonts: 'archia', var(--system-fonts);
-  --circular-fonts: 'circular', var(--system-fonts);
 
-  --headings-fonts: var(--archia-fonts);
-  --body-fonts: var(--circular-fonts);
+  --graycliff-fonts: 'greycliff-cf', var(--system-fonts);
+
+  --headings-fonts: var(--graycliff-fonts);
+  --body-fonts: var(--graycliff-fonts);
 
   --blue-100: rgb(2, 14, 34);
   --blue-200: rgb(4, 34, 83);
@@ -58,7 +56,8 @@
   :root {
     --foreground: var(--grey-1000);
     --foreground-shade: var(--grey-600);
-    --background: var(--blue-100);
+    // --background: var(--blue-100);
+    --background: rgb(0, 0, 0);
     --background-shade: var(--grey-300);
   }
 }
@@ -96,6 +95,8 @@ h3,
 h4,
 h5 {
   line-height: 1.13;
+  font-family: var(--headings-fonts);
+  font-weight: 600;
 }
 
 a {
@@ -104,6 +105,12 @@ a {
   background: no-repeat
     linear-gradient(to right, var(--foreground-shade), var(--foreground-shade))
     bottom / 100% 1px;
+
+  &:hover {
+    background: no-repeat
+      linear-gradient(to right, var(--blue-800), var(--blue-800)) bottom / 100%
+      1px;
+  }
 
   &.no-decoration {
     background: none;

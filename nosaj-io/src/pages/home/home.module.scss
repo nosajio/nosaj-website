@@ -1,12 +1,17 @@
 @use '../../styles/scale.scss' as scale;
+@use '../../styles/breakpoints.scss' as bp;
 @use '../../styles/page.module.scss';
 
 .home {
   &__intro {
     &-headline {
-      font-size: scale.msrem(5);
       max-width: calc(var(--col-width) * 8);
       margin-bottom: 1rem;
+      font-size: scale.msrem(4);
+
+      @include bp.gt('medium') {
+        font-size: scale.msrem(6);
+      }
     }
 
     &-text {
@@ -20,7 +25,8 @@
     &-links {
       list-style-type: none;
       display: flex;
-      column-gap: scale.msrem(4);
+      flex-flow: row wrap;
+      gap: scale.msrem(2);
       margin: 0;
       padding: 0;
     }
@@ -50,22 +56,6 @@
       background-image: url('/subscribe-icon-light.svg');
     }
   }
-}
-
-.posts__year-group {
-}
-
-.posts__year-title {
-  @extend .section-title;
-  font-size: scale.msrem(-2);
-  margin-bottom: 1rem;
-
-  .posts__list + & {
-    margin-top: 1rem;
-  }
-}
-
-.posts__year-list {
 }
 
 .posts__list {

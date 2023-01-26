@@ -1,7 +1,8 @@
 @use 'sass:map';
 
 $breakpoints: (
-  'small': 0px,
+  'base': 0px,
+  'small': 370px,
   'medium': 720px,
   'large': 1080px,
 );

@@ -7,7 +7,7 @@ type NotificationProps = {
   timeout?: number /* in ms */;
 };
 
-const Notification = ({ timeout = 5000, children }: NotificationProps) => {
+const Notification = ({ timeout = 8000, children }: NotificationProps) => {
   const [mode, setMode] = useState<'appear' | 'disappear'>('appear');
   const timerRef = useRef<NodeJS.Timeout>();
 

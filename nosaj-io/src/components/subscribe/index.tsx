@@ -50,23 +50,28 @@ const Subscribe = ({}: SubscribeProps) => {
       )}
       {mode === 'apisuccess' ? (
         <p className={s.subscribe__successMessage}>
-          You rule! Check your inbox to confirm your subscription.
+          ✅ You&apos;re in! Check your inbox to confirm your subscription.
         </p>
       ) : (
         <>
-          <input
-            required
-            type="email"
-            placeholder="jane@example.com"
-            className={s.subscribe__input}
-            onChange={e => setEmail(e.target.value)}
-            value={email}
-          />
-          <button disabled={mode === 'apibusy'} className={s.subscribe__submit}>
-            Subscribe
-          </button>
+          <div className={s.subscribe__fields}>
+            <input
+              required
+              type="email"
+              placeholder="jane@example.com"
+              className={s.subscribe__input}
+              onChange={e => setEmail(e.target.value)}
+              value={email}
+            />
+            <button
+              disabled={mode === 'apibusy'}
+              className={s.subscribe__submit}
+            >
+              Subscribe
+            </button>
+          </div>
           <p className={s.subscribe__smallprint}>
-            No spam, no bs. Just juicy content.
+            No spam. No BS. Just juicy content.
           </p>
         </>
       )}

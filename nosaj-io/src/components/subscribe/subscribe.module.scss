@@ -1,0 +1,66 @@
+@use '../../styles//breakpoints.scss' as bp;
+@use '../../styles/scale.scss' as scale;
+
+.subscribe {
+  &__form {
+    display: flex;
+    flex-flow: column nowrap;
+    row-gap: scale.msrem(-6);
+    max-width: calc(var(--col-width) * 6);
+    width: 100%;
+  }
+
+  &__fields {
+    display: flex;
+    flex-flow: column nowrap;
+    row-gap: 1rem;
+
+    @include bp.gt('small') {
+      flex-flow: row nowrap;
+      align-items: stretch;
+      column-gap: 1rem;
+    }
+  }
+
+  &__input {
+    flex: 1 1 100%;
+    min-width: 100px;
+    background: var(--background);
+    border: 2px solid var(--foreground);
+    border-radius: 4px;
+    padding: scale.msrem(-6) scale.msrem(1);
+    outline: none;
+  }
+
+  &__input:focus {
+    border-color: var(--blue-600);
+  }
+
+  &__input::placeholder {
+    color: var(--background-shade);
+  }
+
+  &__submit {
+    cursor: pointer;
+    background: var(--foreground);
+    color: var(--background);
+    border-radius: 4px;
+    border: none;
+    padding: scale.msrem(-6) scale.msrem(1);
+  }
+
+  &__submit:disabled {
+    opacity: 0.3;
+  }
+
+  &__smallprint {
+    font-size: scale.msrem(-2);
+    color: var(--foreground-shade);
+  }
+
+  &__invalid-notice {
+  }
+
+  &__success-message {
+  }
+}

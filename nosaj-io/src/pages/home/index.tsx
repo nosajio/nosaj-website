@@ -16,7 +16,7 @@ type HomePageQuerystring = {
 
 type HomePageProps = {
   posts: JSONPost[];
-  confirmEmail?: HomePageQuerystring;
+  confirmEmail: null | HomePageQuerystring;
 };
 
 export const getServerSideProps: GetServerSideProps<
@@ -37,19 +37,19 @@ export const getServerSideProps: GetServerSideProps<
   return {
     props: {
       posts,
-      confirmEmail,
+      confirmEmail: confirmEmail || null,
     },
   };
 };
 
 const homePageContent = {
   headline: (
-    <>Hi I&apos;m Jason. Engineer, designer, and builder of startups.</>
+    <>Hi, I&apos;m Jason. Engineer, designer, and builder of startups.</>
   ),
   bio: [
     <>
-      I&apos;m currently founder of a software shop that helps startups go from
-      zero to one. Previously I was employee #1 at{' '}
+      I&apos;m building a software shop that helps startups go from zero to one.
+      Previously I was employee #1 at{' '}
       <a href="https://pave.com" rel="noreferrer" target="_blank">
         Pave
       </a>
@@ -91,7 +91,7 @@ const HomePage = ({ posts, confirmEmail }: HomePageProps) => {
       </Head>
       <Page>
         {emailConfirmed && (
-          <Notification>Your email is confirmed!</Notification>
+          <Notification>🎉🎉🎉 Your email is confirmed!</Notification>
         )}
         <Section className={s.home__intro}>
           <h1 className={s.home__introHeadline}>{homePageContent.headline}</h1>

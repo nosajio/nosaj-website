@@ -1,4 +1,5 @@
 @use '../../styles/scale.scss' as scale;
+@use '../../styles/breakpoints.scss' as bp;
 @use '../../styles/page.module.scss';
 
 .header {
@@ -24,8 +25,12 @@
 
   &__logo-text {
     font-family: var(--headings-fonts);
-    font-size: scale.msrem(-2);
     font-weight: 600;
+    font-size: scale.msrem(-2);
+
+    @include bp.gt('medium') {
+      font-size: scale.msrem(-1);
+    }
   }
 
   &__nav {
