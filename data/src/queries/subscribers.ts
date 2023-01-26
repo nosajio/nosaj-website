@@ -1,5 +1,5 @@
-import { query } from 'db';
-import { Subscriber } from 'types/model';
+import { query } from '../db';
+import { Subscriber } from '../types/model';
 
 /**
  * Save a new newsletter subscriber
@@ -39,5 +39,5 @@ export const getSubscriberByEmail = async (email: string) => {
     'select * from subscribers where email=$1 limit 1',
     [email],
   );
-  return subscriber;
+  return subscriber || undefined;
 };
