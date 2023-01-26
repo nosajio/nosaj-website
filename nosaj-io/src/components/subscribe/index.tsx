@@ -9,7 +9,7 @@ const isValidEmail = (str: string) => /^[^@]+@[^@]+\.[a-z]+$/i.test(str);
 const Subscribe = ({}: SubscribeProps) => {
   const [email, setEmail] = useState<string>('');
   const [mode, setMode] = useState<
-    'normal' | 'apierror' | 'apibusy' | 'apisuccess' | 'invalid'
+    'normal' | 'apierror' | 'apibusy' | 'apisuccess' | 'invalid' | 'exists'
   >('normal');
 
   const handleSubmit: FormEventHandler = e => {
@@ -26,7 +26,13 @@ const Subscribe = ({}: SubscribeProps) => {
     }
 
     addNewSubscriber(email).then(sub =>
-      setMode(sub ? 'apisuccess' : 'apierror'),
+      setMode(
+        sub?.subscriber
+          ? 'apisuccess'
+          : sub?.error?.type === 'existing_subscriber'
+          ? 'exists'
+          : 'apierror',
+      ),
     );
   };
 
@@ -35,6 +41,11 @@ const Subscribe = ({}: SubscribeProps) => {
       {mode === 'invalid' && (
         <p className={s.subscribe__invalidNotice}>
           Enter a valid email address
+        </p>
+      )}
+      {mode === 'exists' && (
+        <p className={s.subscribe__invalidNotice}>
+          You are already subscribed!
         </p>
       )}
       {mode === 'apisuccess' ? (

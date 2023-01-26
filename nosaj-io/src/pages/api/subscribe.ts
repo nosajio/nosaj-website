@@ -1,4 +1,3 @@
-import { Subscriber } from 'data';
 import { newSubscriber } from 'data/server';
 import { NextApiHandler } from 'next';
 import { sendConfirmEmail } from 'utils/emails';
@@ -57,9 +56,14 @@ const subscribeRoute: NextApiHandler<SubscribeRouteResponse> = async (
         sentConfirmation: confirmEmail,
       },
     });
-  } catch (err) {
+  } catch (err: unknown) {
     console.error(err);
-    return res.status(400).json({
+    if ((err as Error)?.message?.startsWith('duplicate key')) {
+      return res.status(400).json({
+        error: { type: 'existing_subscriber' },
+      });
+    }
+    return res.status(500).json({
       error: { type: 'internal' },
     });
   }

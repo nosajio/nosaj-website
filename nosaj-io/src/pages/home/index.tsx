@@ -1,41 +1,43 @@
 import clsx from 'clsx';
-import { Page, Section, Subscribe } from 'components';
-import { dateStr, dbPostToJSON, JSONPost, parsePost, Post } from 'data';
+import { Notification, Page, Section, Subscribe } from 'components';
+import { dateStr, dbPostToJSON, JSONPost, parsePost } from 'data';
 import { getPosts } from 'data/server';
 import { GetServerSideProps } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
+import { confirmSubscriberEmail } from 'utils/api';
 import s from './home.module.scss';
+
+type HomePageQuerystring = {
+  email?: string;
+  token?: string;
+};
 
 type HomePageProps = {
   posts: JSONPost[];
+  confirmEmail?: HomePageQuerystring;
 };
 
-type YearlyPosts = {
-  [year: string]: Post[];
-};
+export const getServerSideProps: GetServerSideProps<
+  HomePageProps,
+  HomePageQuerystring
+> = async ({ query }) => {
+  let confirmEmail;
+  const { email, token } = query ?? {};
 
-const postsByYear = (posts: JSONPost[]): YearlyPosts => {
-  return posts.reduce((years, jsonPost) => {
-    const post = parsePost(jsonPost);
-    const year = post.pubdate?.getFullYear()?.toString();
-    if (!year) return years;
-    if (!Object.keys(years).includes(year)) {
-      years[year] = [post];
-    } else {
-      years[year].push(post);
-    }
-    return years;
-  }, {} as YearlyPosts);
-};
+  if (typeof email === 'string' && typeof token === 'string') {
+    confirmEmail = {
+      email,
+      token,
+    };
+  }
 
-export const getServerSideProps: GetServerSideProps<HomePageProps> = async ({
-  req,
-}) => {
   const posts = (await getPosts()).map(dbPostToJSON);
   return {
     props: {
       posts,
+      confirmEmail,
     },
   };
 };
@@ -66,9 +68,18 @@ const homePageContent = {
   ],
 };
 
-const HomePage = ({ posts }: HomePageProps) => {
-  const yearlyPosts = postsByYear(posts);
-  const years = Object.keys(yearlyPosts);
+const HomePage = ({ posts, confirmEmail }: HomePageProps) => {
+  const [emailConfirmed, setEmailConfirmed] = useState<boolean>(false);
+  const parsedPosts = posts.map(parsePost);
+
+  useEffect(() => {
+    if (!confirmEmail?.email || !confirmEmail?.token) {
+      return;
+    }
+    confirmSubscriberEmail(confirmEmail.email, confirmEmail.token).then(res =>
+      setEmailConfirmed(res.confirmed || false),
+    );
+  }, [confirmEmail]);
 
   return (
     <>
@@ -79,6 +90,9 @@ const HomePage = ({ posts }: HomePageProps) => {
         {/* <link rel="icon" href="" /> */}
       </Head>
       <Page>
+        {emailConfirmed && (
+          <Notification>Your email is confirmed!</Notification>
+        )}
         <Section className={s.home__intro}>
           <h1 className={s.home__introHeadline}>{homePageContent.headline}</h1>
           {homePageContent.bio.map((p, i) => (
@@ -109,23 +123,23 @@ const HomePage = ({ posts }: HomePageProps) => {
         </Section>
         <Section className={s.home__blog}>
           <h1 className={s.sectionTitle}>Posts</h1>
-          {years.map((y, i) => (
+          {/* {years.map((y, i) => (
             <div key={i} className={s.posts__yearGroup}>
               <h2 className={s.posts__yearTitle}>{y}</h2>
-              <ul className={s.posts__list}>
-                {yearlyPosts[y].map(post => (
-                  <li key={post.id} className={s.post__row}>
-                    <time className={s.post__rowDate}>
-                      {dateStr(post.pubdate!)}
-                    </time>
-                    <h3 className={s.post__rowTitle}>
-                      <Link href={`/r/${post.slug}`}>{post.title}</Link>
-                    </h3>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
+              */}
+          <ul className={s.posts__list}>
+            {parsedPosts.map(post => (
+              <li key={post.id} className={s.post__row}>
+                <time className={s.post__rowDate}>
+                  {dateStr(post.pubdate!)}
+                </time>
+                <h3 className={s.post__rowTitle}>
+                  <Link href={`/r/${post.slug}`}>{post.title}</Link>
+                </h3>
+              </li>
+            ))}
+          </ul>
+          {/* ))} </div> */}
         </Section>
       </Page>
     </>

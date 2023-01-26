@@ -1,16 +1,27 @@
-import { Subscriber } from 'data';
+import { ConfirmRouteResponse } from 'pages/api/confirm';
+import { SubscribeRouteResponse } from 'pages/api/subscribe';
 
-export const addNewSubscriber = async (email: string) => {
-  const res = await fetch('/api/subscribe', {
-    method: 'post',
-    body: JSON.stringify({ email }),
+const apiRequest = async <R = undefined>(
+  path: string,
+  method: 'get' | 'post' = 'get',
+  body?: Record<string, any>,
+): Promise<R> => {
+  const res = await fetch(path, {
+    method,
+    body: body ? JSON.stringify(body) : undefined,
     mode: 'same-origin',
     headers: {
       'Content-Type': 'application/json',
     },
   }).then(r => r.json());
-  if (Object.keys(res?.subscriber ?? {}).includes('email')) {
-    return res.subscriber as Subscriber;
-  }
-  return undefined;
+  return res as R;
 };
+
+export const addNewSubscriber = async (email: string) =>
+  await apiRequest<SubscribeRouteResponse>('/api/subscribe', 'post', { email });
+
+export const confirmSubscriberEmail = async (email: string, token: string) =>
+  await apiRequest<ConfirmRouteResponse>('/api/confirm', 'post', {
+    email,
+    token,
+  });
