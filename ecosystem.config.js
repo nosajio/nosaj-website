@@ -22,7 +22,8 @@ const universalEnv = {
 module.exports = {
   apps: [
     {
-      script: 'npm start -p 5001',
+      script: 'npm',
+      args: 'start -p 5001',
       cwd: './nosaj-io',
       watch: false,
       name: 'nosaj.io',
@@ -34,7 +35,8 @@ module.exports = {
       },
     },
     {
-      script: 'npm start -p 5002',
+      script: 'npm',
+      args: 'start -p 5002',
       cwd: './backroom',
       watch: false,
       name: 'backroom',
