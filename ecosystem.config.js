@@ -55,7 +55,7 @@ module.exports = {
       repo: 'https://github.com/nosajio/nosaj-website',
       path: '/home/apps/nosajio_production',
       'post-deploy':
-        'npm install && npm run build && pm2 reload ecosystem.config.js --env production',
+        'pnpm install -r && npm run build && pm2 reload ecosystem.config.js --env production',
     },
   },
 };
