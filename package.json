@@ -4,7 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build:nosaj": "cd nosaj-io && npm run build",
+    "build:backroom": "cd backroom && npm run build",
+    "build": "npm run build:backroom && npm run build:nosaj",
+    "run:nosaj": "cd nosaj-io && npm start -p 5001",
+    "run:backroom": "cd backroom && npm start -p 5002"
   },
   "keywords": [],
   "author": "",
