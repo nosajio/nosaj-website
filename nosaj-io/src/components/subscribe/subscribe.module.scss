@@ -3,9 +3,12 @@
 
 .subscribe {
   &__form {
+    --field-padding: #{scale.msrem(-8)} #{scale.msrem(1)};
+    --field-font-size: #{scale.msrem(-1)};
+
     display: flex;
     flex-flow: column nowrap;
-    row-gap: scale.msrem(-6);
+    row-gap: scale.msrem(-7);
     max-width: calc(var(--col-width) * 6);
     width: 100%;
   }
@@ -13,12 +16,12 @@
   &__fields {
     display: flex;
     flex-flow: column nowrap;
-    row-gap: 1rem;
+    row-gap: scale.msrem(-1);
 
     @include bp.gt('small') {
       flex-flow: row nowrap;
       align-items: stretch;
-      column-gap: 1rem;
+      column-gap: scale.msrem(-2);
     }
   }
 
@@ -26,9 +29,9 @@
     flex: 1 1 100%;
     min-width: 100px;
     background: var(--background);
-    border: 2px solid var(--foreground);
+    border: 1px solid var(--foreground);
     border-radius: 4px;
-    padding: scale.msrem(-6) scale.msrem(1);
+    padding: var(--field-padding);
     outline: none;
   }
 
@@ -46,7 +49,7 @@
     color: var(--background);
     border-radius: 4px;
     border: none;
-    padding: scale.msrem(-6) scale.msrem(1);
+    padding: var(--field-padding);
   }
 
   &__submit:disabled {
