@@ -33,7 +33,7 @@ module.exports = {
       },
     },
     {
-      script: 'run run:backroom',
+      script: 'npm run:backroom',
       watch: false,
       name: 'backroom',
       instances: 1,
