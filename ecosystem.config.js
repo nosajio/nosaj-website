@@ -22,7 +22,7 @@ const universalEnv = {
 module.exports = {
   apps: [
     {
-      script: 'npm start:nosaj',
+      script: 'npm run:nosaj',
       watch: false,
       name: 'nosaj.io',
       autorestart: true,
@@ -33,7 +33,7 @@ module.exports = {
       },
     },
     {
-      script: 'npm start:backroom',
+      script: 'run run:backroom',
       watch: false,
       name: 'backroom',
       instances: 1,
@@ -55,7 +55,7 @@ module.exports = {
       repo: 'https://github.com/nosajio/nosaj-website',
       path: '/home/apps/nosajio_production',
       'post-deploy':
-        'pnpm install -r && npm run build && pm2 reload ecosystem.config.js --env production',
+        'pnpm install -r && pnpm build && pm2 reload ecosystem.config.js --env production',
     },
   },
 };
