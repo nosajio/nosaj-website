@@ -29,6 +29,6 @@ export const parsePost = (jsonPost: JSONPost): ParsedPost => {
     ...vals,
     pubdate,
     created_date,
-    pubdate_str: dateStr(pubdate),
+    pubdate_str: pubdate ? dateStr(pubdate) : undefined,
   };
 };
