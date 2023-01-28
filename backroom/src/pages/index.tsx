@@ -13,6 +13,7 @@ export const getServerSideProps = withIronSessionSsr(async ({ req }) => {
       props: {},
     };
   }
+  console.log('logged in user: %o', user);
   return {
     redirect: {
       destination: '/dashboard',
