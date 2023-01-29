@@ -22,4 +22,5 @@ export const truncateDate = (date: string) => date.replace(/(.*):.*Z/, '$1');
 /**
  * Make a date string like: 6 Jun or 25 Dec
  */
-export const dateStr = (d: Date) => `${months[d.getMonth()]} ${d.getDate()}`;
+export const dateStr = (d: Date, year?: boolean) =>
+  `${d.getDate()} ${months[d.getMonth()]}${year ? ` ${d.getFullYear()}` : ''}`;

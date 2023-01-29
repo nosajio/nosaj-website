@@ -14,7 +14,10 @@ export type ParsedPost = Post & {
   pubdate_str?: string;
 };
 
-export const parsePost = (jsonPost: JSONPost): ParsedPost => {
+export const parsePost = (
+  jsonPost: JSONPost,
+  fullDate?: boolean,
+): ParsedPost => {
   const pubdate = jsonPost.pubdate ? new Date(jsonPost.pubdate) : undefined;
   const created_date = new Date(jsonPost.created_date);
   const vals = Object.keys(jsonPost).reduce((o, k) => {
@@ -29,6 +32,6 @@ export const parsePost = (jsonPost: JSONPost): ParsedPost => {
     ...vals,
     pubdate,
     created_date,
-    pubdate_str: pubdate ? dateStr(pubdate) : undefined,
+    pubdate_str: pubdate ? dateStr(pubdate, fullDate) : undefined,
   };
 };
