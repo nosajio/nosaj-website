@@ -40,8 +40,8 @@ const ReadPage = ({ post: jsonPost }: ReadPageProps) => {
   return (
     <>
       <Head>
-        <title>nosaj.io</title>
-        <meta name="description" content="" />
+        <title>{post.title}</title>
+        <meta name="description" content={post.subtitle} />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         {/* <link rel="icon" href="" /> */}
       </Head>
