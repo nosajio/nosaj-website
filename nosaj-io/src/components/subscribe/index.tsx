@@ -1,12 +1,15 @@
+import clsx from 'clsx';
 import { FormEventHandler, useState } from 'react';
 import { addNewSubscriber } from 'utils/api';
 import s from './subscribe.module.scss';
 
-type SubscribeProps = {};
+type SubscribeProps = {
+  className?: string;
+};
 
 const isValidEmail = (str: string) => /^[^@]+@[^@]+\.[a-z]+$/i.test(str);
 
-const Subscribe = ({}: SubscribeProps) => {
+const Subscribe = ({ className }: SubscribeProps) => {
   const [email, setEmail] = useState<string>('');
   const [mode, setMode] = useState<
     'normal' | 'apierror' | 'apibusy' | 'apisuccess' | 'invalid' | 'exists'
@@ -37,7 +40,10 @@ const Subscribe = ({}: SubscribeProps) => {
   };
 
   return (
-    <form className={s.subscribe__form} onSubmit={handleSubmit}>
+    <form
+      className={clsx(className, s.subscribe__form)}
+      onSubmit={handleSubmit}
+    >
       {mode === 'invalid' && (
         <p className={s.subscribe__invalidNotice}>
           Enter a valid email address

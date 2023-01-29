@@ -5,9 +5,11 @@
 .read {
   @extend .container, .container--center-content;
 
+  --read-max-width: calc(8 * var(--col-width));
+
   &__article {
     @extend .center;
-    max-width: calc(8 * var(--col-width));
+    max-width: var(--read-max-width);
   }
 
   &__head {
@@ -43,10 +45,31 @@
   }
 
   &__body {
-    // font-family: var(--minion-fonts);
-
     p {
       margin: scale.msrem(3) 0;
     }
+  }
+
+  &__footer {
+    @extend .center;
+    margin-top: scale.msrem(5);
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+    max-width: var(--read-max-width);
+    row-gap: scale.msrem(5);
+  }
+
+  &__footer-head {
+    display: flex;
+    flex-flow: column nowrap;
+    row-gap: scale.msrem(-4);
+    text-align: center;
+  }
+
+  &__footer-title {
+    font-weight: 500;
+  }
+  &__footer-subtitle {
   }
 }

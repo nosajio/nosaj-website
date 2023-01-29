@@ -1,4 +1,4 @@
-import { Page, Section } from 'components';
+import { Page, Section, Subscribe } from 'components';
 import { dbPostToJSON, JSONPost, parsePost, Post } from 'data';
 import { getPostBySlug } from 'data/server';
 import { GetServerSideProps } from 'next';
@@ -60,6 +60,16 @@ const ReadPage = ({ post: jsonPost }: ReadPageProps) => {
               dangerouslySetInnerHTML={{ __html: post.body_html }}
             />
           </article>
+          <section className={s.read__footer}>
+            <header className={s.read__footerHead}>
+              <h1 className={s.read__footerTitle}>Thanks for reading!</h1>
+              <p className={s.read__footerSubtitle}>
+                If you enjoyed this post, subscribe for more posts in the
+                future.
+              </p>
+            </header>
+            <Subscribe className={s.read__subscribe} />
+          </section>
         </div>
       </Page>
     </>
