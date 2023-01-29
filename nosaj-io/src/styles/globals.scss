@@ -64,8 +64,6 @@
 
 * {
   box-sizing: border-box;
-  padding: 0;
-  margin: 0;
 }
 
 html {
@@ -81,12 +79,18 @@ body {
   color: var(--foreground);
   background: var(--background);
   text-rendering: optimizeLegibility;
+  padding: 0;
+  margin: 0;
 }
 
 button,
 input {
   font-family: var(--body-fonts);
   font-size: 1rem;
+}
+
+p {
+  margin: 0;
 }
 
 h1,
@@ -97,6 +101,8 @@ h5 {
   line-height: 1.13;
   font-family: var(--headings-fonts);
   font-weight: 600;
+  padding: 0;
+  margin: 0;
 }
 
 a {

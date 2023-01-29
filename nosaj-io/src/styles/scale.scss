@@ -1,4 +1,4 @@
-@use "sass:math";
+@use 'sass:math';
 
 $ms-scale: 1.125 !default; // Perfect fourth (http://www.modularscale.com/?1&em&1.333&web&text)
 $ms-px: 20px !default;
@@ -28,6 +28,11 @@ $ms-px: 20px !default;
 @function msrem($exponent) {
   $val: ms($exponent);
   @return #{$val}rem;
+}
+
+@function msem($exponent) {
+  $val: ms($exponent);
+  @return #{$val}em;
 }
 
 // Output a pixel value for the exponent.

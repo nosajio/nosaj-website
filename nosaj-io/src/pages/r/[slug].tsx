@@ -35,7 +35,7 @@ export const getServerSideProps: GetServerSideProps<
 };
 
 const ReadPage = ({ post: jsonPost }: ReadPageProps) => {
-  const post = parsePost(jsonPost);
+  const post = parsePost(jsonPost, true);
 
   return (
     <>
@@ -64,8 +64,7 @@ const ReadPage = ({ post: jsonPost }: ReadPageProps) => {
             <header className={s.read__footerHead}>
               <h1 className={s.read__footerTitle}>Thanks for reading!</h1>
               <p className={s.read__footerSubtitle}>
-                If you enjoyed this post, subscribe for more posts in the
-                future.
+                If you enjoyed this post, subscribe to receive future content.
               </p>
             </header>
             <Subscribe className={s.read__subscribe} />
