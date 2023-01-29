@@ -6,6 +6,7 @@
   @extend .container, .container--center-content;
 
   --read-content-width: calc(9 * var(--col-width));
+  --read-el-gap: #{scale.msrem(10)};
 
   &__article {
     @extend .center;
@@ -18,7 +19,7 @@
       'date' auto
       'title' auto
       'subline' auto / 1fr;
-    margin-bottom: scale.msrem(10);
+    margin-bottom: var(--read-el-gap);
   }
 
   &__title {
@@ -42,6 +43,17 @@
     margin-bottom: scale.msrem(-1);
     color: var(--grey-500);
     font-size: scale.msrem(-2);
+  }
+
+  &__cover {
+    margin-bottom: var(--read-el-gap);
+  }
+
+  &__cover-img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: scale.msrem(-4);
   }
 
   &__body {

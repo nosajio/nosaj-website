@@ -1,4 +1,5 @@
 import { Page, Section, Subscribe } from 'components';
+import Image from 'next/image';
 import { dbPostToJSON, JSONPost, parsePost, Post } from 'data';
 import { getPostBySlug } from 'data/server';
 import { GetServerSideProps } from 'next';
@@ -55,6 +56,16 @@ const ReadPage = ({ post: jsonPost }: ReadPageProps) => {
               )}
               <span className={s.read__date}>{post.pubdate_str}</span>
             </header>
+            {post.cover_image && (
+              <section className={s.read__cover}>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  className={s.read__coverImg}
+                  src={post.cover_image}
+                  alt={`Cover image for ${post.title}`}
+                />
+              </section>
+            )}
             <section
               className={s.read__body}
               dangerouslySetInnerHTML={{ __html: post.body_html }}
