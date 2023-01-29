@@ -25,7 +25,7 @@
   &__title {
     grid-area: title;
     font-weight: 500;
-    font-size: scale.msrem(5);
+    font-size: scale.msrem(3);
 
     @include bp.gt('medium') {
       font-size: scale.msrem(7);
@@ -66,6 +66,7 @@
     // Generic
     p {
       margin: 0 0 var(--content-gap);
+      line-height: scale.ms(4);
     }
 
     hr {
