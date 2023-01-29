@@ -5,10 +5,10 @@
   "main": "index.js",
   "scripts": {
     "build:nosaj": "cd nosaj-io && npm run build",
-    "build:backroom": "cd backroom && npm run build",
-    "build": "npm run build:backroom && npm run build:nosaj",
+    "build:net": "cd net && npm run build",
+    "build": "npm run build:net && npm run build:nosaj",
     "run:nosaj": "cd nosaj-io && npm start -p 5001",
-    "run:backroom": "cd backroom && npm start -p 5002"
+    "run:net": "cd net && npm start -p 5002"
   },
   "keywords": [],
   "author": "",

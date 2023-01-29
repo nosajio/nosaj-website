@@ -37,9 +37,9 @@ module.exports = {
     {
       script: 'npx',
       args: ['next', 'start', '-p', '5002'],
-      cwd: './backroom',
+      cwd: './net',
       watch: false,
-      name: 'backroom',
+      name: 'net',
       instances: 1,
       max_restarts: 10,
       autorestart: true,

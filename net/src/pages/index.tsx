@@ -46,7 +46,7 @@ const LoginRoute = () => {
   return (
     <>
       <Head>
-        <title>Jason&apos;s room</title>
+        <title>🚩 THE NET</title>
         <meta name="description" content="" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>

@@ -36,7 +36,7 @@ const DashboardRoute = ({ user, published, drafts }: DashboardProps) => {
   return (
     <>
       <Head>
-        <title>🚧 Backroom</title>
+        <title>🌐 NET</title>
         <meta name="description" content="" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
