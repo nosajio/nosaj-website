@@ -9,7 +9,7 @@ export const getPosts = async (drafts: boolean = false) => {
   return await query<Post>(
     `select * from posts where draft = ${
       drafts ? 'true' : 'false'
-    } order by id desc`,
+    } order by pubdate desc`,
   );
 };
 
