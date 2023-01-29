@@ -88,7 +88,7 @@
   text-transform: uppercase;
   color: var(--grey-500);
   width: scale.msrem(9);
-  flex: 0 1 auto;
+  flex: 0 0 auto;
 
   @include bp.gt('medium') {
     width: scale.msrem(11);
@@ -97,7 +97,7 @@
 
 .post__row-title {
   font-size: 1rem;
-  line-height: 1rem;
+  line-height: 1.13rem;
   font-weight: 500;
   flex: 1 1 auto;
 }
