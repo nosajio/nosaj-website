@@ -56,8 +56,7 @@
   :root {
     --foreground: var(--grey-1000);
     --foreground-shade: var(--grey-600);
-    // --background: var(--blue-100);
-    --background: rgb(0, 0, 0);
+    --background: var(--grey-100);
     --background-shade: var(--grey-300);
   }
 }
@@ -109,13 +108,17 @@ a {
   color: inherit;
   text-decoration: none;
   background: no-repeat
-    linear-gradient(to right, var(--foreground-shade), var(--foreground-shade))
+    linear-gradient(to right, var(--background-shade), var(--background-shade))
     bottom / 100% 1px;
 
   &:hover {
     background: no-repeat
-      linear-gradient(to right, var(--blue-800), var(--blue-800)) bottom / 100%
-      1px;
+      linear-gradient(
+        to right,
+        var(--foreground-shade),
+        var(--foreground-shade)
+      )
+      bottom / 100% 2px;
   }
 
   &.no-decoration {
