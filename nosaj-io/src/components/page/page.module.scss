@@ -1,11 +1,16 @@
-@use "../../styles/scale.scss" as scale;
-@use "../../styles/page.module.scss";
+@use '../../styles/breakpoints.scss' as bp;
+@use '../../styles/scale.scss' as scale;
+@use '../../styles/page.module.scss';
 
 .page {
   &__main {
     display: flex;
     flex-flow: column nowrap;
-    row-gap: scale.msrem(8);
+    row-gap: scale.msrem(3);
+
+    @include bp.gt('medium') {
+      row-gap: scale.msrem(8);
+    }
   }
 
   // <Section /> component

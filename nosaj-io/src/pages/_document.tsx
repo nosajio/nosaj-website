@@ -5,6 +5,7 @@ export default function Document() {
     <Html lang="en">
       <Head>
         <link rel="stylesheet" href="https://use.typekit.net/llb7ehz.css" />
+        <link rel="manifest" href="/manifest.json" />
       </Head>
       <body>
         <Main />

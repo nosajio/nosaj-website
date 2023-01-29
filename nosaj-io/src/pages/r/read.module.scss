@@ -25,7 +25,7 @@
   &__title {
     grid-area: title;
     font-weight: 500;
-    font-size: scale.msrem(3);
+    font-size: scale.msrem(4);
 
     @include bp.gt('medium') {
       font-size: scale.msrem(7);

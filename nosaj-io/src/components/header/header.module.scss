@@ -18,9 +18,14 @@
   }
 
   &__logo-img {
-    width: 74px;
-    height: 74px;
+    width: 56px;
+    height: 56px;
     background: url('/jason-hex-d.png') no-repeat center / contain;
+
+    @include bp.gt('medium') {
+      width: 74px;
+      height: 74px;
+    }
   }
 
   &__logo-text {
