@@ -69,7 +69,7 @@ const homePageContent = {
 const HomePage = ({ posts, confirmEmail }: HomePageProps) => {
   const blockApiRef = useRef<boolean>(false);
   const [emailConfirmed, setEmailConfirmed] = useState<boolean>(false);
-  const parsedPosts = posts.map(parsePost);
+  const parsedPosts = posts.map(p => parsePost(p));
 
   useEffect(() => {
     if (!confirmEmail?.token || blockApiRef.current) {
