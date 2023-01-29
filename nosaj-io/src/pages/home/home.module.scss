@@ -66,22 +66,36 @@
 
 .post__row {
   display: flex;
+  flex-flow: column nowrap;
   align-items: baseline;
   list-style-type: none;
   padding: 0;
   margin: 0;
-  column-gap: scale.msrem(4);
+  row-gap: scale.msrem(-5);
+
+  @include bp.gt('small') {
+    flex-flow: row nowrap;
+    row-gap: unset;
+    column-gap: scale.msrem(2);
+    column-gap: scale.msrem(4);
+  }
 }
 
 .post__row-date {
-  width: scale.msrem(11);
   font-size: scale.msrem(-2);
   text-transform: uppercase;
   color: var(--grey-500);
+  width: scale.msrem(9);
+  flex: 0 1 auto;
+
+  @include bp.gt('medium') {
+    width: scale.msrem(11);
+  }
 }
 
 .post__row-title {
   font-size: 1rem;
   line-height: 1rem;
   font-weight: 500;
+  flex: 1 1 auto;
 }
