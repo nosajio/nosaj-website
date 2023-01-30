@@ -62,6 +62,7 @@ export const sentEmail = z.object({
   id: z.string().uuid(),
   post: z.string().uuid(),
   subscriber: z.string().uuid(),
+  sent_at: z.date(),
 });
 
 export const sentEmailRefs = sentEmail.merge(

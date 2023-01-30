@@ -46,12 +46,11 @@ create table if not exists sent_emails
 (
     id         uuid default gen_random_uuid() not null primary key,
     post       uuid constraint fk_post references posts (id),
-    subscriber uuid constraint fk_subscriber references subscribers (id)
+    subscriber uuid constraint fk_subscriber references subscribers (id),
+    sent_at    timestamp default now()
 );
 
-
 alter table sent_emails owner to postgres;
-
 
 --- Events log
 create table if not exists events
