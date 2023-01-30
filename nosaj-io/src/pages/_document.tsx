@@ -6,6 +6,7 @@ export default function Document() {
       <Head>
         <link rel="stylesheet" href="https://use.typekit.net/llb7ehz.css" />
         <link rel="manifest" href="/manifest.json" />
+        <link rel="icon" href="/favicon.ico" />
       </Head>
       <body>
         <Main />
