@@ -92,7 +92,7 @@ const HomePage = ({ posts, confirmEmail }: HomePageProps) => {
       </Head>
       <Page>
         {confirmEmail && (
-          <Notification>🎉🎉🎉 Your email is confirmed!</Notification>
+          <Notification>🎉🎉🎉 Your email was confirmed!</Notification>
         )}
         <Section className={s.home__intro}>
           <h1 className={s.home__introHeadline}>{homePageContent.headline}</h1>
