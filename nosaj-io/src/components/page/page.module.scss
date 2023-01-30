@@ -6,7 +6,7 @@
   &__main {
     display: flex;
     flex-flow: column nowrap;
-    row-gap: scale.msrem(3);
+    row-gap: scale.msrem(6);
 
     @include bp.gt('medium') {
       row-gap: scale.msrem(8);
