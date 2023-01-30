@@ -35,7 +35,7 @@ export const sendConfirmEmail = async (email: string) => {
     Please click the link below to confirm your email:
   </p>
   <p> 
-    <a href="${confirmLink}">${confirmLink}</a>
+    <a href="${confirmLink}">Confirm.</a>
   </p>
   <p>
     Thanks,<br/>Jason
