@@ -43,8 +43,6 @@ const ReadPage = ({ post: jsonPost }: ReadPageProps) => {
       <Head>
         <title>{post.title}</title>
         <meta name="description" content={post.subtitle} />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        {/* <link rel="icon" href="" /> */}
       </Head>
       <Page>
         <div className={s.read}>

@@ -96,8 +96,6 @@ const HomePage = ({ posts, confirmEmail }: HomePageProps) => {
           name="description"
           content="Jason is a software engineer, designer, and startup builder."
         />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        {/* <link rel="icon" href="" /> */}
       </Head>
       <Page>
         {confirmEmail && (

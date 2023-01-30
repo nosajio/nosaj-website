@@ -1,0 +1,14 @@
+@use '../../styles/page.module.scss';
+@use '../../styles/scale.scss' as scale;
+
+.unsubscribe {
+  @extend .container, .container--center-content;
+
+  &__title {
+    font-weight: 500;
+  }
+
+  &__message p {
+    margin: scale.msrem(1) 0;
+  }
+}

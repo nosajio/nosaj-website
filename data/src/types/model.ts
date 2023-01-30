@@ -50,8 +50,10 @@ export const unsubscribeEvent = event.merge(
   z.object({
     event: z.literal('unsubscribe'),
     metadata: z.object({
+      token: z.string().uuid(),
       email_id: z.string().uuid(),
       email_address: z.string(),
+      subscribed_days: z.number().optional(),
     }),
   }),
 );
