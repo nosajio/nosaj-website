@@ -5,12 +5,11 @@ import { confirmSubscriber, getPosts, newEvent } from 'data/server';
 import { GetServerSideProps } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
-import { useEffect, useRef, useState } from 'react';
-import { confirmSubscriberEmail } from 'utils/api';
 import s from './home.module.scss';
 
 type HomePageQuerystring = {
   token?: string;
+  confirmed?: string;
 };
 
 type HomePageProps = {
@@ -23,7 +22,7 @@ export const getServerSideProps: GetServerSideProps<
   HomePageQuerystring
 > = async ({ query }) => {
   let confirmEmail = null;
-  const { token } = query ?? {};
+  const { token, confirmed } = query ?? {};
 
   if (typeof token === 'string') {
     const subscriber = await confirmSubscriber(token);
@@ -32,13 +31,23 @@ export const getServerSideProps: GetServerSideProps<
         token,
         email_address: subscriber?.email,
       });
-      confirmEmail = subscriber.confirmed_email;
     } else {
       await newEvent('failed_operation', {
         operation: 'confirm_email',
         confirm_token: token,
       });
     }
+
+    return {
+      redirect: {
+        destination: `/${subscriber.confirmed_email ? '?confirmed' : ''}`,
+        permanent: true,
+      },
+    };
+  }
+
+  if (typeof confirmed !== 'undefined') {
+    confirmEmail = true;
   }
 
   const posts = (await getPosts()).map(dbPostToJSON);
