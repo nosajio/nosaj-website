@@ -1,5 +1,8 @@
 import { z } from 'zod';
 
+/**
+ * NET users
+ */
 export const userObject = z.object({
   id: z.string().uuid(),
   firstname: z.string(),
@@ -7,6 +10,11 @@ export const userObject = z.object({
   email: z.string(),
 });
 
+export type User = z.infer<typeof userObject>;
+
+/**
+ * Posts
+ */
 export const postObject = z.object({
   title: z.string(),
   id: z.string().uuid(),
@@ -31,6 +39,12 @@ export const jsonPost = postObject.merge(
   }),
 );
 
+export type Post = z.infer<typeof postObject>;
+export type JSONPost = z.infer<typeof jsonPost>;
+
+/**
+ * Subscribers
+ */
 export const subscriber = z.object({
   id: z.string().uuid(),
   email: z.string(),
@@ -39,6 +53,30 @@ export const subscriber = z.object({
   confirmed_email: z.boolean(),
 });
 
+export type Subscriber = z.infer<typeof subscriber>;
+
+/**
+ * Emails
+ */
+export const sentEmail = z.object({
+  id: z.string().uuid(),
+  post: z.string().uuid(),
+  subscriber: z.string().uuid(),
+});
+
+export const sentEmailRefs = sentEmail.merge(
+  z.object({
+    post: postObject,
+    subscriber: subscriber,
+  }),
+);
+
+export type SentEmail = z.infer<typeof sentEmail>;
+export type SentEmailRefs = z.infer<typeof sentEmailRefs>;
+
+/**
+ * Events
+ */
 export const event = z.object({
   id: z.string().uuid(),
   event: z.string(),
@@ -83,10 +121,6 @@ export const confirmEmailEvent = event.merge(
   }),
 );
 
-export type User = z.infer<typeof userObject>;
-export type Post = z.infer<typeof postObject>;
-export type JSONPost = z.infer<typeof jsonPost>;
-export type Subscriber = z.infer<typeof subscriber>;
 export type AppEvent = z.infer<typeof event>;
 export type UnsubscribeEvent = z.infer<typeof unsubscribeEvent>;
 export type FailedOperationEvent = z.infer<typeof failedOperationEvent>;
