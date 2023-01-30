@@ -39,7 +39,58 @@ export const subscriber = z.object({
   confirmed_email: z.boolean(),
 });
 
+export const event = z.object({
+  id: z.string().uuid(),
+  event: z.string(),
+  metadata: z.record(z.any()),
+  timestamp: z.date(),
+});
+
+export const unsubscribeEvent = event.merge(
+  z.object({
+    event: z.literal('unsubscribe'),
+    metadata: z.object({
+      email_id: z.string().uuid(),
+      email_address: z.string(),
+    }),
+  }),
+);
+
+export const failedOperationEvent = event.merge(
+  z.object({
+    event: z.literal('failed_operation'),
+    metadata: z.intersection(
+      z.object({
+        operation: z.string(),
+      }),
+      z.record(
+        z.string(),
+        z.union([z.string(), z.boolean(), z.number(), z.date()]),
+      ),
+    ),
+  }),
+);
+
+export const confirmEmailEvent = event.merge(
+  z.object({
+    event: z.literal('confirm_email'),
+    metadata: z.object({
+      email_address: z.string(),
+      token: z.string().uuid(),
+    }),
+  }),
+);
+
 export type User = z.infer<typeof userObject>;
 export type Post = z.infer<typeof postObject>;
 export type JSONPost = z.infer<typeof jsonPost>;
 export type Subscriber = z.infer<typeof subscriber>;
+export type AppEvent = z.infer<typeof event>;
+export type UnsubscribeEvent = z.infer<typeof unsubscribeEvent>;
+export type FailedOperationEvent = z.infer<typeof failedOperationEvent>;
+export type ConfirmEmailEvent = z.infer<typeof confirmEmailEvent>;
+export type AnyEvent =
+  | UnsubscribeEvent
+  | FailedOperationEvent
+  | ConfirmEmailEvent;
+export type AppEventType = AnyEvent['event'];

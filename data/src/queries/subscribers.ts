@@ -34,10 +34,32 @@ export const getSubscriberByToken = async (token: string) => {
   return subscriber;
 };
 
+/**
+ * Get a subscriber by their email address
+ */
 export const getSubscriberByEmail = async (email: string) => {
   const [subscriber] = await query<Subscriber>(
     'select * from subscribers where email=$1 limit 1',
     [email],
   );
   return subscriber || undefined;
+};
+
+/**
+ * Remove a subscriber using their token, unsubscribing them from the newsletter
+ */
+export const removeSubscriber = async (token: string) => {
+  const [subscriber] = await query<Subscriber>(
+    `delete from subscribers where confirm_token = $1 returning *`,
+    [token],
+  );
+  if (!subscriber) {
+    return undefined;
+  }
+  console.log(
+    'Removed a subscriber: %s. They joined on: %s',
+    subscriber.email,
+    subscriber.subscribed_date,
+  );
+  return subscriber;
 };

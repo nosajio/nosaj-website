@@ -1,5 +1,5 @@
 -- Users table
-create table users
+create table if not exists users
 (
     id        uuid default gen_random_uuid() not null primary key,
     firstname varchar(255),
@@ -12,7 +12,7 @@ alter table users
     owner to postgres;
 
 -- Posts table
-create table posts
+create table if not exists posts
 (
     id           uuid      default gen_random_uuid() not null primary key,
     slug         text,
@@ -30,7 +30,7 @@ alter table posts
     owner to postgres;
 
 -- Subscribers table
-create table subscribers
+create table if not exists subscribers
 (
     id              uuid      default gen_random_uuid() not null primary key,
     email           varchar(255)                        not null,
@@ -42,7 +42,7 @@ alter table subscribers
     owner to postgres;
 
 -- Sent emails log
-create table sent_emails
+create table if not exists sent_emails
 (
     id         uuid default gen_random_uuid() not null primary key,
     post       uuid constraint fk_post references posts (id),
@@ -52,3 +52,15 @@ create table sent_emails
 
 alter table sent_emails owner to postgres;
 
+
+--- Events log
+create table if not exists events
+(
+    id              uuid        default gen_random_uuid() not null primary key,
+    event           varchar(255)                        not null,
+    metadata        jsonb       default '{}'::jsonb,
+    timestamp       timestamp   default now()
+);
+
+alter table events
+    owner to postgres;
