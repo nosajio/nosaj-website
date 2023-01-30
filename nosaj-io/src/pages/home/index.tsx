@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import { Notification, Page, Section, Subscribe } from 'components';
 import { dateStr, dbPostToJSON, JSONPost, parsePost } from 'data';
-import { getPosts } from 'data/server';
+import { confirmSubscriber, getPosts, newEvent } from 'data/server';
 import { GetServerSideProps } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
@@ -15,27 +15,37 @@ type HomePageQuerystring = {
 
 type HomePageProps = {
   posts: JSONPost[];
-  confirmEmail: null | HomePageQuerystring;
+  confirmEmail: null | boolean;
 };
 
 export const getServerSideProps: GetServerSideProps<
   HomePageProps,
   HomePageQuerystring
 > = async ({ query }) => {
-  let confirmEmail;
+  let confirmEmail = null;
   const { token } = query ?? {};
 
   if (typeof token === 'string') {
-    confirmEmail = {
-      token,
-    };
+    const subscriber = await confirmSubscriber(token);
+    if (subscriber) {
+      await newEvent('confirm_email', {
+        token,
+        email_address: subscriber?.email,
+      });
+      confirmEmail = subscriber.confirmed_email;
+    } else {
+      await newEvent('failed_operation', {
+        operation: 'confirm_email',
+        confirm_token: token,
+      });
+    }
   }
 
   const posts = (await getPosts()).map(dbPostToJSON);
   return {
     props: {
       posts,
-      confirmEmail: confirmEmail || null,
+      confirmEmail,
     },
   };
 };
@@ -67,20 +77,7 @@ const homePageContent = {
 };
 
 const HomePage = ({ posts, confirmEmail }: HomePageProps) => {
-  const blockApiRef = useRef<boolean>(false);
-  const [emailConfirmed, setEmailConfirmed] = useState<boolean>(false);
   const parsedPosts = posts.map(p => parsePost(p));
-
-  useEffect(() => {
-    if (!confirmEmail?.token || blockApiRef.current) {
-      return;
-    }
-    blockApiRef.current = true;
-    confirmSubscriberEmail(confirmEmail.token).then(res => {
-      blockApiRef.current = true;
-      setEmailConfirmed(res.confirmed || false);
-    });
-  }, [confirmEmail]);
 
   return (
     <>
@@ -94,7 +91,7 @@ const HomePage = ({ posts, confirmEmail }: HomePageProps) => {
         {/* <link rel="icon" href="" /> */}
       </Head>
       <Page>
-        {emailConfirmed && (
+        {confirmEmail && (
           <Notification>🎉🎉🎉 Your email is confirmed!</Notification>
         )}
         <Section className={s.home__intro}>
