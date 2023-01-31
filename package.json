@@ -21,6 +21,9 @@
   },
   "dependencies": {
     "clsx": "^1.2.1",
+    "data": "link:data",
+    "net": "link:net",
+    "nosaj-io": "link:nosaj-io",
     "sass": "^1.57.1"
   }
 }
