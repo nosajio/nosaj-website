@@ -18,7 +18,6 @@
     "typescript": "4.9.4"
   },
   "dependencies": {
-    "@aws-sdk/client-ses": "^3.257.0",
     "data": "link:../data",
     "next": "13.1.1",
     "react": "18.2.0",
