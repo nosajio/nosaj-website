@@ -21,6 +21,7 @@ create table if not exists posts
     title        text,
     subtitle     text,
     body_html    text,
+    body_md      text,
     cover_image  varchar(255),
     draft        boolean   default true              not null,
     created_date timestamp default now()

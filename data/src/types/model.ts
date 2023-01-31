@@ -19,6 +19,7 @@ export const postObject = z.object({
   title: z.string(),
   id: z.string().uuid(),
   body_html: z.string(),
+  body_md: z.string(),
   draft: z.boolean(),
   slug: z.string(),
   created_date: z.date(),
