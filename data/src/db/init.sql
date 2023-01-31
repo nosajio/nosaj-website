@@ -17,7 +17,7 @@ create table if not exists posts
     id           uuid      default gen_random_uuid() not null primary key,
     slug         text,
     pubdate      timestamp,
-    author       uuid constraint fk_author references users(id),
+    author       uuid constraint fk_author references users(id) on delete set null,
     title        text,
     subtitle     text,
     body_html    text,
@@ -45,8 +45,8 @@ alter table subscribers
 create table if not exists sent_emails
 (
     id         uuid default gen_random_uuid() not null primary key,
-    post       uuid constraint fk_post references posts (id),
-    subscriber uuid constraint fk_subscriber references subscribers (id),
+    post       uuid constraint fk_post references posts (id) on delete cascade,
+    subscriber uuid constraint fk_subscriber references subscribers (id) on delete cascade,
     sent_at    timestamp default now()
 );
 
