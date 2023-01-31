@@ -14,6 +14,12 @@ export const getPosts = async (drafts: boolean = false) => {
 };
 
 /**
+ * Get all posts, ignoring draft status
+ */
+export const getAllPosts = () =>
+  query<Post>(`select * from posts order by pubdate desc`);
+
+/**
  * Get a post by its id
  */
 export const getPost = async (id: string) => {

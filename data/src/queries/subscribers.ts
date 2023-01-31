@@ -1,5 +1,5 @@
 import { query } from '../db';
-import { Subscriber } from '../types/model';
+import { Post, Subscriber } from '../types/model';
 
 /**
  * Save a new newsletter subscriber
@@ -62,4 +62,22 @@ export const removeSubscriber = async (token: string) => {
     subscriber.subscribed_date,
   );
   return subscriber;
+};
+
+/**
+ * Get all confirmed subscribers that haven't already received an email for the
+ * current post. This is used to decide who to send emails to when a post is
+ * published.
+ */
+export const getRecipients = async (post: Post): Promise<Subscriber[]> => {
+  const recipients = await query<Subscriber>(
+    `
+    select *
+      from subscribers
+      where confirmed_email = true
+        and id not in (select subscriber from sent_emails where post = $1)
+    `,
+    [post.id],
+  );
+  return recipients;
 };

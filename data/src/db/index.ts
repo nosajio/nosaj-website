@@ -23,6 +23,9 @@ export const query = async <T extends QueryResultRow>(
   if (pool === undefined) {
     connect();
   }
+  if (process.env.NODE_ENV === 'development') {
+    console.log('running query < %s > [%s] ', q, (vars ?? []).join(', '));
+  }
   const res = await pool.query<T>(q, vars);
   return res.rows || [];
 };

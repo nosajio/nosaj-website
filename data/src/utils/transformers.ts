@@ -15,11 +15,16 @@ export type ParsedPost = Post & {
 };
 
 export const parsePost = (
-  jsonPost: JSONPost,
+  jsonPost: Post | JSONPost,
   fullDate?: boolean,
 ): ParsedPost => {
-  const pubdate = jsonPost.pubdate ? new Date(jsonPost.pubdate) : undefined;
-  const created_date = new Date(jsonPost.created_date);
+  const pubdate =
+    jsonPost.pubdate && !(jsonPost.pubdate instanceof Date)
+      ? new Date(jsonPost.pubdate)
+      : undefined;
+  const created_date = !(jsonPost.created_date instanceof Date)
+    ? new Date(jsonPost.created_date)
+    : jsonPost.created_date;
   const vals = Object.keys(jsonPost).reduce((o, k) => {
     const v = jsonPost[k as keyof JSONPost];
     return {
