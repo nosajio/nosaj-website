@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import { dbPostToJSON, JSONPost, User } from 'data';
-import { getPosts } from 'data/server';
+import { getAllPosts } from 'data/server';
 import Head from 'next/head';
 import Link from 'next/link';
 import { withSessionSsr } from 'utils/sessionHelpers';
@@ -22,7 +22,7 @@ export const getServerSideProps = withSessionSsr(async ({ req }) => {
       },
     };
   }
-  const posts = (await getPosts()).map(dbPostToJSON);
+  const posts = (await getAllPosts()).map(dbPostToJSON);
   const [drafts, published] = posts.reduce(
     ([d, p], curr) => (curr.draft ? [[...d, curr], p] : [d, [...p, curr]]),
     [[], []] as JSONPost[][],

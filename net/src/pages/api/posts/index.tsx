@@ -2,6 +2,8 @@ import { jsonPost, Post, User } from 'data';
 import { connect, newPost, publishPost, updatePost } from 'data/server';
 import { withIronSessionApiRoute } from 'iron-session/next';
 import { NextApiHandler } from 'next';
+import { sendNewsletters } from 'utils/emails';
+import { generatePostTemplate } from 'utils/emailTemplates';
 import { z } from 'zod';
 import { ironSessionCookieConfig } from '../../../config/auth';
 
@@ -42,6 +44,9 @@ const postsRoute: NextApiHandler<PostsRouteResponse> = async (req, res) => {
       let post: Post;
       if (publish) {
         post = await publishPost(body.id, body);
+        const postHTML = generatePostTemplate(post);
+        const postText = '';
+        await sendNewsletters(post, postHTML, postText);
       } else {
         post = await updatePost(body.id, body);
       }

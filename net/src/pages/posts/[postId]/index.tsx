@@ -7,7 +7,7 @@ import Head from 'next/head';
 import { useCallback, useState } from 'react';
 import { updatePost } from 'utils/api';
 import { withSessionSsr } from 'utils/sessionHelpers';
-import s from './postPage.module.scss';
+import s from '../postPage.module.scss';
 
 type EditPostRouteProps = {
   post: JSONPost;
