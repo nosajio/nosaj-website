@@ -33,9 +33,19 @@
   }
 
   &__label {
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 500;
+    margin-bottom: scale.msrem(-5);
   }
 
   &__input {
+    background: var(--background);
+    border: 1px solid var(--grey-400);
+    border-radius: 6px;
+    font-size: 1rem;
+    padding: scale.msrem(-6) scale.msrem(-1);
   }
 
   &__button {
