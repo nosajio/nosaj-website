@@ -1,59 +1,18 @@
-import { EditorState, Editor, convertFromHTML, ContentState } from 'draft-js';
-import { useState, useEffect, useCallback, useRef } from 'react';
-import s from './postEditor.module.scss';
+import MDEditor from '@uiw/react-md-editor';
 import clsx from 'clsx';
-import { stateToHTML } from 'draft-js-export-html';
-import 'draft-js/dist/Draft.css';
+import { useCallback } from 'react';
+import s from './postEditor.module.scss';
 
-const RichText = ({
-  onChange,
-  value,
-}: {
-  onChange: (value: string) => void;
-  value?: string;
-}) => {
-  const blocksFromValue = value ? convertFromHTML(value) : undefined;
-  const initialState =
-    blocksFromValue &&
-    ContentState.createFromBlockArray(
-      blocksFromValue.contentBlocks,
-      blocksFromValue.entityMap,
-    );
-  const [editor, setEditor] = useState<EditorState>(
-    initialState
-      ? EditorState.createWithContent(initialState)
-      : EditorState.createEmpty(),
-  );
-  const contentState = editor.getCurrentContent();
-  const contentHTML = stateToHTML(contentState);
-  const lastContentHTML = useRef<string>(contentHTML);
+type EditorProps = {
+  value: string;
+  onChange: (nextVal?: string) => void;
+};
 
-  useEffect(() => {
-    if (lastContentHTML.current !== contentHTML) {
-      onChange(contentHTML);
-      lastContentHTML.current = contentHTML;
-    }
-  }, [contentHTML, onChange]);
-
+const Editor = ({ value, onChange }: EditorProps) => {
   return (
-    <>
-      {editor && (
-        <div className={s.editor_chrome}>
-          <div className={s.editor_toolbar}>
-            <div className={clsx(s.toolbar_bold, s.toolbar_button)}>Bold</div>
-            <div className={clsx(s.toolbar_italic, s.toolbar_button)}>
-              Italic
-            </div>
-            <div className={clsx(s.toolbar_h1, s.toolbar_button)}>H1</div>
-            <div className={clsx(s.toolbar_h2, s.toolbar_button)}>H2</div>
-            <div className={clsx(s.toolbar_h3, s.toolbar_button)}>H3</div>
-            <div className={clsx(s.toolbar_h4, s.toolbar_button)}>H4</div>
-            <div className={clsx(s.toolbar_h5, s.toolbar_button)}>H5</div>
-          </div>
-          <Editor editorState={editor} onChange={setEditor} />
-        </div>
-      )}
-    </>
+    <div className={s.editor__chrome}>
+      <MDEditor value={value} onChange={onChange} preview="edit" />
+    </div>
   );
 };
 
@@ -75,8 +34,8 @@ const PostEditor = ({
   saveStatus,
 }: PostEditorProps) => {
   const handleChange = useCallback(
-    (field: 'title' | 'subtitle' | 'post') => (value: string) => {
-      onChange(field, value);
+    (field: 'title' | 'subtitle' | 'post') => (value?: string) => {
+      onChange(field, value ?? '');
     },
     [onChange],
   );
@@ -119,7 +78,8 @@ const PostEditor = ({
         />
       </div>
       <div className={s.field_row}>
-        <RichText onChange={handleChange('post')} value={post} />
+        <Editor value={post} onChange={handleChange('post')} />
+        {/* <RichText onChange={handleChange('post')} value={post} /> */}
       </div>
     </div>
   );

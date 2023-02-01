@@ -68,7 +68,7 @@ const EditPostRoute = ({ post: initialPost }: EditPostRouteProps) => {
   const [post, setPost] = useState<JSONPost>(initialPost);
   const [title, setTitle] = useState<string>(post?.title ?? '');
   const [subtitle, setSubtitle] = useState<string>(post?.subtitle ?? '');
-  const [postHTML, setPostHTML] = useState<string>(post?.body_html ?? '');
+  const [md, setMd] = useState<string>(post?.body_md ?? '');
   const [saveStatus, setSaveStatus] = useState<'unsaved' | 'saving' | 'saved'>(
     'saved',
   );
@@ -159,9 +159,8 @@ const EditPostRoute = ({ post: initialPost }: EditPostRouteProps) => {
             <section className={clsx(s.page_padding, s.main_section)}>
               <div className={s.editor}>
                 <Editor
-                  saveStatus={saveStatus}
                   onChange={handleChange}
-                  post={postHTML}
+                  post={md}
                   title={title}
                   subtitle={subtitle}
                 />

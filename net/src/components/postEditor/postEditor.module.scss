@@ -45,25 +45,27 @@
 }
 
 // Editor
-.editor_chrome {
-  display: flex;
-  flex-flow: column nowrap;
-}
+.editor {
+  &__chrome {
+    display: flex;
+    flex-flow: column nowrap;
+  }
 
-.editor_toolbar {
-  display: flex;
-  border-bottom: 1px solid var(--grey-500);
-  margin-bottom: scale.msrem(1);
-}
+  &__toolbar {
+    display: flex;
+    border-bottom: 1px solid var(--grey-500);
+    margin-bottom: scale.msrem(1);
+  }
 
-.toolbar_button {
-  color: var(--grey-500);
-  padding: scale.msrem(-4);
-  font-size: scale.msrem(-2);
-  cursor: pointer;
+  &__button {
+    color: var(--grey-500);
+    padding: scale.msrem(-4);
+    font-size: scale.msrem(-2);
+    cursor: pointer;
 
-  &:hover {
-    color: var(--grey-200);
-    background: var(--grey-1000);
+    &:hover {
+      color: var(--grey-200);
+      background: var(--grey-1000);
+    }
   }
 }

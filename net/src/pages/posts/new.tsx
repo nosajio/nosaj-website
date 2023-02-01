@@ -7,12 +7,12 @@ import { saveNewPost } from 'utils/api';
 import { withSessionSsr } from 'utils/sessionHelpers';
 import s from './postPage.module.scss';
 
-type NewPostRouteProps = {};
-
-const Editor = dynamic(
-  () => import('components/postEditor').then(mod => mod.default),
+const EditPostPage = dynamic(
+  () => import('components/editPostPage').then(mod => mod.default),
   { ssr: false },
 );
+
+type NewPostRouteProps = {};
 
 export const getServerSideProps = withSessionSsr(async ({ req }) => {
   const user = req.session.user;
@@ -34,16 +34,17 @@ export const getServerSideProps = withSessionSsr(async ({ req }) => {
 const NewPostRoute = () => {
   const [title, setTitle] = useState<string>('');
   const [subtitle, setSubtitle] = useState<string>('');
-  const [post, setPost] = useState<string>('');
+  const [md, setMd] = useState<string>('A beautiful story...');
+  const [slug, setSlug] = useState<string>('');
   const router = useRouter();
 
   const handleChange = (
-    field: 'title' | 'subtitle' | 'post',
+    field: 'title' | 'subtitle' | 'body_md' | 'slug',
     value: string,
   ) => {
     switch (field) {
-      case 'post':
-        setPost(value);
+      case 'body_md':
+        setMd(value);
         break;
       case 'subtitle':
         setSubtitle(value);
@@ -73,24 +74,14 @@ const NewPostRoute = () => {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
       <main>
-        <div className={s.container}>
-          <div className={s.page_with_aside}>
-            <section className={clsx(s.page_padding, s.main_section)}>
-              <div className={s.editor}>
-                <Editor
-                  onSetTitle={handleSetTitle}
-                  onChange={handleChange}
-                  post={post}
-                  title={title}
-                  subtitle={subtitle}
-                />
-              </div>
-            </section>
-            <aside className={clsx(s.page_padding, s.sidebar)}>
-              {/* <button>Publish post</button> */}
-            </aside>
-          </div>
-        </div>
+        <EditPostPage
+          bodyMd={md}
+          title={title}
+          subtitle={subtitle}
+          slug={slug}
+          onChange={handleChange}
+          onSave={console.log}
+        />
       </main>
     </>
   );

@@ -1,0 +1,87 @@
+@use '~nosaj-io/src/styles/scale.scss' as scale;
+
+.post-editor {
+  width: 100%;
+  display: grid;
+  justify-items: center;
+  grid-template: 'main controls' auto / 1fr 380px;
+  min-height: 100vh;
+
+  &__main {
+    grid-area: main;
+    max-width: 720px;
+    width: 100%;
+    padding-top: scale.msrem(15);
+  }
+
+  &__controls {
+    display: flex;
+    flex-flow: column nowrap;
+    grid-area: controls;
+    height: 100%;
+    width: 100%;
+    background: var(--background-shade);
+    padding: scale.msrem(2);
+    row-gap: scale.msrem(2);
+  }
+}
+
+.controls {
+  &__row {
+    display: block;
+    width: 100%;
+  }
+
+  &__label {
+  }
+
+  &__input {
+  }
+
+  &__button {
+    display: block;
+    background: transparent;
+    border: 2px solid var(--foreground);
+    border-radius: scale.msrem(-3);
+    font-weight: 600;
+    padding: scale.msrem(-3) scale.msrem(2);
+    width: 100%;
+    cursor: pointer;
+  }
+
+  &__button--primary {
+    background: var(--foreground);
+    color: var(--background);
+    border: none;
+  }
+}
+
+.editor {
+  &__chrome {
+  }
+
+  &__title-input,
+  &__subtitle-input {
+    font-family: var(--system-fonts);
+    background: transparent;
+    border: none;
+    display: block;
+    width: 100%;
+    outline: none;
+  }
+
+  &__title-frame {
+  }
+  &__title-input {
+    font-size: scale.msrem(6);
+  }
+
+  &__subtitle-frame {
+  }
+  &__subtitle-input {
+    font-size: scale.msrem(1);
+  }
+
+  &__md-frame {
+  }
+}
