@@ -43,6 +43,7 @@ const Editor = ({ body, title, subtitle, onChange }: EditorProps) => {
 };
 
 type EditPostPageProps = {
+  newPost?: boolean;
   title: string;
   subtitle: string;
   bodyMd: string;
@@ -51,14 +52,17 @@ type EditPostPageProps = {
     field: 'title' | 'subtitle' | 'body_md' | 'slug',
     value: string,
   ) => void;
-  onSave: (publish: boolean) => void;
+  onSave: (draft: boolean) => void;
+  onPreview: () => void;
 };
 
 const EditPostPage = ({
+  newPost,
   title,
   subtitle,
   bodyMd,
   slug,
+  onPreview,
   onChange,
   onSave,
 }: EditPostPageProps) => {
@@ -90,8 +94,6 @@ const EditPostPage = ({
   //   </>
   // );
 
-  const pageTitle = `Edit: ${title}`;
-
   return (
     <section className={s.postEditor}>
       <article className={s.postEditor__main}>
@@ -104,8 +106,11 @@ const EditPostPage = ({
       </article>
       <aside className={s.postEditor__controls}>
         <div className={s.controls__row}>
-          <button className={s.controls__button}>
-            Save draft &amp; Preview
+          <button
+            onClick={() => onPreview()}
+            className={clsx(s.controls__button, s.controls__buttonInverted)}
+          >
+            Preview
           </button>
         </div>
         <label className={s.controls__row}>
@@ -113,6 +118,7 @@ const EditPostPage = ({
           <input
             type="text"
             placeholder="slug-for-url"
+            value={slug}
             className={s.controls__input}
           />
         </label>
@@ -126,11 +132,19 @@ const EditPostPage = ({
         </label>
         <div className={s.controls__row}>
           <button
+            onClick={() => onSave(false)}
             className={clsx(s.controls__button, s.controls__buttonPrimary)}
           >
             Save draft
           </button>
         </div>
+        {!newPost && (
+          <div className={s.controls__row}>
+            <button onClick={() => onSave(true)} className={s.controls__button}>
+              Publish
+            </button>
+          </div>
+        )}
       </aside>
     </section>
   );

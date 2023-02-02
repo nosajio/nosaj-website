@@ -1,8 +1,9 @@
 import clsx from 'clsx';
+import { newPost } from 'data';
 import dynamic from 'next/dynamic';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { saveNewPost } from 'utils/api';
 import { withSessionSsr } from 'utils/sessionHelpers';
 import s from './postPage.module.scss';
@@ -55,15 +56,29 @@ const NewPostRoute = () => {
     }
   };
 
-  // Once the title is set, save the post as a new post and redirect to the edit
-  // post route where autosaving is active
-  const handleSetTitle = (title: string) => {
-    // Save the post
-    saveNewPost(title).then(post => {
-      if (!post) return;
-      router.replace(`/posts/${post.id}`);
-    });
-  };
+  const handleSave = useCallback(
+    (publish: boolean) => {
+      if (publish) return;
+      saveNewPost({
+        body_html: null,
+        body_md: md,
+        cover_image: null,
+        pubdate: null,
+        slug,
+        subtitle,
+        title,
+      }).then(post => {
+        if (!post) {
+          console.error('New post not returned from api');
+          return;
+        }
+        router.replace(`/posts/${post.id}`);
+      });
+    },
+    [md, router, slug, subtitle, title],
+  );
+
+  const handlePreview = useCallback(() => {}, []);
 
   return (
     <>
@@ -75,12 +90,14 @@ const NewPostRoute = () => {
       </Head>
       <main>
         <EditPostPage
+          newPost
           bodyMd={md}
           title={title}
           subtitle={subtitle}
           slug={slug}
           onChange={handleChange}
-          onSave={console.log}
+          onSave={handleSave}
+          onPreview={handlePreview}
         />
       </main>
     </>

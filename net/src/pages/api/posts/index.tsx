@@ -1,4 +1,5 @@
-import { jsonPost, Post, User } from 'data';
+import markdown from 'markdown-it';
+import { JSONPost, jsonPost, Post, User } from 'data';
 import { connect, newPost, publishPost, updatePost } from 'data/server';
 import { withIronSessionApiRoute } from 'iron-session/next';
 import { NextApiHandler } from 'next';
@@ -11,20 +12,17 @@ connect();
 
 type PostsRouteResponse = Partial<Post>;
 
-const saveNewPostBody = z.object({
-  title: z.string(),
-});
-
 // type SavePostBody = z.infer<typeof saveNewPostBody>;
 
-const handleSaveNewPost = async ({
-  userId,
-  title,
-}: {
-  title: string;
-  userId: string;
-}) => {
-  return await newPost(title, userId);
+const markdownParser = markdown({
+  html: true,
+  breaks: true,
+  typographer: true,
+});
+
+const mdToHtml = (md: string) => {
+  const html = markdownParser.render(md);
+  return html;
 };
 
 const postsRoute: NextApiHandler<PostsRouteResponse> = async (req, res) => {
@@ -41,12 +39,16 @@ const postsRoute: NextApiHandler<PostsRouteResponse> = async (req, res) => {
       const { publish, ...body } = jsonPost
         .merge(z.object({ publish: z.boolean().optional() }))
         .parse(bodyJson);
+
+      // Parse Markdown into HTML
+      body.body_html = mdToHtml(body.body_md);
+
       let post: Post;
       if (publish) {
         post = await publishPost(body.id, body);
-        const postHTML = generatePostTemplate(post);
-        const postText = '';
-        await sendNewsletters(post, postHTML, postText);
+        const postEmailHTML = generatePostTemplate(post);
+        const postEmailText = body.body_md;
+        await sendNewsletters(post, postEmailHTML, postEmailText);
       } else {
         post = await updatePost(body.id, body);
       }
@@ -56,17 +58,13 @@ const postsRoute: NextApiHandler<PostsRouteResponse> = async (req, res) => {
 
     // Save new post
     case 'POST': {
-      const body = saveNewPostBody.parse(bodyJson);
-      const [id, slug] = await handleSaveNewPost({
-        userId: user.id,
-        title: body.title,
+      const body = jsonPost.partial({ id: true }).parse({
+        ...bodyJson,
+        author: user.id,
+        body_html: mdToHtml(bodyJson.body_md),
       });
-      const post = {
-        id,
-        slug,
-        title: req.body.title,
-      };
-      res.json(post);
+      const post = await newPost(body);
+      res.status(201).json(post);
       return;
     }
 

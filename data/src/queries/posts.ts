@@ -1,5 +1,5 @@
 import { query } from '../db';
-import { JSONPost, Post } from '../types/model';
+import { JSONPost, NewPost, Post } from '../types/model';
 import { getSlug } from '../utils/url';
 
 /**
@@ -43,16 +43,20 @@ export const getPostBySlug = async (slug: string) => {
 /**
  * Create a new draft post
  */
-export const newPost = async (
-  title: string,
-  userId: string,
-): Promise<[id?: string, slug?: string]> => {
-  const slug = getSlug(title);
+export const newPost = async (post: NewPost): Promise<Post> => {
+  const slug = post?.slug || getSlug(post.title);
   const [newPost] = await query<Post>(
-    'insert into posts (slug, author, title, draft) values ($1, $2, $3, true) returning *',
-    [slug, userId, title],
+    'insert into posts (slug, author, title, subtitle, body_md, body_html, draft) values ($1, $2, $3, $4, $5, $6, true) returning *',
+    [
+      slug,
+      post.author,
+      post.title,
+      post.subtitle,
+      post.body_md,
+      post.body_html,
+    ],
   );
-  return [newPost?.id, slug];
+  return newPost;
 };
 
 /**

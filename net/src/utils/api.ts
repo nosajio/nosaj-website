@@ -1,4 +1,4 @@
-import { JSONPost, User } from 'data';
+import { JSONPost, NewPost, User } from 'data';
 
 const apiFetch = async <R = unknown>(
   path: string,
@@ -39,14 +39,13 @@ export const getSession = async () => {
   return session;
 };
 
-export const saveNewPost = async (title: string) => {
+type NewPostClientParts = Omit<NewPost, 'author' | 'created_date' | 'draft'>;
+export const saveNewPost = async (post: NewPostClientParts) => {
   const newPost = await apiFetch<{ slug: string; title: string; id: string }>(
     'posts',
     {
       method: 'post',
-      body: {
-        title,
-      },
+      body: post,
     },
   );
   if (!newPost?.id) {

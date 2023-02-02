@@ -41,6 +41,7 @@
   }
 
   &__input {
+    width: 100%;
     background: var(--background);
     border: 1px solid var(--grey-400);
     border-radius: 6px;
@@ -62,6 +63,11 @@
   &__button--primary {
     background: var(--foreground);
     color: var(--background);
+    border: none;
+  }
+
+  &__button--inverted {
+    background: var(--background);
     border: none;
   }
 }

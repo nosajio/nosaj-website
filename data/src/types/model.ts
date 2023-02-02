@@ -18,21 +18,21 @@ export type User = z.infer<typeof userObject>;
 export const postObject = z.object({
   title: z.string(),
   id: z.string().uuid(),
-  body_html: z.string(),
+  body_html: z.string().default(''),
   body_md: z.string(),
-  draft: z.boolean(),
+  draft: z.boolean().default(true),
   slug: z.string(),
-  created_date: z.date(),
+  created_date: z.date().default(new Date()),
   // author: userObject,
-  author: z.string(),
+  author: z.string().uuid(),
   cover_image: z.string().optional(),
-  pubdate: z.date().optional(),
+  pubdate: z.date().optional().default(new Date()),
   subtitle: z.string().optional(),
 });
 
 export const jsonPost = postObject.merge(
   z.object({
-    created_date: z.string(),
+    created_date: z.string().default(new Date().toISOString()),
     body_html: z.string().nullable(),
     cover_image: z.string().nullable(),
     pubdate: z.string().nullable(),
@@ -40,8 +40,11 @@ export const jsonPost = postObject.merge(
   }),
 );
 
+export const newPost = jsonPost.omit({ id: true });
+
 export type Post = z.infer<typeof postObject>;
 export type JSONPost = z.infer<typeof jsonPost>;
+export type NewPost = z.infer<typeof newPost>;
 
 /**
  * Subscribers
