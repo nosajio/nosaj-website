@@ -1,6 +1,7 @@
 @use '~nosaj-io/src/styles/scale.scss' as scale;
 
 .post-editor {
+  position: relative;
   width: 100%;
   display: grid;
   justify-items: center;
@@ -18,14 +19,10 @@
   }
 
   &__controls {
-    display: flex;
-    flex-flow: column nowrap;
     grid-area: controls;
     height: 100%;
     width: 100%;
     background: var(--background-shade);
-    padding: scale.msrem(2);
-    row-gap: scale.msrem(2);
   }
 }
 
@@ -41,8 +38,15 @@
 }
 
 .controls {
-  position: relative;
-  z-index: 1000;
+  &__ui {
+    display: flex;
+    flex-flow: column nowrap;
+    padding: scale.msrem(2);
+    row-gap: scale.msrem(2);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+  }
 
   &__row {
     display: block;

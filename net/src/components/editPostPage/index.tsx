@@ -90,49 +90,54 @@ const EditPostPage = ({
         />
       </article>
       <aside className={s.postEditor__controls}>
-        <div className={s.controls__row}>
-          <button
-            onClick={() => onPreview()}
-            className={clsx(s.controls__button, s.controls__buttonInverted)}
-          >
-            Preview
-          </button>
-        </div>
-        <label className={s.controls__row}>
-          <div className={s.controls__label}>Slug</div>
-          <input
-            type="text"
-            placeholder="slug-for-url"
-            value={slug}
-            onChange={e => handleChange('slug', e.target.value)}
-            className={s.controls__input}
-          />
-        </label>
-        <label className={s.controls__row}>
-          <div className={s.controls__label}>Cover URL</div>
-          <input
-            type="url"
-            placeholder="https://assets.nosaj.io/..."
-            value={coverUrl}
-            onChange={e => handleChange('cover_url', e.target.value)}
-            className={s.controls__input}
-          />
-        </label>
-        <div className={s.controls__row}>
-          <button
-            onClick={() => onSave(false)}
-            className={clsx(s.controls__button, s.controls__buttonPrimary)}
-          >
-            Save draft
-          </button>
-        </div>
-        {!newPost && (
+        <div className={s.controls__ui}>
           <div className={s.controls__row}>
-            <button onClick={() => onSave(true)} className={s.controls__button}>
-              Publish
+            <button
+              onClick={() => onPreview()}
+              className={clsx(s.controls__button, s.controls__buttonInverted)}
+            >
+              Preview
             </button>
           </div>
-        )}
+          <label className={s.controls__row}>
+            <div className={s.controls__label}>Slug</div>
+            <input
+              type="text"
+              placeholder="slug-for-url"
+              value={slug}
+              onChange={e => handleChange('slug', e.target.value)}
+              className={s.controls__input}
+            />
+          </label>
+          <label className={s.controls__row}>
+            <div className={s.controls__label}>Cover URL</div>
+            <input
+              type="url"
+              placeholder="https://assets.nosaj.io/..."
+              value={coverUrl}
+              onChange={e => handleChange('cover_url', e.target.value)}
+              className={s.controls__input}
+            />
+          </label>
+          <div className={s.controls__row}>
+            <button
+              onClick={() => onSave(false)}
+              className={clsx(s.controls__button, s.controls__buttonPrimary)}
+            >
+              Save draft
+            </button>
+          </div>
+          {!newPost && (
+            <div className={s.controls__row}>
+              <button
+                onClick={() => onSave(true)}
+                className={s.controls__button}
+              >
+                Publish
+              </button>
+            </div>
+          )}
+        </div>
       </aside>
     </section>
   );
