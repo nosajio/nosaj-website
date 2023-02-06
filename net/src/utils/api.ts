@@ -1,4 +1,8 @@
-import { JSONPost, NewPost, User } from 'data';
+import { JSONPost, NewPost, Subscriber, User } from 'data';
+import {
+  Recipient,
+  SubscribersRouteResponse,
+} from 'pages/api/posts/[postId]/subscribers';
 
 const apiFetch = async <R = unknown>(
   path: string,
@@ -16,6 +20,10 @@ const apiFetch = async <R = unknown>(
   }).then(res => res.json());
   return res as R;
 };
+
+/**
+ * Session API fns
+ */
 
 export const newSession = async (email: string, password: string) => {
   const user = await apiFetch<User>('auth', {
@@ -38,6 +46,10 @@ export const getSession = async () => {
   }
   return session;
 };
+
+/**
+ * Post API fns
+ */
 
 type NewPostClientParts = Omit<NewPost, 'author' | 'created_date' | 'draft'>;
 export const saveNewPost = async (post: NewPostClientParts) => {
@@ -70,3 +82,20 @@ export const updatePost = async (
   });
   return updatedPost;
 };
+
+/**
+ * Emails / subscribers API fns
+ */
+export const getRecipientsForPost = async (
+  postId: string,
+): Promise<SubscribersRouteResponse['GET']> =>
+  await apiFetch(`posts/${postId}/subscribers`);
+
+export const sendEmailsToSubscribers = async (
+  postId: string,
+  recipients: Recipient[],
+): Promise<SubscribersRouteResponse['POST']> =>
+  apiFetch(`/posts/${postId}/subscribers`, {
+    body: { recipients },
+    method: 'post',
+  });

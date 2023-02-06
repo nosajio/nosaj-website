@@ -9,3 +9,6 @@ export const generatePostTemplate = (post: Post) => {
 
 export const replaceTokenInHTML = (postHtml: string, token: string) =>
   postHtml.replace('{{TOKEN}}', token);
+
+export const appendUnsubUrlToPlainEmail = (emailText: string, token: string) =>
+  `${emailText}\n\n\n---\nUnsubscribe here: ${token}`;

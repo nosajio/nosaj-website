@@ -1,7 +1,8 @@
-import { withIronSessionSsr } from 'iron-session/next';
+import { withIronSessionApiRoute, withIronSessionSsr } from 'iron-session/next';
 import {
   GetServerSidePropsContext,
   GetServerSidePropsResult,
+  NextApiHandler,
 } from 'next/types';
 import { ironSessionCookieConfig } from '../config/auth';
 
