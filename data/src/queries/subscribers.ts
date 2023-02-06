@@ -69,7 +69,9 @@ export const removeSubscriber = async (token: string) => {
  * current post. This is used to decide who to send emails to when a post is
  * published.
  */
-export const getRecipients = async (post: Post): Promise<Subscriber[]> => {
+export const getRecipients = async (
+  postId: Post['id'],
+): Promise<Subscriber[]> => {
   const recipients = await query<Subscriber>(
     `
     select *
@@ -77,7 +79,7 @@ export const getRecipients = async (post: Post): Promise<Subscriber[]> => {
       where confirmed_email = true
         and id not in (select subscriber from sent_emails where post = $1)
     `,
-    [post.id],
+    [postId],
   );
   return recipients;
 };

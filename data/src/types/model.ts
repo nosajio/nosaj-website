@@ -108,10 +108,7 @@ export const failedOperationEvent = event.merge(
       z.object({
         operation: z.string(),
       }),
-      z.record(
-        z.string(),
-        z.union([z.string(), z.boolean(), z.number(), z.date()]),
-      ),
+      z.record(z.string(), z.any()),
     ),
   }),
 );

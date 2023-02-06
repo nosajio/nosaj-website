@@ -1,10 +1,10 @@
 import { query } from '../../server';
-import { Post, SentEmail, Subscriber } from '../../types';
+import { SentEmail } from '../../types';
 
-export const addSentEmails = async (post: Post, recipients: Subscriber[]) => {
-  const values = recipients.flatMap(r => [post.id, r.id]);
+export const addSentEmails = async (postId: string, recipientIds: string[]) => {
+  const values = recipientIds.flatMap(rid => [postId, rid]);
   let n = 1;
-  const valuesReplacements = Array.from(new Array(recipients.length))
+  const valuesReplacements = Array.from(new Array(recipientIds.length))
     .map(() => `($${n++}, $${n++})`)
     .join(', ');
   await query<SentEmail>(

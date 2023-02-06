@@ -78,11 +78,11 @@ export const publishPost = async (
  */
 export const updatePost = async (
   id: string,
-  { title, subtitle, body_html, slug }: JSONPost,
+  { title, subtitle, body_html, body_md, slug }: JSONPost,
 ) => {
   const [updatedPost] = await query<Post>(
-    'update posts set title=$1, subtitle=$2, body_html=$3, slug=$4 where id = $5 returning *',
-    [title, subtitle, body_html, slug, id],
+    'update posts set title=$1, subtitle=$2, body_md=$3, body_html=$4, slug=$5 where id = $6 returning *',
+    [title, subtitle, body_md, body_html, slug, id],
   );
   return updatedPost;
 };
