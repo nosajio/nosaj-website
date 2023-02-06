@@ -2,7 +2,12 @@
   position: fixed;
   top: 0;
   left: 0;
-  width: 100vw;
-  pointer-events: none;
+  width: auto;
+  opacity: 0.5;
   padding: 1rem 0 0;
+  z-index: 1;
+
+  &:hover {
+    opacity: 1;
+  }
 }

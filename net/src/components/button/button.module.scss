@@ -1,0 +1,23 @@
+@use '~nosaj-io/src/styles/scale.scss' as scale;
+
+.button {
+  display: block;
+  background: transparent;
+  border: 2px solid var(--foreground);
+  border-radius: scale.msrem(-3);
+  font-weight: 600;
+  padding: scale.msrem(-3) scale.msrem(2);
+  width: 100%;
+  cursor: pointer;
+}
+
+.button--primary {
+  background: var(--foreground);
+  color: var(--background);
+  border: none;
+}
+
+.button--inverted {
+  background: var(--background);
+  border: none;
+}

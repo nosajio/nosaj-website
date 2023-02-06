@@ -1,20 +1,20 @@
-import clsx from 'clsx';
 import { dbPostToJSON, JSONPost } from 'data';
 import { getPost } from 'data/server';
 import throttle from 'lodash.throttle';
 import dynamic from 'next/dynamic';
 import Head from 'next/head';
+import { useRouter } from 'next/router';
 import { useCallback, useState } from 'react';
 import { updatePost } from 'utils/api';
 import { withSessionSsr } from 'utils/sessionHelpers';
-import s from '../postPage.module.scss';
+import { nosajUrl } from 'utils/url';
 
 type EditPostRouteProps = {
   post: JSONPost;
 };
 
-const Editor = dynamic(
-  () => import('components/postEditor').then(mod => mod.default),
+const EditPostPage = dynamic(
+  () => import('components/editPostPage').then(mod => mod.default),
   { ssr: false },
 );
 
@@ -65,43 +65,22 @@ const throttledUpdatePost = throttle(
 );
 
 const EditPostRoute = ({ post: initialPost }: EditPostRouteProps) => {
-  const [post, setPost] = useState<JSONPost>(initialPost);
-  const [title, setTitle] = useState<string>(post?.title ?? '');
-  const [subtitle, setSubtitle] = useState<string>(post?.subtitle ?? '');
-  const [md, setMd] = useState<string>(post?.body_md ?? '');
-  const [saveStatus, setSaveStatus] = useState<'unsaved' | 'saving' | 'saved'>(
-    'saved',
+  const [title, setTitle] = useState<string>(initialPost.title);
+  const [subtitle, setSubtitle] = useState<string>(initialPost?.subtitle ?? '');
+  const [md, setMd] = useState<string>(initialPost.body_md);
+  const [slug, setSlug] = useState<string>(initialPost.slug);
+  const [coverUrl, setCoverUrl] = useState<string>(
+    initialPost?.cover_image ?? '',
   );
-  const [slug, setSlug] = useState<string | undefined>(post?.slug);
-
-  const autosavePost = useCallback(
-    async (field: 'title' | 'subtitle' | 'post' | 'slug', value: string) => {
-      if (!post?.id || saveStatus === 'saving') return;
-      const updateKey = field === 'post' ? 'body_html' : field;
-      const updateRec = {
-        ...post,
-        body_html: postHTML,
-        subtitle,
-        title,
-        slug,
-        [updateKey]: value,
-      };
-      setSaveStatus('saving');
-      const updatedPost = await throttledUpdatePost(post.id, updateRec);
-      setPost(updatedPost ?? post);
-      setSaveStatus('saved');
-    },
-    [post, postHTML, saveStatus, slug, subtitle, title],
-  );
+  const router = useRouter();
 
   const handleChange = (
-    field: 'title' | 'subtitle' | 'post' | 'slug',
+    field: 'title' | 'subtitle' | 'body_md' | 'slug' | 'cover_url',
     value: string,
   ) => {
-    setSaveStatus('unsaved');
     switch (field) {
-      case 'post':
-        setPostHTML(value);
+      case 'body_md':
+        setMd(value);
         break;
       case 'subtitle':
         setSubtitle(value);
@@ -112,38 +91,32 @@ const EditPostRoute = ({ post: initialPost }: EditPostRouteProps) => {
       case 'slug':
         setSlug(value);
         break;
-
-      default:
-        // Don't autosave unless one of the above fields were changed
-        return;
+      case 'cover_url':
+        setCoverUrl(value);
+        break;
     }
-    autosavePost(field, value);
   };
 
-  const handlePublish = async () => {
-    if (!post.id) return;
-    const updatedPost = await updatePost(post.id, post, true);
-    setPost(updatedPost);
-  };
-
-  const publishUI = () => (
-    <>
-      <label className={s.input_field}>
-        <span className={s.field_label}>Slug</span>
-        <input
-          value={slug}
-          onChange={e => handleChange('slug', e.target.value)}
-          type="text"
-          className={s.field_input}
-        />
-      </label>
-      <button className={s.main_button} onClick={handlePublish}>
-        Publish post
-      </button>
-    </>
+  const handleSave = useCallback(
+    async (publish: boolean) => {
+      const updatedPost: JSONPost = {
+        ...initialPost,
+        title,
+        body_md: md,
+        slug,
+        subtitle,
+      };
+      await updatePost(initialPost.id, updatedPost, publish || false);
+    },
+    [initialPost, md, slug, subtitle, title],
   );
 
-  const pageTitle = `Edit: ${post.title}`;
+  const handlePreview = useCallback(() => {
+    const url = `${nosajUrl}/draft/${initialPost.id}`;
+    window.open(url, '_blank');
+  }, [initialPost.id]);
+
+  const pageTitle = `Edit: ${title}`;
 
   return (
     <>
@@ -154,23 +127,16 @@ const EditPostRoute = ({ post: initialPost }: EditPostRouteProps) => {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
       <main>
-        <div className={clsx(s.container, s.with_aside)}>
-          <div className={s.page_with_aside}>
-            <section className={clsx(s.page_padding, s.main_section)}>
-              <div className={s.editor}>
-                <Editor
-                  onChange={handleChange}
-                  post={md}
-                  title={title}
-                  subtitle={subtitle}
-                />
-              </div>
-            </section>
-            <aside className={clsx(s.page_padding, s.sidebar)}>
-              {post.draft && publishUI()}
-            </aside>
-          </div>
-        </div>
+        <EditPostPage
+          bodyMd={md}
+          title={title}
+          subtitle={subtitle}
+          slug={slug}
+          coverUrl={coverUrl}
+          onChange={handleChange}
+          onSave={handleSave}
+          onPreview={handlePreview}
+        />
       </main>
     </>
   );

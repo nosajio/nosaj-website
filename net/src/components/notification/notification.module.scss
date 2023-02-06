@@ -1,0 +1,41 @@
+@use '~nosaj-io/src/styles/scale.scss' as scale;
+
+@keyframes notification_appear {
+  from {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+}
+
+@keyframes notification_disappear {
+  to {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+}
+
+.notification {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: scale.msrem(2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &--appear {
+    animation: 300ms ease both notification_appear;
+  }
+
+  &--disappear {
+    animation: 300ms ease both notification_disappear;
+  }
+
+  &__content {
+    background: var(--foreground);
+    color: var(--background);
+    padding: scale.msrem(-4) scale.msrem(-1);
+    border-radius: scale.msrem(-7);
+  }
+}

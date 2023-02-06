@@ -1,6 +1,5 @@
 import MDEditor from '@uiw/react-md-editor';
 import clsx from 'clsx';
-import { useState } from 'react';
 import s from './editPostPage.module.scss';
 
 type EditorProps = {
@@ -37,6 +36,11 @@ const Editor = ({ body, title, subtitle, onChange }: EditorProps) => {
           onChange={v => onChange('body_md', v ?? '')}
           preview="edit"
         />
+        {/* <textarea
+          value={body}
+          onChange={e => onChange('body_md', e.target.value)}
+          className={s.mdEditor}
+        /> */}
       </div>
     </div>
   );
@@ -46,10 +50,11 @@ type EditPostPageProps = {
   newPost?: boolean;
   title: string;
   subtitle: string;
+  coverUrl: string;
   bodyMd: string;
   slug: string;
   onChange: (
-    field: 'title' | 'subtitle' | 'body_md' | 'slug',
+    field: 'title' | 'subtitle' | 'body_md' | 'slug' | 'cover_url',
     value: string,
   ) => void;
   onSave: (draft: boolean) => void;
@@ -60,39 +65,19 @@ const EditPostPage = ({
   newPost,
   title,
   subtitle,
+  coverUrl,
   bodyMd,
   slug,
   onPreview,
   onChange,
   onSave,
 }: EditPostPageProps) => {
-  const [saveStatus, setSaveStatus] = useState<'unsaved' | 'saving' | 'saved'>(
-    'saved',
-  );
-
   const handleChange = (
-    field: 'title' | 'subtitle' | 'body_md' | 'slug',
+    field: 'title' | 'subtitle' | 'body_md' | 'slug' | 'cover_url',
     value: string,
   ) => {
     onChange(field, value);
   };
-
-  // const publishUI = () => (
-  //   <>
-  //     <label className={s.input_field}>
-  //       <span className={s.field_label}>Slug</span>
-  //       <input
-  //         value={slug}
-  //         onChange={e => handleChange('slug', e.target.value)}
-  //         type="text"
-  //         className={s.field_input}
-  //       />
-  //     </label>
-  //     <button className={s.main_button} onClick={handlePublish}>
-  //       Publish post
-  //     </button>
-  //   </>
-  // );
 
   return (
     <section className={s.postEditor}>
@@ -119,6 +104,7 @@ const EditPostPage = ({
             type="text"
             placeholder="slug-for-url"
             value={slug}
+            onChange={e => handleChange('slug', e.target.value)}
             className={s.controls__input}
           />
         </label>
@@ -127,6 +113,8 @@ const EditPostPage = ({
           <input
             type="url"
             placeholder="https://assets.nosaj.io/..."
+            value={coverUrl}
+            onChange={e => handleChange('cover_url', e.target.value)}
             className={s.controls__input}
           />
         </label>

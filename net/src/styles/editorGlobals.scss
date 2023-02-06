@@ -1,0 +1,18 @@
+@use '~nosaj-io/src/styles/scale.scss' as scale;
+
+.wmde-markdown:not(.w-md-editor-fullscreen),
+.wmde-markdown-var:not(.w-md-editor-fullscreen) {
+  --color-canvas-default: transparent !important;
+  --color-border-default: transparent !important;
+}
+
+.wmde-markdown-var {
+  height: auto !important;
+}
+
+.w-md-editor-text,
+div.w-md-editor-content > div > div > div > pre > code {
+  font-family: var(--system-fonts) !important;
+  line-height: 1.5 !important;
+  font-size: scale.msrem(1) !important;
+}
