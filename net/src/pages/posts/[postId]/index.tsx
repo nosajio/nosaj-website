@@ -1,7 +1,10 @@
+import Notification from 'components/notification';
 import { dbPostToJSON, JSONPost } from 'data';
 import { getPost } from 'data/server';
+import useNotification from 'hooks/useNotification';
 import dynamic from 'next/dynamic';
 import Head from 'next/head';
+import { useRouter } from 'next/router';
 import { useCallback, useState } from 'react';
 import { unpublishPost, updatePost } from 'utils/api';
 import { withSessionSsr } from 'utils/sessionHelpers';
@@ -58,6 +61,10 @@ const EditPostRoute = ({ post: initialPost }: EditPostRouteProps) => {
   const [coverUrl, setCoverUrl] = useState<string>(
     initialPost?.cover_image ?? '',
   );
+  const router = useRouter();
+  const postPublished = Object.keys(router.query).includes('published');
+
+  const { newConfirmation } = useNotification();
 
   const handleChange = (
     field: 'title' | 'subtitle' | 'body_md' | 'slug' | 'cover_url',
@@ -90,6 +97,16 @@ const EditPostRoute = ({ post: initialPost }: EditPostRouteProps) => {
 
   const handleSave = useCallback(
     async (publish: boolean) => {
+      // Show a confirm notification before saving
+      if (publish) {
+        console.log('show confirm');
+        const confirmPublish = await newConfirmation(
+          'Hey, you sure you wanna publish this post?',
+        );
+        console.log(confirmPublish);
+        if (!confirmPublish) return;
+      }
+
       const updatedPost: JSONPost = {
         ...initialPost,
         title,
@@ -102,14 +119,15 @@ const EditPostRoute = ({ post: initialPost }: EditPostRouteProps) => {
         updatedPost,
         publish || false,
       );
-      if (publish) {
-        setDraft(apiPost.draft);
+      setDraft(apiPost.draft);
+      if (!apiPost.draft && publish) {
         if (typeof apiPost.pubdate === 'string') {
           setPubdate(new Date(apiPost.pubdate));
         }
+        router.push('?published');
       }
     },
-    [initialPost, md, slug, subtitle, title],
+    [initialPost, md, router, slug, subtitle, title],
   );
 
   const handlePreview = useCallback(() => {
