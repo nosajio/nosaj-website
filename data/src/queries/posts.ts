@@ -86,3 +86,15 @@ export const updatePost = async (
   );
   return updatedPost;
 };
+
+/**
+ * Unpublish a published post. Calling this on a post that's unpublished will
+ * have no effect.
+ */
+export const unpublishPost = async (id: string) => {
+  const [updatedPost] = await query<Post>(
+    'update posts set draft=true, pubdate=null where id = $1 returning *',
+    [id],
+  );
+  return updatedPost;
+};

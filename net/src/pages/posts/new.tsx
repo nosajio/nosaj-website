@@ -56,27 +56,23 @@ const NewPostRoute = () => {
     }
   };
 
-  const handleSave = useCallback(
-    (publish: boolean) => {
-      if (publish) return;
-      saveNewPost({
-        body_html: null,
-        body_md: md,
-        cover_image: null,
-        pubdate: null,
-        slug,
-        subtitle,
-        title,
-      }).then(post => {
-        if (!post) {
-          console.error('New post not returned from api');
-          return;
-        }
-        router.replace(`/posts/${post.id}`);
-      });
-    },
-    [md, router, slug, subtitle, title],
-  );
+  const handleSave = useCallback(() => {
+    saveNewPost({
+      body_html: null,
+      body_md: md,
+      cover_image: null,
+      pubdate: null,
+      slug,
+      subtitle,
+      title,
+    }).then(post => {
+      if (!post) {
+        console.error('New post not returned from api');
+        return;
+      }
+      router.replace(`/posts/${post.id}`);
+    });
+  }, [md, router, slug, subtitle, title]);
 
   const handlePreview = useCallback(() => {
     saveNewPost({

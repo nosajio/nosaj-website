@@ -3,6 +3,7 @@ import {
   Recipient,
   SubscribersRouteResponse,
 } from 'pages/api/posts/[postId]/subscribers';
+import { UnpublishRouteResponse } from 'pages/api/posts/[postId]/unpublish';
 
 const apiFetch = async <R = unknown>(
   path: string,
@@ -82,6 +83,11 @@ export const updatePost = async (
   });
   return updatedPost;
 };
+
+export const unpublishPost = async (id: string) =>
+  await apiFetch<UnpublishRouteResponse>(`posts/${id}/unpublish`, {
+    method: 'post',
+  });
 
 /**
  * Emails / subscribers API fns

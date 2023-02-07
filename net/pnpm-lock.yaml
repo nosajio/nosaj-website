@@ -4,7 +4,6 @@ specifiers:
   '@next/font': 13.1.1
   '@types/bcrypt': ^5.0.0
   '@types/draft-js': ^0.11.10
-  '@types/lodash.throttle': ^4.1.7
   '@types/markdown-it': ^12.2.3
   '@types/node': 18.11.18
   '@types/react': 18.0.26
@@ -17,7 +16,6 @@ specifiers:
   eslint-config-next: 13.1.1
   immutable: ^3.8.2
   iron-session: ^6.3.1
-  lodash.throttle: ^4.1.1
   markdown-it: ^13.0.1
   next: 13.1.1
   nosaj-io: link:../nosaj-io
@@ -36,7 +34,6 @@ dependencies:
   eslint-config-next: 13.1.1_iukboom6ndih5an6iafl45j2fe
   immutable: 3.8.2
   iron-session: 6.3.1_next@13.1.1
-  lodash.throttle: 4.1.1
   markdown-it: 13.0.1
   next: 13.1.1_5mhhrw5dq6gnbuirj2awdzvyuu
   nosaj-io: link:../nosaj-io
@@ -49,7 +46,6 @@ devDependencies:
   '@next/font': 13.1.1
   '@types/bcrypt': 5.0.0
   '@types/draft-js': 0.11.10
-  '@types/lodash.throttle': 4.1.7
   '@types/markdown-it': 12.2.3
   '@types/node': 18.11.18
   '@types/react': 18.0.26
@@ -435,16 +431,6 @@ packages:
 
   /@types/linkify-it/3.0.2:
     resolution: {integrity: sha512-HZQYqbiFVWufzCwexrvh694SOim8z2d+xJl5UNamcvQFejLY/2YUtzXHYi3cHdI7PMlS8ejH2slRAOJQ32aNbA==}
-    dev: true
-
-  /@types/lodash.throttle/4.1.7:
-    resolution: {integrity: sha512-znwGDpjCHQ4FpLLx19w4OXDqq8+OvREa05H89obtSyXyOFKL3dDjCslsmfBz0T2FU8dmf5Wx1QvogbINiGIu9g==}
-    dependencies:
-      '@types/lodash': 4.14.191
-    dev: true
-
-  /@types/lodash/4.14.191:
-    resolution: {integrity: sha512-BdZ5BCCvho3EIXw6wUCXHe7rS53AIDPLE+JzwgT+OsJk53oBfbSmZZ7CX4VaRoN78N+TJpFi9QPlfIVNmJYWxQ==}
     dev: true
 
   /@types/markdown-it/12.2.3:
@@ -2269,10 +2255,6 @@ packages:
 
   /lodash.merge/4.6.2:
     resolution: {integrity: sha512-0KpjqXRVvrYyCsX1swR/XTK0va6VQkQM6MNo7PqW77ByjAhoARA8EfrP1N4+KlKj8YS0ZUCtRT/YUuhyYDujIQ==}
-    dev: false
-
-  /lodash.throttle/4.1.1:
-    resolution: {integrity: sha512-wIkUCfVKpVsWo3JSZlc+8MB5it+2AN5W8J7YVMST30UrvcQNZ1Okbj+rbVniijTWE6FGYy4XJq/rHkas8qJMLQ==}
     dev: false
 
   /longest-streak/3.1.0:

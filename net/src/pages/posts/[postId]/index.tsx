@@ -1,11 +1,9 @@
 import { dbPostToJSON, JSONPost } from 'data';
 import { getPost } from 'data/server';
-import throttle from 'lodash.throttle';
 import dynamic from 'next/dynamic';
 import Head from 'next/head';
-import { useRouter } from 'next/router';
 import { useCallback, useState } from 'react';
-import { updatePost } from 'utils/api';
+import { unpublishPost, updatePost } from 'utils/api';
 import { withSessionSsr } from 'utils/sessionHelpers';
 import { nosajUrl } from 'utils/url';
 
@@ -48,23 +46,11 @@ export const getServerSideProps = withSessionSsr(async ({ params, req }) => {
   };
 });
 
-// const diffPost = (saved: Partial<Post>, next: Partial<Post>): boolean => {
-//   return (
-//     saved.body_html !== next.body_html ||
-//     saved.title !== next.title ||
-//     saved.subtitle !== next.subtitle
-//   );
-// };
-
-const throttledUpdatePost = throttle(
-  async (postId: string, post: Partial<JSONPost>) => {
-    const updated = await updatePost(postId, post);
-    return updated;
-  },
-  5000,
-);
-
 const EditPostRoute = ({ post: initialPost }: EditPostRouteProps) => {
+  const [draft, setDraft] = useState<boolean>(initialPost.draft);
+  const [pubdate, setPubdate] = useState<undefined | Date>(
+    initialPost.pubdate ? new Date(initialPost.pubdate) : undefined,
+  );
   const [title, setTitle] = useState<string>(initialPost.title);
   const [subtitle, setSubtitle] = useState<string>(initialPost?.subtitle ?? '');
   const [md, setMd] = useState<string>(initialPost.body_md);
@@ -72,7 +58,6 @@ const EditPostRoute = ({ post: initialPost }: EditPostRouteProps) => {
   const [coverUrl, setCoverUrl] = useState<string>(
     initialPost?.cover_image ?? '',
   );
-  const router = useRouter();
 
   const handleChange = (
     field: 'title' | 'subtitle' | 'body_md' | 'slug' | 'cover_url',
@@ -97,6 +82,12 @@ const EditPostRoute = ({ post: initialPost }: EditPostRouteProps) => {
     }
   };
 
+  const handleUnpublish = useCallback(async () => {
+    const { post } = await unpublishPost(initialPost.id);
+    setDraft(post?.draft ?? true);
+    setPubdate(post?.pubdate ?? undefined);
+  }, [initialPost.id]);
+
   const handleSave = useCallback(
     async (publish: boolean) => {
       const updatedPost: JSONPost = {
@@ -106,7 +97,17 @@ const EditPostRoute = ({ post: initialPost }: EditPostRouteProps) => {
         slug,
         subtitle,
       };
-      await updatePost(initialPost.id, updatedPost, publish || false);
+      const apiPost = await updatePost(
+        initialPost.id,
+        updatedPost,
+        publish || false,
+      );
+      if (publish) {
+        setDraft(apiPost.draft);
+        if (typeof apiPost.pubdate === 'string') {
+          setPubdate(new Date(apiPost.pubdate));
+        }
+      }
     },
     [initialPost, md, slug, subtitle, title],
   );
@@ -133,8 +134,12 @@ const EditPostRoute = ({ post: initialPost }: EditPostRouteProps) => {
           subtitle={subtitle}
           slug={slug}
           coverUrl={coverUrl}
+          draft={draft}
+          pubdate={pubdate}
           onChange={handleChange}
-          onSave={handleSave}
+          onSave={() => handleSave(false)}
+          onPublish={() => handleSave(true)}
+          onUnpublish={() => handleUnpublish()}
           onPreview={handlePreview}
         />
       </main>

@@ -53,12 +53,16 @@ type EditPostPageProps = {
   coverUrl: string;
   bodyMd: string;
   slug: string;
+  draft?: boolean;
+  pubdate?: Date;
   onChange: (
     field: 'title' | 'subtitle' | 'body_md' | 'slug' | 'cover_url',
     value: string,
   ) => void;
-  onSave: (draft: boolean) => void;
-  onPreview: () => void;
+  onSave: () => void;
+  onPublish?: () => void;
+  onUnpublish?: () => void;
+  onPreview?: () => void;
 };
 
 const EditPostPage = ({
@@ -68,9 +72,13 @@ const EditPostPage = ({
   coverUrl,
   bodyMd,
   slug,
+  pubdate,
+  draft,
   onPreview,
   onChange,
   onSave,
+  onPublish,
+  onUnpublish,
 }: EditPostPageProps) => {
   const handleChange = (
     field: 'title' | 'subtitle' | 'body_md' | 'slug' | 'cover_url',
@@ -78,6 +86,8 @@ const EditPostPage = ({
   ) => {
     onChange(field, value);
   };
+
+  const isPublished = !newPost && !draft && pubdate;
 
   return (
     <section className={s.postEditor}>
@@ -93,7 +103,7 @@ const EditPostPage = ({
         <div className={s.controls__ui}>
           <div className={s.controls__row}>
             <button
-              onClick={() => onPreview()}
+              onClick={() => onPreview && onPreview()}
               className={clsx(s.controls__button, s.controls__buttonInverted)}
             >
               Preview
@@ -121,7 +131,7 @@ const EditPostPage = ({
           </label>
           <div className={s.controls__row}>
             <button
-              onClick={() => onSave(false)}
+              onClick={() => onSave()}
               className={clsx(s.controls__button, s.controls__buttonPrimary)}
             >
               Save draft
@@ -130,10 +140,14 @@ const EditPostPage = ({
           {!newPost && (
             <div className={s.controls__row}>
               <button
-                onClick={() => onSave(true)}
+                onClick={() =>
+                  isPublished
+                    ? onUnpublish && onUnpublish()
+                    : onPublish && onPublish()
+                }
                 className={s.controls__button}
               >
-                Publish
+                {isPublished ? 'Unpublish' : 'Publish'}
               </button>
             </div>
           )}
