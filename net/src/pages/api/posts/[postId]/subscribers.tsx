@@ -1,9 +1,10 @@
-import { subscriber, User } from 'data';
+import { Subscriber, subscriber, User } from 'data';
 import {
   addSentEmails,
   connect,
   getPost,
   getRecipients,
+  getSendStats,
   newEvent,
   sendEmail,
 } from 'data/server';
@@ -26,16 +27,22 @@ const recipient = subscriber.omit({
 
 export type Recipient = z.infer<typeof recipient>;
 
+type SentStats = {
+  sent: Recipient[];
+  failed: Recipient[];
+};
+
 export type SubscribersRouteResponse = {
   POST: {
     success: boolean;
     message?: string;
-    status?: {
-      sent: Recipient[];
-      failed: Recipient[];
-    };
+    status?: SentStats;
   };
   GET: {
+    status?: {
+      sent: Subscriber[];
+      unsent: Subscriber[];
+    };
     recipients: Recipient[];
   };
 };
@@ -162,7 +169,8 @@ const emailsRoute: NextApiHandler<
       const recipients = (await getRecipients(query.postId)).map(s =>
         recipient.parse(s),
       );
-      res.json({ recipients });
+      const status = await getSendStats(query.postId);
+      res.json({ recipients, status });
       return;
     }
   }

@@ -1,5 +1,5 @@
 import { query } from '../db';
-import { Post, Subscriber } from '../types/model';
+import { Post, subscriber, Subscriber } from '../types/model';
 
 /**
  * Save a new newsletter subscriber
@@ -82,4 +82,31 @@ export const getRecipients = async (
     [postId],
   );
   return recipients;
+};
+
+/**
+ * Get the send status for this post across all confirmed subscribers
+ */
+export const getSendStats = async (
+  postId: Post['id'],
+): Promise<{ sent: Subscriber[]; unsent: Subscriber[] }> => {
+  const all = await query<Subscriber & { sent?: boolean }>(
+    `
+    select s.*,
+      exists(select 1
+            from sent_emails e
+            where e.subscriber = s.id and e.post = $1) as sent
+    from subscribers s
+    where confirmed_email = true
+    `,
+    [postId],
+  );
+
+  const sent = all.filter(r => r.sent).map(r => subscriber.parse(r));
+  const unsent = all.filter(r => !r.sent).map(r => subscriber.parse(r));
+
+  return {
+    sent,
+    unsent,
+  };
 };

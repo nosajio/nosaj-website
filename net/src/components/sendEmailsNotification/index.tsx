@@ -69,9 +69,9 @@ const SendEmailsNotification = ({ post }: SendEmailsNotificationProps) => {
         <>
           <section className={s.sendEmails__content}>
             <h1 className={s.sendEmails__title}>
-              All subs have received this post!{' '}
+              All subs have been sent this post!{' '}
               {sendData?.success &&
-                `Sent to: ${sendData.status?.sent}. Failed: ${sendData.status?.failed}`}
+                `Sent to: ${sendData.status?.sent.length}. Failed: ${sendData.status?.failed.length}`}
             </h1>
           </section>
         </>
