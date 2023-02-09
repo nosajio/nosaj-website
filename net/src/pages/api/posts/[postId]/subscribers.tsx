@@ -1,4 +1,4 @@
-import { Subscriber, subscriber, User } from 'data';
+import { parsePost, Subscriber, subscriber, User } from 'data';
 import {
   addSentEmails,
   connect,
@@ -50,7 +50,7 @@ export type SubscribersRouteResponse = {
 const prepareEmail = async (
   postId: string,
 ): Promise<{ text: string; html: string; subject: string }> => {
-  const post = await getPost(postId);
+  const post = parsePost(await getPost(postId));
   const html = generatePostTemplate(post);
   return {
     html,

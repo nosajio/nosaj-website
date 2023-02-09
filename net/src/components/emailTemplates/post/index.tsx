@@ -17,122 +17,131 @@ const PostTemplate = ({ post }: PostTemplateProps) => {
       <div style={{ display: 'none', maxHeight: 0, overflow: 'hidden' }}>
         &#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;
       </div>
+
       {/* Email body */}
-      <table
-        role="presentation"
-        width="100%"
-        border={0}
-        cellSpacing={0}
-        cellPadding={0}
+      <div
+        style={{
+          padding: '0 20px',
+        }}
       >
-        <tbody>
-          <tr>
-            <td />
-            <td align="left" width="550">
-              <div
-                style={{
-                  fontSize: '17px',
-                  lineHeight: '28px',
-                  margin: '32px auto',
-                  maxWidth: '550px',
-                  width: '100%',
-                }}
-              >
-                <div style={{ textAlign: 'right' }}>
+        <table
+          role="presentation"
+          width="100%"
+          border={0}
+          cellSpacing={0}
+          cellPadding={0}
+        >
+          <tbody>
+            <tr>
+              <td />
+              <td align="left" width="550">
+                <div
+                  style={{
+                    fontSize: '17px',
+                    lineHeight: '28px',
+                    margin: '32px auto',
+                    maxWidth: '550px',
+                    width: '100%',
+                  }}
+                >
+                  <div style={{ textAlign: 'right' }}>
+                    <a
+                      href={`https://nosaj.io/r/${post.slug}?utm_source=email`}
+                    >
+                      Read on nosaj.io
+                    </a>
+                  </div>
+                  <div>
+                    <div
+                      style={{
+                        fontSize: '14px',
+                        color: '#b5b5b5',
+                      }}
+                    >
+                      {post.pubdate_str} &nbsp; | &nbsp; By Jason
+                    </div>
+                    <h1
+                      style={{
+                        fontSize: '32px',
+                        fontWeight: 500,
+                        lineHeight: '37px',
+                        margin: '0.5em 0 1em',
+                      }}
+                    >
+                      {post.title}
+                    </h1>
+                    <p
+                      style={{
+                        fontSize: '20px',
+                        lineHeight: '30px',
+                        margin: 0,
+                      }}
+                    >
+                      {post.subtitle}
+                    </p>
+                  </div>
+
+                  {post?.cover_image && (
+                    <div style={{ margin: '32px 0' }}>
+                      <img
+                        src={post.cover_image}
+                        alt={`Cover for ${post.title}`}
+                        style={{ display: 'block', width: '100%' }}
+                      />
+                    </div>
+                  )}
+
+                  <div dangerouslySetInnerHTML={{ __html: post.body_html }} />
+                </div>
+              </td>
+              <td />
+            </tr>
+            <tr>
+              <td />
+              <td align="left" width="550">
+                <p
+                  style={{
+                    textAlign: 'center',
+                    fontSize: '18px',
+                    display: 'block',
+                  }}
+                >
                   <a href={`https://nosaj.io/r/${post.slug}?utm_source=email`}>
                     Read on nosaj.io
                   </a>
-                </div>
-                <div>
-                  <div
-                    style={{
-                      fontSize: '14px',
-                      color: '#b5b5b5',
-                    }}
-                  >
-                    {post.pubdate_str} &nbsp; | &nbsp; By Jason
-                  </div>
-                  <h1
-                    style={{
-                      fontSize: '32px',
-                      fontWeight: 500,
-                      lineHeight: '37px',
-                      margin: '0.5em 0 1em',
-                    }}
-                  >
-                    {post.title}
-                  </h1>
-                  <p
-                    style={{
-                      fontSize: '20px',
-                      lineHeight: '30px',
-                      margin: 0,
-                    }}
-                  >
-                    {post.subtitle}
-                  </p>
-                </div>
-
-                {post?.cover_image && (
-                  <div style={{ margin: '32px 0' }}>
-                    <img
-                      src={post.cover_image}
-                      alt={`Cover for ${post.title}`}
-                      style={{ display: 'block', width: '100%' }}
-                    />
-                  </div>
-                )}
-
-                <div dangerouslySetInnerHTML={{ __html: post.body_html }} />
-              </div>
-            </td>
-            <td />
-          </tr>
-          <tr>
-            <td />
-            <td align="left" width="550">
-              <p
-                style={{
-                  textAlign: 'center',
-                  fontSize: '18px',
-                  display: 'block',
-                }}
-              >
-                <a href={`https://nosaj.io/r/${post.slug}?utm_source=email`}>
-                  Read on nosaj.io
-                </a>
-              </p>
-              <p
-                style={{
-                  textAlign: 'center',
-                  fontSize: '16px',
-                  display: 'block',
-                }}
-              >
-                &copy; Jason Howmans {new Date().getFullYear()} -{' '}
-                <a href="https://nosaj.io">nosaj.io</a>
-              </p>
-              <p
-                style={{
-                  textAlign: 'center',
-                  fontSize: '16px',
-                  display: 'block',
-                }}
-              >
-                <a
+                </p>
+                <p
                   style={{
-                    opacity: 0.6,
+                    textAlign: 'center',
+                    fontSize: '16px',
+                    display: 'block',
                   }}
-                  href={unsubscribeUrl}
                 >
-                  Unsubscribe
-                </a>
-              </p>
-            </td>
-            <td />
-          </tr>
-        </tbody>
-      </table>
+                  &copy; Jason Howmans {new Date().getFullYear()} -{' '}
+                  <a href="https://nosaj.io">nosaj.io</a>
+                </p>
+                <p
+                  style={{
+                    textAlign: 'center',
+                    fontSize: '16px',
+                    display: 'block',
+                  }}
+                >
+                  <a
+                    style={{
+                      opacity: 0.6,
+                    }}
+                    href={unsubscribeUrl}
+                  >
+                    Unsubscribe
+                  </a>
+                </p>
+              </td>
+              <td />
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </>
   );
 };
