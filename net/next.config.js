@@ -2,7 +2,7 @@
 const nextConfig = {
   reactStrictMode: true,
   transpilePackages: ['data'],
-  webpack: config => {
+  webpack: (config, { webpack }) => {
     // camelCase style names from css modules
     config.module.rules
       .find(({ oneOf }) => !!oneOf)
@@ -14,6 +14,10 @@ const nextConfig = {
           options.modules.exportLocalsConvention = 'dashes';
         }
       });
+
+    config.plugins.push(
+      new webpack.IgnorePlugin({ resourceRegExp: /^pg-native$/ }),
+    );
 
     return config;
   },
