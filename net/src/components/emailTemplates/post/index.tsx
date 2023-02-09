@@ -1,4 +1,4 @@
-import { getUnsubscribeLink, ParsedPost } from 'data';
+import { dateStr, getUnsubscribeLink, ParsedPost } from 'data';
 
 type PostTemplateProps = {
   post: ParsedPost;
@@ -58,7 +58,8 @@ const PostTemplate = ({ post }: PostTemplateProps) => {
                         color: '#b5b5b5',
                       }}
                     >
-                      {post.pubdate_str} &nbsp; | &nbsp; By Jason
+                      {post.pubdate_str || dateStr(new Date())} &nbsp; | &nbsp;
+                      By Jason
                     </div>
                     <h1
                       style={{

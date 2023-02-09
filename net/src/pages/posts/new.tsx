@@ -29,6 +29,7 @@ export const getServerSideProps = withSessionSsr(async ({ req }) => {
 });
 
 const NewPostRoute = () => {
+  const [mode, setMode] = useState<'edit' | 'saving'>('edit');
   const [title, setTitle] = useState<string>('');
   const [subtitle, setSubtitle] = useState<string>('');
   const [md, setMd] = useState<string>('A beautiful story...');
@@ -65,16 +66,17 @@ const NewPostRoute = () => {
       slug,
       subtitle,
       title,
-    }).then(post => {
+    }).then(async post => {
       if (!post) {
         console.error('New post not returned from api');
         return;
       }
-      router.replace(`/posts/${post.id}`);
+      await router.replace(`/posts/${post.id}`);
     });
   }, [md, router, slug, subtitle, title]);
 
   const handlePreview = useCallback(() => {
+    setMode('saving');
     saveNewPost({
       body_html: null,
       body_md: md,
@@ -86,6 +88,7 @@ const NewPostRoute = () => {
     }).then(post => {
       if (!post) {
         console.error('New post not returned from api');
+        setMode('edit');
         return;
       }
       const url = `${nosajUrl}/draft/${post.id}`;
@@ -106,6 +109,7 @@ const NewPostRoute = () => {
       <main>
         <EditPostPage
           newPost
+          mode={mode}
           bodyMd={md}
           title={title}
           subtitle={subtitle}

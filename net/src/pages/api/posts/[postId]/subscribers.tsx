@@ -51,6 +51,8 @@ const prepareEmail = async (
   postId: string,
 ): Promise<{ text: string; html: string; subject: string }> => {
   const post = parsePost(await getPost(postId));
+  console.log('prepare email for post: %s. Params:', post.slug);
+  console.log(post);
   const html = generatePostTemplate(post);
   return {
     html,

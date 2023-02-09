@@ -40,10 +40,10 @@ export const NotificationController = ({
     {},
   );
 
-  const reset = () => {
+  const reset = useCallback(() => {
     setIsActive(false);
     setNotificationProps({});
-  };
+  }, []);
 
   const newNotification = useCallback((props: NotificationProps) => {
     setNotificationProps(props);

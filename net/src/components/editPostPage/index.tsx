@@ -48,14 +48,14 @@ const Editor = ({ body, title, subtitle, onChange }: EditorProps) => {
 };
 
 type EditPostPageProps = {
+  mode?: 'edit' | 'error' | 'saving' | 'publishing';
   newPost?: boolean;
+  published?: boolean;
   title: string;
   subtitle: string;
   coverUrl: string;
   bodyMd: string;
   slug: string;
-  draft?: boolean;
-  pubdate?: Date;
   onChange: (
     field: 'title' | 'subtitle' | 'body_md' | 'slug' | 'cover_url',
     value: string,
@@ -67,14 +67,14 @@ type EditPostPageProps = {
 };
 
 const EditPostPage = ({
+  published = false,
+  mode = 'edit',
   newPost,
   title,
   subtitle,
   coverUrl,
   bodyMd,
   slug,
-  pubdate,
-  draft,
   onPreview,
   onChange,
   onSave,
@@ -88,7 +88,7 @@ const EditPostPage = ({
     onChange(field, value);
   };
 
-  const isPublished = !newPost && !draft && pubdate;
+  const isPublished = !newPost && published;
 
   return (
     <section className={s.postEditor}>
@@ -132,7 +132,11 @@ const EditPostPage = ({
             />
           </label>
           <div className={s.controls__row}>
-            <Button onClick={() => onSave()} className={s.controls__button}>
+            <Button
+              loading={mode === 'saving'}
+              onClick={() => onSave()}
+              className={s.controls__button}
+            >
               Save draft
             </Button>
           </div>
@@ -140,6 +144,7 @@ const EditPostPage = ({
             <div className={s.controls__row}>
               <Button
                 primary
+                loading={mode === 'publishing'}
                 onClick={() =>
                   isPublished
                     ? onUnpublish && onUnpublish()

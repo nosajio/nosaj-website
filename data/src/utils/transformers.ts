@@ -21,7 +21,7 @@ export const parsePost = (
   const pubdate =
     jsonPost.pubdate && !(jsonPost.pubdate instanceof Date)
       ? new Date(jsonPost.pubdate)
-      : undefined;
+      : new Date();
   const created_date = !(jsonPost.created_date instanceof Date)
     ? new Date(jsonPost.created_date)
     : jsonPost.created_date;

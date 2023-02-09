@@ -50,6 +50,9 @@ export const getServerSideProps = withSessionSsr(async ({ params, req }) => {
 });
 
 const EditPostRoute = ({ post: initialPost }: EditPostRouteProps) => {
+  const [mode, setMode] = useState<'edit' | 'saving' | 'error' | 'publishing'>(
+    'edit',
+  );
   const [draft, setDraft] = useState<boolean>(initialPost.draft);
   const [pubdate, setPubdate] = useState<undefined | Date>(
     initialPost.pubdate ? new Date(initialPost.pubdate) : undefined,
@@ -64,16 +67,20 @@ const EditPostRoute = ({ post: initialPost }: EditPostRouteProps) => {
   const router = useRouter();
   const postPublished = Object.keys(router.query).includes('published');
 
-  const { newConfirmation, newNotification } = useNotification();
+  const { newConfirmation, newNotification, clearNotification } =
+    useNotification();
 
   useEffect(() => {
-    if (!postPublished) return;
+    if (!postPublished) {
+      clearNotification();
+      return;
+    }
 
     newNotification({
       timeout: 0,
       children: <SendEmailsNotification post={initialPost} />,
     });
-  }, [initialPost, newNotification, postPublished]);
+  }, [clearNotification, initialPost, newNotification, postPublished]);
 
   const handleChange = (
     field: 'title' | 'subtitle' | 'body_md' | 'slug' | 'cover_url',
@@ -99,10 +106,21 @@ const EditPostRoute = ({ post: initialPost }: EditPostRouteProps) => {
   };
 
   const handleUnpublish = useCallback(async () => {
+    setMode('publishing');
     const { post } = await unpublishPost(initialPost.id);
+    const updatedPost: JSONPost = {
+      ...initialPost,
+      title,
+      body_md: md,
+      slug,
+      subtitle,
+    };
+    await updatePost(initialPost.id, updatedPost, false);
     setDraft(post?.draft ?? true);
     setPubdate(post?.pubdate ?? undefined);
-  }, [initialPost.id]);
+    setMode('edit');
+    await router.replace(`/posts/${initialPost.id}`);
+  }, [initialPost, md, router, slug, subtitle, title]);
 
   const handleSave = useCallback(
     async (publish: boolean) => {
@@ -112,6 +130,9 @@ const EditPostRoute = ({ post: initialPost }: EditPostRouteProps) => {
           'Hey, you sure you wanna publish this post?',
         );
         if (!confirmPublish) return;
+        setMode('publishing');
+      } else {
+        setMode('saving');
       }
 
       const updatedPost: JSONPost = {
@@ -126,12 +147,13 @@ const EditPostRoute = ({ post: initialPost }: EditPostRouteProps) => {
         updatedPost,
         publish || false,
       );
+      setMode('edit');
       setDraft(apiPost.draft);
-      if (!apiPost.draft && publish) {
-        if (typeof apiPost.pubdate === 'string') {
-          setPubdate(new Date(apiPost.pubdate));
-        }
-        router.push('?published');
+      if (apiPost.pubdate) {
+        setPubdate(new Date(apiPost.pubdate));
+      }
+      if (publish) {
+        await router.replace(`/posts/${initialPost.id}?published`);
       }
     },
     [initialPost, md, newConfirmation, router, slug, subtitle, title],
@@ -154,13 +176,13 @@ const EditPostRoute = ({ post: initialPost }: EditPostRouteProps) => {
       </Head>
       <main>
         <EditPostPage
+          mode={mode}
+          published={postPublished}
           bodyMd={md}
           title={title}
           subtitle={subtitle}
           slug={slug}
           coverUrl={coverUrl}
-          draft={draft}
-          pubdate={pubdate}
           onChange={handleChange}
           onSave={() => handleSave(false)}
           onPublish={() => handleSave(true)}

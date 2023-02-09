@@ -53,7 +53,7 @@ const DashboardRoute = ({ user, published, drafts }: DashboardProps) => {
                       <h2 className={s.post_row_title}>{post.title}</h2>
                       <div className={s.post_row_options}>
                         <a
-                          href={`/posts/${post.id}`}
+                          href={`/posts/${post.id}?published`}
                           className={s.post_row_option}
                         >
                           Edit
