@@ -71,6 +71,7 @@ export const useApiPrimed = <R extends unknown, A extends unknown[]>(
     (...args: A) => {
       if (calledRef.current) return;
       calledRef.current = true;
+      setStatus('loading');
       caller(...args)
         .then(result => {
           setData(result);
