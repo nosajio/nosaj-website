@@ -1,5 +1,6 @@
 import MDEditor from '@uiw/react-md-editor';
 import clsx from 'clsx';
+import Button from 'components/button';
 import s from './editPostPage.module.scss';
 
 type EditorProps = {
@@ -102,12 +103,13 @@ const EditPostPage = ({
       <aside className={s.postEditor__controls}>
         <div className={s.controls__ui}>
           <div className={s.controls__row}>
-            <button
+            <Button
+              inverted
               onClick={() => onPreview && onPreview()}
-              className={clsx(s.controls__button, s.controls__buttonInverted)}
+              className={s.controls__button}
             >
               Preview
-            </button>
+            </Button>
           </div>
           <label className={s.controls__row}>
             <div className={s.controls__label}>Slug</div>
@@ -130,16 +132,14 @@ const EditPostPage = ({
             />
           </label>
           <div className={s.controls__row}>
-            <button
-              onClick={() => onSave()}
-              className={clsx(s.controls__button, s.controls__buttonPrimary)}
-            >
+            <Button onClick={() => onSave()} className={s.controls__button}>
               Save draft
-            </button>
+            </Button>
           </div>
           {!newPost && (
             <div className={s.controls__row}>
-              <button
+              <Button
+                primary
                 onClick={() =>
                   isPublished
                     ? onUnpublish && onUnpublish()
@@ -148,7 +148,7 @@ const EditPostPage = ({
                 className={s.controls__button}
               >
                 {isPublished ? 'Unpublish' : 'Publish'}
-              </button>
+              </Button>
             </div>
           )}
         </div>

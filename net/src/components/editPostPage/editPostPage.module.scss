@@ -15,7 +15,7 @@
     grid-area: main;
     max-width: 720px;
     width: 100%;
-    padding-top: scale.msrem(15);
+    padding: scale.msrem(15) 0;
   }
 
   &__controls {
@@ -68,28 +68,6 @@
     border-radius: 6px;
     font-size: 1rem;
     padding: scale.msrem(-6) scale.msrem(-1);
-  }
-
-  &__button {
-    display: block;
-    background: transparent;
-    border: 2px solid var(--foreground);
-    border-radius: scale.msrem(-3);
-    font-weight: 600;
-    padding: scale.msrem(-3) scale.msrem(2);
-    width: 100%;
-    cursor: pointer;
-  }
-
-  &__button--primary {
-    background: var(--foreground);
-    color: var(--background);
-    border: none;
-  }
-
-  &__button--inverted {
-    background: var(--background);
-    border: none;
   }
 }
 

@@ -1,4 +1,5 @@
 import clsx from 'clsx';
+import Button from 'components/button';
 import { dbPostToJSON, JSONPost, User } from 'data';
 import { getAllPosts } from 'data/server';
 import Head from 'next/head';
@@ -83,9 +84,9 @@ const DashboardRoute = ({ user, published, drafts }: DashboardProps) => {
               </div>
             </section>
             <section className={clsx(s.aside, s.page_padding)}>
-              <Link href="/posts/new" className={s.main_button}>
-                New post
-              </Link>
+              <Button>
+                <Link href="/posts/new">New post</Link>
+              </Button>
             </section>
           </div>
         </div>

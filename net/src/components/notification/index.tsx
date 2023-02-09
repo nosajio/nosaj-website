@@ -1,4 +1,5 @@
 import clsx from 'clsx';
+import Button from 'components/button';
 import {
   ReactNode,
   useCallback,
@@ -44,12 +45,14 @@ export const NotificationController = ({
     setNotificationProps({});
   };
 
-  const newNotification = (props: NotificationProps) => {
+  const newNotification = useCallback((props: NotificationProps) => {
     setNotificationProps(props);
     setIsActive(true);
-  };
+  }, []);
 
-  const newConfirmation: NotificationContextProps['newConfirmation'] =
+  const newConfirmation = useCallback<
+    NotificationContextProps['newConfirmation']
+  >(
     children =>
       new Promise(resolve => {
         setNotificationProps({
@@ -61,14 +64,18 @@ export const NotificationController = ({
           },
         });
         setIsActive(true);
-      });
+      }),
+    [],
+  );
 
   return (
     <NotificationContext.Provider
       value={{ newConfirmation, clearNotification: reset, newNotification }}
     >
       {children}
-      {isActive && <Notification {...notificationProps} />}
+      {isActive && notificationProps.children && (
+        <Notification {...notificationProps} />
+      )}
     </NotificationContext.Provider>
   );
 };
@@ -104,9 +111,9 @@ const Notification = ({
   }, [timeout]);
 
   useEffect(() => {
-    if (confirm) return;
+    if (confirm || timeout === 0) return;
     startCloseTimer();
-  }, [confirm, startCloseTimer]);
+  }, [confirm, startCloseTimer, timeout]);
 
   const handleConfirmAnswer = (answer: 'yes' | 'no') => () => {
     if (onConfirm) {
@@ -123,22 +130,34 @@ const Notification = ({
         [s.notificationDisappear]: mode === 'disappear',
       })}
     >
-      <div className={s.notification__content}>
-        {children}
+      <div
+        className={clsx(s.notification__content, {
+          [s.notification__contentConfirm]: confirm,
+        })}
+      >
+        <div
+          className={clsx(s.notification__payload, {
+            [s.notification__payloadFormatted]: typeof children === 'string',
+          })}
+        >
+          {children}
+        </div>
         {confirm && (
           <div className={s.notification__confirm}>
-            <div
+            <Button
+              inverted
               className={s.notification__confirmYes}
               onClick={handleConfirmAnswer('yes')}
             >
               Yes
-            </div>
-            <div
+            </Button>
+            <Button
+              inverted
               className={s.notification__confirmNo}
               onClick={handleConfirmAnswer('no')}
             >
               No
-            </div>
+            </Button>
           </div>
         )}
       </div>

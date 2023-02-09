@@ -1,11 +1,11 @@
-import Notification from 'components/notification';
+import SendEmailsNotification from 'components/sendEmailsNotification';
 import { dbPostToJSON, JSONPost } from 'data';
 import { getPost } from 'data/server';
 import useNotification from 'hooks/useNotification';
 import dynamic from 'next/dynamic';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { unpublishPost, updatePost } from 'utils/api';
 import { withSessionSsr } from 'utils/sessionHelpers';
 import { nosajUrl } from 'utils/url';
@@ -64,7 +64,16 @@ const EditPostRoute = ({ post: initialPost }: EditPostRouteProps) => {
   const router = useRouter();
   const postPublished = Object.keys(router.query).includes('published');
 
-  const { newConfirmation } = useNotification();
+  const { newConfirmation, newNotification } = useNotification();
+
+  useEffect(() => {
+    if (!postPublished) return;
+
+    newNotification({
+      timeout: 0,
+      children: <SendEmailsNotification post={initialPost} />,
+    });
+  }, [initialPost, newNotification, postPublished]);
 
   const handleChange = (
     field: 'title' | 'subtitle' | 'body_md' | 'slug' | 'cover_url',
@@ -99,11 +108,9 @@ const EditPostRoute = ({ post: initialPost }: EditPostRouteProps) => {
     async (publish: boolean) => {
       // Show a confirm notification before saving
       if (publish) {
-        console.log('show confirm');
         const confirmPublish = await newConfirmation(
           'Hey, you sure you wanna publish this post?',
         );
-        console.log(confirmPublish);
         if (!confirmPublish) return;
       }
 
@@ -127,7 +134,7 @@ const EditPostRoute = ({ post: initialPost }: EditPostRouteProps) => {
         router.push('?published');
       }
     },
-    [initialPost, md, router, slug, subtitle, title],
+    [initialPost, md, newConfirmation, router, slug, subtitle, title],
   );
 
   const handlePreview = useCallback(() => {

@@ -2,22 +2,28 @@
 
 .button {
   display: block;
-  background: transparent;
+  background: var(--background-shade);
+  color: var(--foreground);
   border: 2px solid var(--foreground);
-  border-radius: scale.msrem(-3);
-  font-weight: 600;
+  box-shadow: inset 2px 4px 5px rgba(123, 139, 165, 0.6);
+  border-radius: scale.msrem(-4);
+  font-weight: 500;
   padding: scale.msrem(-3) scale.msrem(2);
   width: 100%;
   cursor: pointer;
-}
+  text-align: center;
 
-.button--primary {
-  background: var(--foreground);
-  color: var(--background);
-  border: none;
-}
+  &.button--primary {
+    background: var(--foreground);
+    box-shadow: inset -2px -4px 5px rgba(14, 17, 22, 0.35);
+    color: var(--background);
+    border: none;
+  }
 
-.button--inverted {
-  background: var(--background);
-  border: none;
+  &.button--inverted {
+    color: var(--foreground);
+    border: none;
+    background: var(--background);
+    box-shadow: inset 2px 4px 5px rgba(123, 139, 165, 0.3);
+  }
 }

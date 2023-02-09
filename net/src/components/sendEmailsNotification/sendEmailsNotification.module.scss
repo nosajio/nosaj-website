@@ -1,0 +1,20 @@
+@use '~nosaj-io/src/styles/scale.scss' as scale;
+
+.send-emails {
+  display: flex;
+  column-gap: scale.msrem(2);
+
+  &__content {
+  }
+
+  &__title {
+    font-size: 1rem;
+  }
+
+  &__actions {
+  }
+
+  &__send-button {
+    width: 200px;
+  }
+}
