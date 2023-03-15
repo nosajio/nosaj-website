@@ -1,4 +1,5 @@
 import { JSONPost, NewPost, Subscriber, User } from 'data';
+import { PostsRouteResponse } from 'pages/api/posts';
 import {
   Recipient,
   SubscribersRouteResponse,
@@ -54,17 +55,14 @@ export const getSession = async () => {
 
 type NewPostClientParts = Omit<NewPost, 'author' | 'created_date' | 'draft'>;
 export const saveNewPost = async (post: NewPostClientParts) => {
-  const newPost = await apiFetch<{ slug: string; title: string; id: string }>(
-    'posts',
-    {
-      method: 'post',
-      body: post,
-    },
-  );
-  if (!newPost?.id) {
+  const newPost = await apiFetch<PostsRouteResponse>('posts', {
+    method: 'post',
+    body: post,
+  });
+  if (!newPost?.post?.id) {
     return undefined;
   }
-  return newPost;
+  return newPost.post;
 };
 
 export const updatePost = async (
