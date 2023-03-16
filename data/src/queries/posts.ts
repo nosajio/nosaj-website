@@ -67,7 +67,7 @@ export const publishPost = async (
   { title, subtitle, body_html, body_md, slug, cover_image }: JSONPost,
 ) => {
   const [updatedPost] = await query<Post>(
-    'update posts set title=$1, subtitle=$2, body_html=$3 body_md=$4, slug=$5, cover_image=$6 draft=false, pubdate=now() where id = $7 returning *',
+    'update posts set title=$1, subtitle=$2, body_html=$3, body_md=$4, slug=$5, cover_image=$6, draft=false, pubdate=now() where id = $7 returning *',
     [title, subtitle, body_html, body_md, slug, cover_image, id],
   );
   return updatedPost;
