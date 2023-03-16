@@ -139,6 +139,7 @@ const EditPostRoute = ({ post: initialPost }: EditPostRouteProps) => {
         ...initialPost,
         title,
         body_md: md,
+        cover_image: coverUrl,
         slug,
         subtitle,
       };
@@ -156,7 +157,7 @@ const EditPostRoute = ({ post: initialPost }: EditPostRouteProps) => {
         await router.replace(`/posts/${initialPost.id}?published`);
       }
     },
-    [initialPost, md, newConfirmation, router, slug, subtitle, title],
+    [coverUrl, initialPost, md, newConfirmation, router, slug, subtitle, title],
   );
 
   const handlePreview = useCallback(() => {

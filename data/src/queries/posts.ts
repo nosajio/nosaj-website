@@ -64,11 +64,11 @@ export const newPost = async (post: NewPost): Promise<Post> => {
  */
 export const publishPost = async (
   id: string,
-  { title, subtitle, body_html, slug }: JSONPost,
+  { title, subtitle, body_html, body_md, slug, cover_image }: JSONPost,
 ) => {
   const [updatedPost] = await query<Post>(
-    'update posts set title=$1, subtitle=$2, body_html=$3, slug=$4, draft=false, pubdate=now() where id = $5 returning *',
-    [title, subtitle, body_html, slug, id],
+    'update posts set title=$1, subtitle=$2, body_html=$3 body_md=$4, slug=$5, cover_image=$6 draft=false, pubdate=now() where id = $7 returning *',
+    [title, subtitle, body_html, body_md, slug, cover_image, id],
   );
   return updatedPost;
 };
@@ -78,11 +78,11 @@ export const publishPost = async (
  */
 export const updatePost = async (
   id: string,
-  { title, subtitle, body_html, body_md, slug }: JSONPost,
+  { title, subtitle, body_html, body_md, slug, cover_image }: JSONPost,
 ) => {
   const [updatedPost] = await query<Post>(
-    'update posts set title=$1, subtitle=$2, body_md=$3, body_html=$4, slug=$5 where id = $6 returning *',
-    [title, subtitle, body_md, body_html, slug, id],
+    'update posts set title=$1, subtitle=$2, body_md=$3, body_html=$4, slug=$5, cover_image=$6 where id = $7 returning *',
+    [title, subtitle, body_md, body_html, slug, cover_image, id],
   );
   return updatedPost;
 };

@@ -61,7 +61,7 @@ const NewPostRoute = () => {
     saveNewPost({
       body_html: null,
       body_md: md,
-      cover_image: null,
+      cover_image: coverUrl,
       pubdate: null,
       slug,
       subtitle,
@@ -73,14 +73,14 @@ const NewPostRoute = () => {
       }
       await router.replace(`/posts/${post.id}`);
     });
-  }, [md, router, slug, subtitle, title]);
+  }, [coverUrl, md, router, slug, subtitle, title]);
 
   const handlePreview = useCallback(() => {
     setMode('saving');
     saveNewPost({
       body_html: null,
       body_md: md,
-      cover_image: null,
+      cover_image: coverUrl,
       pubdate: null,
       slug,
       subtitle,
@@ -94,7 +94,7 @@ const NewPostRoute = () => {
       const url = `${nosajUrl}/draft/${post.id}`;
       window.open(url, '_blank');
     });
-  }, [md, slug, subtitle, title]);
+  }, [coverUrl, md, slug, subtitle, title]);
 
   const pageTitle = `New Post: ${title}`;
 
