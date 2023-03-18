@@ -57,6 +57,7 @@ const ReadPage = ({ post: jsonPost }: ReadPageProps) => {
         {/* Twitter Cards */}
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:creator" content="@nosajio" />
+        <meta name="twitter:site" content="@nosajio" />
         <meta name="twitter:title" content={post.title} />
         {post.subtitle && (
           <meta name="twitter:description" content={post.subtitle} />
