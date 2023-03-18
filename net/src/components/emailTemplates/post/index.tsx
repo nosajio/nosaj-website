@@ -120,14 +120,7 @@ const PostTemplate = ({ post }: PostTemplateProps) => {
                   <a href={clickToTweetLink(`https://nosaj.io/r/${post.slug}`)}>
                     Respond to this post on Twitter
                   </a>
-                </p>
-                <p
-                  style={{
-                    display: 'block',
-                    textAlign: 'center',
-                    fontSize: '16px',
-                  }}
-                >
+                  <br />
                   Or reply to this email.
                 </p>
               </td>
