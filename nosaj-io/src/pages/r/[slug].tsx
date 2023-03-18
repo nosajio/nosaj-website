@@ -43,6 +43,11 @@ const ReadPage = ({ post: jsonPost }: ReadPageProps) => {
       <Head>
         <title>{post.title}</title>
         <meta name="description" content={post.subtitle} />
+        <meta property="og:title" content={post.title} />
+        <meta property="og:type" content="article" />
+        {post?.cover_image && (
+          <meta property="og:image" content={post.cover_image} />
+        )}
       </Head>
       <Page>
         <div className={s.read}>
