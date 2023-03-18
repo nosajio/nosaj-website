@@ -42,11 +42,22 @@ const ReadPage = ({ post: jsonPost }: ReadPageProps) => {
     <>
       <Head>
         <title>{post.title}</title>
-        <meta name="description" content={post.subtitle} />
+        {post.subtitle && <meta name="description" content={post.subtitle} />}
+        {/* Typical OG tags */}
         <meta property="og:title" content={post.title} />
         <meta property="og:type" content="article" />
         {post?.cover_image && (
           <meta property="og:image" content={post.cover_image} />
+        )}
+        {/* Twitter Cards */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:creator" content="@nosajio" />
+        <meta name="twitter:title" content={post.title} />
+        {post.subtitle && (
+          <meta name="twitter:description" content={post.subtitle} />
+        )}
+        {post?.cover_image && (
+          <meta name="twitter:image" content={post.cover_image} />
         )}
       </Head>
       <Page>
