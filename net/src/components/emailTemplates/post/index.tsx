@@ -58,7 +58,7 @@ const PostTemplate = ({ post }: PostTemplateProps) => {
                     <a
                       href={`https://nosaj.io/r/${post.slug}?utm_source=email`}
                     >
-                      Read on nosaj.io
+                      Read in browser
                     </a>
                   </div>
                   <div>
@@ -110,11 +110,25 @@ const PostTemplate = ({ post }: PostTemplateProps) => {
             <tr>
               <td />
               <td align="left" width="550">
-                <p style={{ textAlign: 'center', fontSize: '16px' }}>
+                <p
+                  style={{
+                    display: 'block',
+                    textAlign: 'center',
+                    fontSize: '18px',
+                  }}
+                >
                   <a href={clickToTweetLink(`https://nosaj.io/r/${post.slug}`)}>
                     Respond to this post on Twitter
-                  </a>{' '}
-                  or reply to this email.
+                  </a>
+                </p>
+                <p
+                  style={{
+                    display: 'block',
+                    textAlign: 'center',
+                    fontSize: '16px',
+                  }}
+                >
+                  Or reply to this email.
                 </p>
               </td>
             </tr>
@@ -124,23 +138,22 @@ const PostTemplate = ({ post }: PostTemplateProps) => {
                 <p
                   style={{
                     textAlign: 'center',
-                    fontSize: '18px',
                     display: 'block',
                   }}
                 >
                   <a href={`https://nosaj.io/r/${post.slug}?utm_source=email`}>
-                    Read on nosaj.io
+                    Read in browser
                   </a>
                 </p>
                 <p
                   style={{
                     textAlign: 'center',
-                    fontSize: '16px',
+                    fontSize: '14px',
                     display: 'block',
                   }}
                 >
                   &copy; Jason Howmans {new Date().getFullYear()} -{' '}
-                  <a href="https://nosaj.io">nosaj.io</a>
+                  <a href="https://nosaj.io?utm_source=email">nosaj.io</a>
                 </p>
                 <p
                   style={{
