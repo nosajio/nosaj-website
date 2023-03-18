@@ -54,6 +54,9 @@ const ReadPage = ({ post: jsonPost }: ReadPageProps) => {
         {post?.cover_image && (
           <meta property="og:image" content={post.cover_image} />
         )}
+        {post.subtitle && (
+          <meta name="og:description" content={post.subtitle} />
+        )}
         {/* Twitter Cards */}
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:creator" content="@nosajio" />
