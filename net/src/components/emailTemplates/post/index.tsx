@@ -1,7 +1,13 @@
+/* eslint-disable @next/next/no-img-element */
 import { dateStr, getUnsubscribeLink, ParsedPost } from 'data';
 
 type PostTemplateProps = {
   post: ParsedPost;
+};
+
+const clickToTweetLink = (url: string) => {
+  const encodedUrl = encodeURI(url);
+  return `https://twitter.com/intent/tweet?via=nosajio&url=${encodedUrl}`;
 };
 
 const PostTemplate = ({ post }: PostTemplateProps) => {
@@ -15,7 +21,11 @@ const PostTemplate = ({ post }: PostTemplateProps) => {
       </div>
 
       <div style={{ display: 'none', maxHeight: 0, overflow: 'hidden' }}>
-        &#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;
+        &#847; &zwnj; &nbsp; &#8199; &#65279; &#847; &zwnj; &nbsp; &#8199;
+        &#65279; &#847; &zwnj; &nbsp; &#8199; &#65279; &#847; &zwnj; &nbsp;
+        &#8199; &#65279; &#847; &zwnj; &nbsp; &#8199; &#65279; &#847; &zwnj;
+        &nbsp; &#8199; &#65279; &#847; &zwnj; &nbsp; &#8199; &#65279; &#847;
+        &zwnj; &nbsp; &#8199; &#65279;
       </div>
 
       {/* Email body */}
@@ -96,6 +106,17 @@ const PostTemplate = ({ post }: PostTemplateProps) => {
                 </div>
               </td>
               <td />
+            </tr>
+            <tr>
+              <td />
+              <td align="left" width="550">
+                <p style={{ textAlign: 'center', fontSize: '16px' }}>
+                  <a href={clickToTweetLink(`https://nosaj.io/r/${post.slug}`)}>
+                    Respond to this post on Twitter
+                  </a>{' '}
+                  or reply to this email.
+                </p>
+              </td>
             </tr>
             <tr>
               <td />
