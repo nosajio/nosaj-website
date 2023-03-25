@@ -77,7 +77,7 @@ const Subscribe = ({ className }: SubscribeProps) => {
             </button>
           </div>
           <p className={s.subscribe__smallprint}>
-            No spam. No BS. Just juicy content.
+            Let me entertain you (no spam, no BS)
           </p>
         </>
       )}
