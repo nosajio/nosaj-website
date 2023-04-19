@@ -8,6 +8,7 @@
       max-width: calc(var(--col-width) * 8);
       margin-bottom: 1rem;
       font-size: scale.msrem(4);
+      font-weight: 500;
 
       @include bp.gt('medium') {
         font-size: scale.msrem(6);
@@ -18,6 +19,10 @@
       margin: 0;
       max-width: calc(var(--col-width) * 8);
       color: var(--grey-600);
+    }
+
+    &-text + &-text {
+      margin-top: 1rem;
     }
   }
 

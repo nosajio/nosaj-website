@@ -60,12 +60,20 @@ export const getServerSideProps: GetServerSideProps<
 };
 
 const homePageContent = {
-  headline: (
-    <>Hi, I&apos;m Jason. Engineer, designer, and builder of startups.</>
-  ),
+  headline: <>Zero to one startup building &amp; engineering</>,
   bio: [
     <>
-      I&apos;m building a software shop that helps startups go from zero to one.
+      I&apos;m currently building{' '}
+      <a href="https://sprinterview.ai" target="_blank" rel="noreferrer">
+        Sprinterview
+      </a>{' '}
+      and helping{' '}
+      <a href="https://heymvp.co" target="_blank" rel="noreferrer">
+        founders build MVPs
+      </a>
+      .
+    </>,
+    <>
       Previously I was employee #1 at{' '}
       <a href="https://pave.com" rel="noreferrer" target="_blank">
         Pave
@@ -74,7 +82,7 @@ const homePageContent = {
       <a href="https://frontier.jobs" rel="noreferrer" target="_blank">
         Frontier
       </a>
-      , and built a lot of products.
+      . Shipping software since 2007.
     </>,
   ],
   links: [
@@ -92,10 +100,7 @@ const HomePage = ({ posts, confirmEmail }: HomePageProps) => {
     <>
       <Head>
         <title>Jason Howmans</title>
-        <meta
-          name="description"
-          content="Jason is a software engineer, designer, and startup builder."
-        />
+        <meta name="description" content="Startups and " />
       </Head>
       <Page>
         {confirmEmail && (
