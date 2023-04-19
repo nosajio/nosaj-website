@@ -63,7 +63,7 @@ const homePageContent = {
   headline: <>Zero to one startup building &amp; engineering</>,
   bio: [
     <>
-      I&apos;m currently building{' '}
+      🚀 &nbsp; I&apos;m currently building{' '}
       <a href="https://sprinterview.ai" target="_blank" rel="noreferrer">
         Sprinterview
       </a>{' '}
@@ -74,7 +74,7 @@ const homePageContent = {
       .
     </>,
     <>
-      Previously I was employee #1 at{' '}
+      💾 &nbsp; Previously I was employee #1 at{' '}
       <a href="https://pave.com" rel="noreferrer" target="_blank">
         Pave
       </a>
@@ -94,7 +94,7 @@ const homePageContent = {
 };
 
 const HomePage = ({ posts, confirmEmail }: HomePageProps) => {
-  const parsedPosts = posts.map(p => parsePost(p));
+  const parsedPosts = posts.map(p => parsePost(p, true));
 
   return (
     <>
@@ -136,15 +136,11 @@ const HomePage = ({ posts, confirmEmail }: HomePageProps) => {
         </Section>
         <Section className={s.home__blog}>
           <h1 className={s.sectionTitle}>Posts</h1>
-          {/* {years.map((y, i) => (
-            <div key={i} className={s.posts__yearGroup}>
-              <h2 className={s.posts__yearTitle}>{y}</h2>
-              */}
           <ul className={s.posts__list}>
             {parsedPosts.map(post => (
               <li key={post.id} className={s.post__row}>
                 <time className={s.post__rowDate}>
-                  {dateStr(post.pubdate!)}
+                  {dateStr(post.pubdate!, true)}
                 </time>
                 <h3 className={s.post__rowTitle}>
                   <Link href={`/r/${post.slug}`}>{post.title}</Link>
@@ -152,7 +148,6 @@ const HomePage = ({ posts, confirmEmail }: HomePageProps) => {
               </li>
             ))}
           </ul>
-          {/* ))} </div> */}
         </Section>
       </Page>
     </>

@@ -46,7 +46,7 @@
   text-transform: uppercase;
   letter-spacing: 0.1rem;
   font-size: scale.msrem(-2);
-  font-weight: 600;
+  font-weight: 500;
   font-family: var(--headings-fonts);
   margin-bottom: scale.msrem(-1);
 
@@ -89,8 +89,10 @@
 }
 
 .post__row-date {
-  font-size: scale.msrem(-2);
+  font-size: scale.msrem(-3);
   text-transform: uppercase;
+  text-align: right;
+  white-space: nowrap;
   color: var(--grey-500);
   width: scale.msrem(9);
   flex: 0 0 auto;
