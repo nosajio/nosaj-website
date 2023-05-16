@@ -2,6 +2,8 @@
 @use '../../styles/breakpoints.scss' as bp;
 @use '../../styles/scale.scss' as scale;
 
+// DO NOT USE, USE nosaj-io/src/pages/r/read.module.scss INSTEAD
+
 .read {
   @extend .container, .container--center-content;
 

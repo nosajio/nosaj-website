@@ -59,15 +59,26 @@
   &__body {
     --content-gap: #{scale.msem(3)};
 
+    line-height: scale.ms(4);
+
     @include bp.gt('medium') {
-      --content-gap: #{scale.msem(6)};
+      --content-gap: #{scale.msem(4)};
+    }
+
+    strong,
+    b {
+      font-weight: 600;
     }
 
     // Generic
     p {
       margin: 0 0 var(--content-gap);
-      line-height: scale.ms(4);
     }
+
+    // p + ul,
+    // p + ol {
+    //   margin-top: calc(var(--content-gap) / 2 * -1);
+    // }
 
     hr {
       border-color: var(--background-shade);
@@ -82,10 +93,17 @@
     }
 
     // Lists
-    ul {
+    ul,
+    ol {
+      margin: 0 0 var(--content-gap) 0;
+      padding-left: scale.msrem(2);
     }
 
     li {
+    }
+
+    li::marker {
+      color: var(--grey-500);
     }
 
     li p {

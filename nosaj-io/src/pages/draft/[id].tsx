@@ -3,7 +3,7 @@ import { dbPostToJSON, JSONPost, parsePost } from 'data';
 import { getPost } from 'data/server';
 import { GetServerSideProps } from 'next';
 import Head from 'next/head';
-import s from './read.module.scss';
+import s from '../r/read.module.scss';
 
 type ReadPageProps = {
   post: JSONPost;
