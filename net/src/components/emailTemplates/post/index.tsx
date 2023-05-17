@@ -29,6 +29,18 @@ const PostTemplate = ({ post }: PostTemplateProps) => {
       </div>
 
       {/* Email body */}
+      <style
+        type="text/css"
+        dangerouslySetInnerHTML={{
+          __html: `
+        .post-body img {
+          display: block;
+          maxWidth: 550px;
+          width: 100%;
+        }
+      `,
+        }}
+      />
       <div
         style={{
           padding: '0 20px',
@@ -97,12 +109,19 @@ const PostTemplate = ({ post }: PostTemplateProps) => {
                       <img
                         src={post.cover_image}
                         alt={`Cover for ${post.title}`}
-                        style={{ display: 'block', width: '100%' }}
+                        style={{
+                          display: 'block',
+                          maxWidth: '550px',
+                          width: '100%',
+                        }}
                       />
                     </div>
                   )}
 
-                  <div dangerouslySetInnerHTML={{ __html: post.body_html }} />
+                  <div
+                    className="post-body"
+                    dangerouslySetInnerHTML={{ __html: post.body_html }}
+                  />
                 </div>
               </td>
               <td />
