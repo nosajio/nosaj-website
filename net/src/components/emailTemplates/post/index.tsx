@@ -37,6 +37,19 @@ const PostTemplate = ({ post }: PostTemplateProps) => {
           display: block;
           maxWidth: 550px;
           width: 100%;
+          margin: 1rem auto;
+        }
+
+        hr {
+          margin: 2rem 0;
+        }
+
+        .post-body h1,
+        .post-body h2,
+        .post-body h3,
+        .post-body h4,
+        .post-body h5 {
+          margin: 1em 0 0.5em;
         }
       `,
         }}
